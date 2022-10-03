@@ -1,51 +1,59 @@
-.login-page-div{
+.login-page-div {
     background-repeat: no-repeat;
     background-size: cover !important;
 }
-.login-form-div{
+
+.login-form-div {
     align-items: center !important;
     background-color: white;
     border-radius: 15px;
 }
-.login-form-container{
+
+.login-form-container {
     display: flex !important;
-    flex: 1!important;
-    justify-content:center ;
+    flex: 1 !important;
+    justify-content: center;
     align-items: center !important;
     min-height: 100vh;
 }
-.login-heading-div{
+
+.login-heading-div {
     margin: 5px !important;
 }
-.login-form-heading{
+
+.login-form-heading {
     text-align: center;
     font-size: 50px;
-    color:'#3A3B3C';
+    color: '#002140 ';
     margin-bottom: 3rem;
 }
 
-.login-form{
+.login-form {
     padding: 100px !important;
     color: gray;
-    box-shadow:  2px 2px 15px gray !important; 
+    box-shadow: 2px 2px 15px silver !important;
 }
+
 .login-field {
     display: flex;
     flex-flow: column-reverse;
     margin-bottom: 1em;
 }
 
-.login-label-img{
-   height: 18px;
-   width: 18px;
+.login-label-img {
+    height: 18px;
+    width: 18px;
 }
+
 .login-label {
     transition: all 0.2s;
-    touch-action: manipulation; 
-    width: 65px;
+    touch-action: manipulation;
+    width: 20px;
     font-size: 12px;
 }
-.login-input-password,.login-input-email{
+
+.login-input-password,
+.login-input-email {
     font-size: 1.5rem !important;
     border: 0 !important;
     border-bottom: 1px solid #ccc !important;
@@ -54,14 +62,18 @@
     border-radius: 0 !important;
     cursor: text;
 }
-.login-input-password,.login-input-email:focus {
+
+.login-input-password,
+.login-input-email:focus {
     outline: 0;
     border-bottom: 1px solid #666;
 }
+
 .login-label {
     letter-spacing: 0.05em;
 }
-.login-input-password:placeholder-shown + .login-label {
+
+.login-input-password:placeholder-shown+.login-label {
     cursor: text;
     max-width: 66.66%;
     white-space: nowrap;
@@ -70,7 +82,8 @@
     transform-origin: left bottom;
     transform: translate(0, 2.125rem) scale(1.5);
 }
-.login-input-email:placeholder-shown + .login-label {
+
+.login-input-email:placeholder-shown+.login-label {
     cursor: text;
     max-width: 66.66%;
     white-space: nowrap;
@@ -79,42 +92,49 @@
     transform-origin: left bottom;
     transform: translate(0, 2.125rem) scale(1.5);
 }
+
 ::-webkit-input-placeholder {
     opacity: 0;
     transition: inherit;
 }
+
 input:focus::-webkit-input-placeholder {
     opacity: 1;
 }
-  .login-input-password:not(:placeholder-shown) + .login-label,
-  .login-input-password:focus + .login-label {
+
+.login-input-password:not(:placeholder-shown)+.login-label,
+.login-input-password:focus+.login-label {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
 }
-  .login-input-email:not(:placeholder-shown) + .login-label,
-  .login-input-email:focus + .login-label {
+
+.login-input-email:not(:placeholder-shown)+.login-label,
+.login-input-email:focus+.login-label {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
 }
-.form-signin-btn,.form-signup-btn{
-    color:white !important;
-    border-color: #3A3B3C !important;
+
+.form-signin-btn,
+.form-signup-btn {
+    color: white !important;
+    border-color: #002140 !important;
     width: 150px;
-    background-color: #3A3B3C !important;
-}
-.form-signin-btn:hover{
-    font-weight: 600;
-    background-color: white !important;
-    color: #3A3B3C !important;
-    border-color: #3A3B3C !important; ;
-    width: 150px;
-}
-.form-signup-btn:hover{
-    font-weight: 600;
-    background-color: white !important;
-    color: #3A3B3C !important;
-    border-color: #3A3B3C !important; ;
-    width: 150px;
+    background-color: #002140 !important;
 }
 
 
+.form-signin-btn:hover {
+    font-weight: 600;
+    background-color: white !important;
+    color: #002140 !important;
+    border-color: #002140 !important;
+    width: 150px;
+}
+
+.form-signup-btn:hover {
+    font-weight: 600;
+    background-color: white !important;
+    color: #002140 !important;
+    border-color: #002140 !important;
+    width: 150px;
+}

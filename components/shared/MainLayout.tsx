@@ -28,8 +28,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Recruitment', '1',<Link href="/login"><ContainerOutlined/></Link>),
-  getItem('Create Entry', '2',<CarryOutOutlined/>),
+  getItem('Recruitment', '1',<Link href="/home"><ContainerOutlined/></Link>),
+  getItem('Create Entry', '2',<Link href="/entry"><CarryOutOutlined/></Link>),
   getItem('Team', 'sub2', <TeamOutlined />),
 ];
 
@@ -47,7 +47,12 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  style={{marginTop:60}}/>
       </Sider>
       <Layout className="site-layout">
-      <Header className="site-layout-background px-5" style={{ padding: 0}}><nav style={{float:"right", color:'white'}}>{email}</nav></Header>
+      <Header className="site-layout-background px-3" style={{ padding: 0}}>
+      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}><p className="mx-4">Logout</p></nav> 
+      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}>{email}
+      <img className="header-admin-img mx-2" src={"admin.png"}/>
+      </nav>
+      </Header>
       <Content style={{ margin: '0 16px' }}>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
       {children}

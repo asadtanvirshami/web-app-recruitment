@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useState,useEffect} from 'react'
-import {Button} from 'react-bootstrap'
+import {Button,Spinner} from 'react-bootstrap'
 import CooKies from "js-cookie";
 import Router from "next/router";
 
@@ -10,18 +10,21 @@ axios.defaults.withCredentials = true;
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
+const [loading, setLoading] = useState(false)
 
 const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
 const Auth_Detail: string = (process.env.NEXT_PUBLIC_FP_GET_AUTH_DETAIL  as string);
 
 const Login =(e:React.FormEvent)=>{
   e.preventDefault();
+  setLoading(true);
   axios.post(Post_Auth,{
    email:email,
    password:password, 
   }).then((res) => {
-    if (!res.data.auth ||res.data.message === "Failed") {
+    if (res.data.message === "Failed") {
       setMessage("Invalid email on password.");
+      setLoading(false);
     }else {
       CooKies.set("token", res.data.accessToken);
       CooKies.set("email", res.data.email);
@@ -54,7 +57,11 @@ const Login =(e:React.FormEvent)=>{
       <label className='login-label'><img src={"login-lock.png"} className="login-label-img"/></label>
       </div>
       <div className='col-md-12 text-center mt-5'>
-      <Button variant="primary" type="submit" className='form-signin-btn'>Sign in</Button>
+      {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}
+      {loading && <Button className='form-signin-btn' disabled type="submit"> 
+      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+      </Button>
+      }
       </div>
       <div className='col-md-12 text-center mt-2 mb-2'>
       <small>or</small>

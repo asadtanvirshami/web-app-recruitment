@@ -1,21 +1,16 @@
-.signup-page-div {
-    background-repeat: no-repeat;
-    background-size: cover !important;
-}
-
-.signup-form-div {
+.entry-form-div {
     align-items: center !important;
     background-color: white;
     border-radius: 15px;
-    max-width: 38rem !important;
+    max-width: 48rem !important;
 }
 
-.signup-form-container {
+.entry-form-container {
     display: flex !important;
     flex: 1 !important;
     justify-content: center;
     align-items: center !important;
-    min-height: 100vh;
+    min-height: 80vh;
 }
 
 .signup-heading-div {
@@ -29,10 +24,10 @@
     margin-bottom: 3rem;
 }
 
-.signup-form {
+.entry-form {
     color: gray;
     box-shadow: 2px 2px 15px silver !important;
-    padding: 100px !important;
+    padding: 50px !important;
 }
 
 .signup-field {
@@ -114,4 +109,25 @@ input:focus::-webkit-input-placeholder {
 .signup-input-email:focus+.signup-label {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
+}
+
+.form-signup-btn:hover {
+    font-weight: 600;
+    background-color: white !important;
+    color: #3A3B3C !important;
+    border-color: #3A3B3C !important;
+    width: 150px;
+}
+.entry-btn {
+    color: white !important;
+    border-color: #002140 !important;
+    width: 150px;
+    background-color: #002140 !important;
+}
+.entry-btn:hover {
+    font-weight: 600;
+    background-color: white !important;
+    color: #002140 !important;
+    border-color: #002140 !important;
+    width: 150px;
 }

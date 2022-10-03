@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Button, Col, Row} from 'react-bootstrap'
+import {Button,Col,Row,Spinner} from 'react-bootstrap'
 import axios from 'axios';
 import Router from "next/router";
 
@@ -11,11 +11,13 @@ const [lastname, setLastname] = useState('')
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
+const [loading, setLoading] = useState(false)
 
 const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_USER  as string);
 
 const Signup =(e:React.FormEvent)=>{
     e.preventDefault();
+    setLoading(true);
     axios.post(Post_Auth,{
      firstname:firstname,
      lastname:lastname,
@@ -25,6 +27,7 @@ const Signup =(e:React.FormEvent)=>{
         if(res.data.message === "Success"){
           Router.push("/");
         }else if(res.data.message === "Failed"){
+            setLoading(false);
             setMessage("This email is already in use.");
         }
     })
@@ -34,7 +37,7 @@ const Signup =(e:React.FormEvent)=>{
     <div className='signup-form-container'>
     <div className='signup-form-div' >
     <form className="signup-form" onSubmit={Signup}>
-     <div className='signup-heading-div'><h1 className='signup-form-heading'>Sign in</h1></div>
+     <div className='signup-heading-div'><h1 className='signup-form-heading'>Sign Up</h1></div>
      <Row>
      <Col md={6} className="signup-field">
      <input type="text" name="firstname" className='signup-input-email' required placeholder="John" onChange={(e) =>{setFirstname(e.target.value)}}/>
@@ -57,7 +60,11 @@ const Signup =(e:React.FormEvent)=>{
      </div>
      </div>
      <div className='col-md-12 text-center'>
-     <Button variant="primary" type="submit" className='form-signup-btn'>Sign up</Button>
+     {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}
+      {loading && <Button className='form-signin-btn' disabled type="submit"> 
+      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+      </Button>
+      }
      </div>  
    </form>
    </div>

@@ -1,3 +1,69 @@
-.container {
-    padding: 0 2rem;
-  }
+.login-page-div {
+  background-repeat: no-repeat;
+  background-size: cover !important;
+}
+
+.selection-form-div {
+  align-items: center !important;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.selection-form-container {
+  display: flex !important;
+  flex: 1 !important;
+  justify-content: center;
+  align-items: center !important;
+  min-height: 80vh;
+}
+
+.selection-heading-div {
+  margin: 5px !important;
+}
+
+.selection-form-heading {
+  text-align: center;
+  font-size: 25px;
+  color: '#3A3B3C';
+  font-weight: lighter;
+  margin-bottom: 5rem;
+}
+
+.selection-form {
+  padding: 100px !important;
+  color: gray;
+  box-shadow: 2px 2px 15px silver !important;
+} 
+
+/* style the items (options), including the selected item: */
+.select-type,
+.select-field,
+.select-selected {
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  box-shadow: 2px 2px 15px silver !important;
+}
+
+.select-type{
+  display: none;
+}
+
+.select-field:focus {
+  border-color: #002140 !important;
+}
+
+.select-submit-btn{
+  background-color: #002140;
+  width: 120px;
+  border-color: #002140 !important;
+}
+.select-submit-btn:hover{
+  background-color: white !important;
+  color: #002140 !important;
+  font-weight: 600 !important;
+  width: 120px !important;
+  border-color: #002140 !important;
+}
+
+

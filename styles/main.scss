@@ -1,9 +1,27 @@
 @import 'home.scss';
 @import 'login.scss';
 @import 'signup.scss';
+@import 'header.scss';
+@import 'entrypage.scss';
 
 
   
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: silver; 
+    border-radius: 10px;
+  }
+  
+
 //   .main {
 //     min-height: 100vh;
 //     padding: 4rem 0;

@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import Loader from '../components/shared/Loader';
-import {Container} from 'react-bootstrap';
 import LoginPage from '../components/layout/loginpage/LoginPage';
 
 type Props = {}
