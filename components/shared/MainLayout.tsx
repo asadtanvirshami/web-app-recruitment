@@ -1,14 +1,13 @@
+import React,{ useState,useEffect } from "react";
 import {
   CarryOutOutlined,
-  LineChartOutlined,
   ContainerOutlined,
   TeamOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
 import Link from 'next/link';
+import CooKies from "js-cookie";
 
 const { Header, Content, Sider } = Layout;
 
@@ -29,33 +28,31 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('See Sales', '1', <Link href="/login"><ContainerOutlined/></Link>),
-  getItem('Create Task', '2', <CarryOutOutlined/>),
-  getItem('User', 'sub1',<Link href="/"><UserOutlined/></Link>, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <LineChartOutlined />),
+  getItem('Recruitment', '1',<Link href="/login"><ContainerOutlined/></Link>),
+  getItem('Create Entry', '2',<CarryOutOutlined/>),
+  getItem('Team', 'sub2', <TeamOutlined />),
 ];
 
-const MainLayout = ({children}:{children:React.ReactNode}) => {
+
+export const MainLayout = ({children}:{children:React.ReactNode}) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [email, setEmail] = useState<any>("");
+
+  useEffect(() =>{setEmail(CooKies.get("email"))}, []);
 
   return (
     <Layout style={{ minHeight: '100vh'}}>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  style={{marginTop:60}}/>
+      <div className="logo" />
+      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  style={{marginTop:60}}/>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: '0 16px' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            {children}
-          </div>
-        </Content>
+      <Header className="site-layout-background px-5" style={{ padding: 0}}><nav style={{float:"right", color:'white'}}>{email}</nav></Header>
+      <Content style={{ margin: '0 16px' }}>
+      <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+      {children}
+      </div>
+      </Content>
       </Layout>
     </Layout>
   );

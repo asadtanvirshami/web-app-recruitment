@@ -4,6 +4,7 @@ import React,{useEffect,useState} from 'react'
 import Loader from '../components/shared/Loader';
 import Cookies from "cookies";
 import axios from 'axios';
+import HomePage from '../components/layout/homepage/HomePage';
 
 
 const Home = ({sessionData}:any) => {
@@ -28,7 +29,9 @@ const Home = ({sessionData}:any) => {
       );
     }
   return (
-    <div>HomePage</div>
+    <div>
+      <HomePage/>
+    </div>
    )
   }
   return renderData();

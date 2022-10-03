@@ -20,7 +20,6 @@ const Login =(e:React.FormEvent)=>{
    email:email,
    password:password, 
   }).then((res) => {
-    console.log(res);
     if (!res.data.auth ||res.data.message === "Failed") {
       setMessage("Invalid email on password.");
     }else {
@@ -42,27 +41,27 @@ const Login =(e:React.FormEvent)=>{
 
   return (
     <div className='login-form-container'>
-     <div className='login-form-div' >
-      <form onSubmit={Login} className="login-form">
+    <div className='login-form-div ' >
+    <form onSubmit={Login} className="login-form">
       <div className='login-heading-div'><h1 className='login-form-heading'>Sign in</h1></div>
       <div className="login-field">
       <input type="email" name="email" className='login-input-email' required placeholder="Email" onChange={(e) =>{setEmail(e.target.value)}}/>
       <label className='login-label'><img src={"login-user.png"} className="login-label-img"/></label>
-    </div>
-    <div className="login-field">
+      </div>
+      <div className="login-field">
+      <span style={{color:"red",margin:0,padding:0,fontSize:13}}>{message}</span>
       <input type="password" name="password" id="password" className='login-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
       <label className='login-label'><img src={"login-lock.png"} className="login-label-img"/></label>
-    </div>
-    <span style={{color:"red", textAlign:"center"}}>{message}</span>
-    <div className='col-md-12 text-center mt-5'>
+      </div>
+      <div className='col-md-12 text-center mt-5'>
       <Button variant="primary" type="submit" className='form-signin-btn'>Sign in</Button>
       </div>
       <div className='col-md-12 text-center mt-2 mb-2'>
       <small>or</small>
-    </div>
-    <div className='col-md-12 text-center'>
-      <Button variant="primary" type="submit" className='form-signup-btn'>Sign up</Button>
-    </div>  
+      </div>
+      <div className='col-md-12 text-center'>
+      <Button href="/signup" variant="primary" className='form-signup-btn'>Sign up</Button>
+      </div>  
     </form>
     </div>
     </div>

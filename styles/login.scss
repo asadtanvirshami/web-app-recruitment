@@ -1,5 +1,4 @@
 .login-page-div{
-    background-image: url('../public/login_bg.png');
     background-repeat: no-repeat;
     background-size: cover !important;
 }
@@ -27,6 +26,8 @@
 
 .login-form{
     padding: 100px !important;
+    color: gray;
+    box-shadow:  2px 2px 15px gray !important; 
 }
 .login-field {
     display: flex;

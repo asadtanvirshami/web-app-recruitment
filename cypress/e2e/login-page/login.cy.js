@@ -1,7 +1,7 @@
 
-context('Navigation', () => {
+context('Login_Test', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/login')
+    cy.visit('http://localhost:3000/')
   })
 
  
@@ -11,10 +11,7 @@ context('Navigation', () => {
 
     cy.get('.login-input-password')
     .type('123')
-  })
 
-  it('.click()', () => {
-    // https://on.cypress.io/click
     cy.get('.form-signin-btn').click()
   })
 })
