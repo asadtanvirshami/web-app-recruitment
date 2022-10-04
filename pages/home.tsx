@@ -5,37 +5,33 @@ import Loader from '../components/shared/Loader';
 import Cookies from "cookies";
 import axios from 'axios';
 import SelectionCom from '../components/layout/homepage/SelectionCom';
-import SendMailCom from '../components/layout/homepage/SendMailCom';
 
+ const Home = ({sessionData}:any) => {
+ const [loading, setLoading] = useState(true);
 
-const Home = ({sessionData}:any) => {
-const [loading, setLoading] = useState(true);
-const [selection, setSelection] = useState(false);
-  
-useEffect(() => {
-setTimeout(() => setLoading(false), 1000)
+ useEffect(() => {
+ setTimeout(() => setLoading(false), 1000)
+ }, [])
+
+ useEffect(() => {
+ if (sessionData.auth != true) {
+ Router.push('/')
+ }
 }, [])
 
-useEffect(() => {
-if (sessionData.auth != true) {
-Router.push('/')
-}
-}, [])
-
-const renderData = () => {
-if (loading != false) {
-return (
-<div className="ld text-center mt-5">
-<Loader/>
-</div>
+ const renderData = () => {
+ if (loading != false) {
+ return (
+ <div className="ld text-center mt-5">
+ <Loader/>
+ </div>
 );
 }
   return (
-<div>
-{!selection && <SelectionCom setSelection={setSelection}/>}
-{selection && <SendMailCom/>}
-</div>
-)
+ <div>
+ <SelectionCom/>
+ </div>
+ )
 }
 return renderData();
 }
@@ -43,22 +39,24 @@ export default Home
 
 export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
   // Fetch data from external API
-const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
-const cookies = new Cookies(req, res);
-const value = await axios
-.get(Get_Jwt, {
-headers: {
-"x-access-token": `${cookies.get("token")}`,
-email: `${cookies.get("email")}`,
-id: `${cookies.get("id")}`,
-},
+  const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
+  const cookies = new Cookies(req, res);
+  const value = await axios
+  .get(Get_Jwt, {
+    headers: {
+    "x-access-token": `${cookies.get("token")}`,
+    email: `${cookies.get("email")}`,
+    id: `${cookies.get("id")}`,
+  },
 })
 .then((x) => x.data);
 console.table(value);
 const sessionData = await value;
 
-  // Pass data to the page via props
+// Pass data to the page via props
 return {
-props: { sessionData: sessionData },
+  props: { sessionData: sessionData },
 };
 }
+{/* {!selection && <SelectionCom setSelection={setSelection}/>}
+{selection && <SendMailCom/>} */}
