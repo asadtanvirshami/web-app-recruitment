@@ -18,6 +18,7 @@ const EntryCom = () => {
   const Post_Entry: string = (process.env.NEXT_PUBLIC_FP_POST_ENTRIES  as string);
   
   const postEntry=(e:React.FormEvent)=>{
+
     e.preventDefault();
     setLoading(true);
     let res = axios.post(Post_Entry,{
@@ -42,19 +43,19 @@ const EntryCom = () => {
   }
   
   let Provinces = [
-    {plain:"Alberta",name:"Alberta",abbr:"AB"},
-    {plain:"British Columbia",name:"British Columbia",abbr:"BC"},
-    {plain:"Manitoba",name:"Manitoba",abbr:"MB"},
-    {plain:"New Brunswick",name:"New Brunswick",abbr:"NB"},
-    {plain:"Newfoundland &amp; Labrador",name:"Newfoundland &amp; Labrador",abbr:"NL"},
-    {plain:"Northwest Territories",name:"Northwest Territories",abbr:"NT"},
-    {plain:"Nova Scotia",name:"Nova Scotia",abbr:"NS"},
-    {plain:"Nunavut",name:"Nunavut",abbr:"NU"},
-    {plain:"Ontario",name:"Ontario",abbr:"ON"},
-    {plain:"Prince Edward Island",name:"Prince Edward Island",abbr:"PE"},
-    {plain:"Quebec",name:"Qu&eacute;bec",abbr:"QC"},
-    {plain:"Saskatchewan",name:"Saskatchewan",abbr:"SK"},
-    {plain:"Yukon",name:"Yukon",abbr:"YK"}
+    {plain:"Alberta"},
+    {plain:"British Columbia"},
+    {plain:"Manitoba"},
+    {plain:"New Brunswick"},
+    {plain:"Newfoundland"},
+    {plain:"Northwest Territories"},
+    {plain:"Nova Scotia"},
+    {plain:"Nunavut"},
+    {plain:"Ontario"},
+    {plain:"Prince Edward Island"},
+    {plain:"Quebec"},
+    {plain:"Saskatchewan"},
+    {plain:"Yukon"}
   ]
 
   let Experience =[
@@ -81,7 +82,7 @@ const EntryCom = () => {
     <div className='entry-form-container'>
       <div className='entry-form-div'>
       <Form className='entry-form' onSubmit={postEntry}>
-      <div className='login-heading-div'><h4 className='mb-4'>Enter person's detail.</h4></div>
+      <div className='login-heading-div'><h4 className='mb-4'>Enter Detail.</h4></div>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>First name</Form.Label>
@@ -132,7 +133,7 @@ const EntryCom = () => {
       {error&&<span style={{fontSize:14, color:'red'}}>{message}</span>}
       {!error&&<span style={{fontSize:14, color:'lightgreen'}}>{message}</span>}
       <div className='mt-4'>
-      {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}
+      {!loading && <Button className='form-signin-btn' type="submit">Submit</Button>}
       {loading && <Button className='form-signin-btn' disabled type="submit"> 
       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
       </Button>
