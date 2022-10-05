@@ -36,7 +36,7 @@ const items: MenuItem[] = [
 ];
 
 
-export const MainLayout = ({children}:{children:React.ReactNode}) => {
+export const MainLayout = ({children}:{children:any}) => {
   const [collapsed, setCollapsed] = useState(true);
   const [email, setEmail] = useState<any>("");
 
