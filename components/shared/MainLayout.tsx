@@ -68,7 +68,7 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
       </Header>
       <Content style={{ margin: '0 16px' }}>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-      {children}
+        <>{children}</>
       </div>
       </Content>
       </Layout>

@@ -2,8 +2,6 @@ import React,{useState} from 'react'
 import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
 import axios from 'axios';
 
-
-
 const EntryCom = () => {
   const [email, setEmail] = useState('')
   const [firstname, setFirstname] = useState('')
