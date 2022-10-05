@@ -11,15 +11,10 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "isolatedModules": false,
     "jsx": "preserve",
     "incremental": true,
-    "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "isolatedModules": false
-  },
-    
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "cypress/e2e/login-page/login.cy.js"],
   "exclude": ["node_modules"]
-  
 }
