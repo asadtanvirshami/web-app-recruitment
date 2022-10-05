@@ -43,6 +43,7 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
   useEffect(() =>{setEmail(Cookies.get("email"))}, []);
 
   return (
+    <>
     <Layout >
       <Sider style={{ minHeight: '100vh'}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
@@ -73,6 +74,7 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
       </Content>
       </Layout>
     </Layout>
+    </>
   );
 };
 export default MainLayout;
