@@ -1,4 +1,5 @@
 import React,{ useState,useEffect } from "react";
+import Link from 'next/link';
 import {
   CarryOutOutlined,
   ContainerOutlined,
@@ -6,7 +7,6 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
-import Link from 'next/link';
 import CooKies from "js-cookie";
 
 const { Header, Content, Sider } = Layout;
@@ -28,7 +28,7 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Recruitment', '1',<Link href="/home"><ContainerOutlined/></Link>),
+  getItem('Recruitment', '1',<Link href="/dashboard"><ContainerOutlined/></Link>),
   getItem('Create Entry', '2',<Link href="/entry"><CarryOutOutlined/></Link>),
   getItem('Team', 'sub2', <TeamOutlined />),
 ];
@@ -41,8 +41,8 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
   useEffect(() =>{setEmail(CooKies.get("email"))}, []);
 
   return (
-    <Layout style={{ minHeight: '100vh'}}>
-      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+    <Layout >
+      <Sider style={{ minHeight: '100vh'}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  style={{marginTop:60}}/>
       </Sider>

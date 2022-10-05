@@ -1,16 +1,27 @@
-import {GetServerSideProps} from 'next'
 import React from 'react'
-import Cookies from "cookies";
+import {GetServerSideProps} from 'next'
 import axios from 'axios';
+import Cookies from "cookies";
 
-import Main from '../components/layout/Main';
+import SignIn from '../components/layout/SignIn';
 
- const Home = ({sessionData}:any) => {
+type Props = {}
 
-  return ( <Main sessionData={sessionData}/>)
+const signin = ({sessionData}:any) => {
+  
+  // useEffect(() => {
+  //   setTimeout(() => setLoading(false), 1000)
+  // }, [])
+
+  return (
+  <div className='signin-page-div'>
+  <SignIn sessionData={sessionData}/>
+  </div>
+  )
+  
 }
 
-export default Home
+export default signin
 
 export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
   // Fetch data from external API
@@ -30,5 +41,3 @@ return {
   props: { sessionData: sessionData },
 };
 }
-{/* {!selection && <SelectionCom setSelection={setSelection}/>}
-{selection && <SendMailCom/>} */}

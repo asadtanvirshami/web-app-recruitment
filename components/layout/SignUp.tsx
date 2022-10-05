@@ -5,7 +5,7 @@ import Router from "next/router";
 
 type Props = {}
 
-const SignupPage = (props: Props) => {
+const SignUp = (props: Props) => {
 const [firstname, setFirstname] = useState('')
 const [lastname, setLastname] = useState('')
 const [email, setEmail] = useState('')
@@ -25,7 +25,7 @@ const Signup =(e:React.FormEvent)=>{
      password:password, 
     }).then((res)=>{
         if(res.data.message === "Success"){
-          Router.push("/");
+          Router.push("/signin");
         }else if(res.data.message === "Failed"){
             setLoading(false);
             setMessage("This email is already in use.");
@@ -72,4 +72,4 @@ const Signup =(e:React.FormEvent)=>{
   )
 }
 
-export default SignupPage
+export default SignUp

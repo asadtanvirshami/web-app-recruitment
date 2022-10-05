@@ -1,9 +1,11 @@
 import React from 'react'
-import SignupPage from '../components/layout/signuppage/SignupPage'
+import SignUp from '../components/layout/SignUp'
 
 const signup = () => {
   return (
-    <div className='signup-page-div'><SignupPage/></div>
+  <div className='signup-page-div'>
+  <SignUp/>
+  </div>
   )
 }
 

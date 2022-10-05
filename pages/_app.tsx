@@ -1,12 +1,41 @@
-
+import React,{ useState, useEffect } from 'react';
 import type { AppProps } from 'next/app'
+import Layout from '../components/shared/Layout';
+import Loader from '.././components/shared/Loader';
+import Router, { useRouter  } from 'next/router';
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss'
-import Layout from '../components/shared/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Layout><Component {...pageProps} /></Layout>
+  
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    Router.events.on("routeChangeStart", () => { setLoading(true) });
+    Router.events.on("routeChangeComplete", () => { setLoading(false)});  
+    setTimeout(() => setLoading(false), 1000)
+  }, [])
+
+  
+
+  return( 
+    <>
+      { (router.pathname !='/signin' && router.pathname != '/signup' && router.pathname != '/') &&
+         <Layout>
+              { loading && <Loader/> }
+              { !loading &&  <Component {...pageProps} /> }
+         </Layout> 
+      }
+      { (router.pathname =='/signin' || router.pathname == '/signup' || router.pathname == '/') &&
+        <>
+         { loading && <Loader/> }
+         { !loading &&  <Component {...pageProps} /> }
+        </>
+      }
+   </>
+  )
 }
 
 export default MyApp

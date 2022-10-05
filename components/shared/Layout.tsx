@@ -8,23 +8,12 @@ function Layout ({children}:{children:React.ReactNode}) {
     console.log(router.route);
   }, [])
 
-  const login = "/"
-  const signup = "/signup"
-  
-
-if (router.route===login || router.route===signup){
-  return(  
-    <>
-    {children}
-    </>
-  ) 
-} else{
   return(
     <>
     <MainLayout children={children}/>
     </>
     )
- }
+
 };
 
 export default Layout;

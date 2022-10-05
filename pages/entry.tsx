@@ -1,32 +1,38 @@
-import React,{useState,useEffect} from 'react'
-import EntryCom from '../components/layout/entrypage/EntryCom';
-import Loader from '../components/shared/Loader';
+import {GetServerSideProps} from 'next'
+import React from 'react'
+import axios from 'axios';
+import Cookies from "cookies";
+
+import EntryCom from '../components/layout/Entry';
 
 type Props = {}
-const entry = (props: Props) => {
-const [loading, setLoading] = useState(true);
-  
-useEffect(() => {
- setTimeout(() => setLoading(false), 1000)
-}, [])
-  
-  
-const renderData = () => {
-if (loading != false) {
-return (
-<div className="ld text-center mt-5">
-<Loader/>
-</div>
-);
-}
+
+const entry = ({sessionData}:any) => {
+
 return (   
-<div className='login-page-div'>
+<div className='signin-page-div'>
 <EntryCom/>
 </div>
 )
 }
-return renderData();
- }
-  
 
 export default entry
+
+export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
+    // Fetch data from external API
+    const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
+    const cookies = new Cookies(req, res);
+    const value = await axios
+    .get(Get_Jwt, {
+      headers: {
+      "x-access-token": `${cookies.get("token")}`,
+    },
+  })
+  .then((x) => x.data);
+  const sessionData = await value;
+  
+  // Pass data to the page via props
+  return {
+    props: { sessionData: sessionData },
+  };
+  }

@@ -1,15 +1,15 @@
-.login-page-div {
+.signin-page-div {
     background-repeat: no-repeat;
     background-size: cover !important;
 }
 
-.login-form-div {
+.signin-form-div {
     align-items: center !important;
     background-color: white;
     border-radius: 15px;
 }
 
-.login-form-container {
+.signin-form-container {
     display: flex !important;
     flex: 1 !important;
     justify-content: center;
@@ -17,43 +17,43 @@
     min-height: 100vh;
 }
 
-.login-heading-div {
+.signin-heading-div {
     margin: 5px !important;
 }
 
-.login-form-heading {
+.signin-form-heading {
     text-align: center;
     font-size: 50px;
     color: '#002140 ';
     margin-bottom: 3rem;
 }
 
-.login-form {
+.signin-form {
     padding: 100px !important;
     color: gray;
     box-shadow: 2px 2px 15px silver !important;
 }
 
-.login-field {
+.signin-field {
     display: flex;
     flex-flow: column-reverse;
     margin-bottom: 1em;
 }
 
-.login-label-img {
+.signin-label-img {
     height: 18px;
     width: 18px;
 }
 
-.login-label {
+.signin-label {
     transition: all 0.2s;
     touch-action: manipulation;
     width: 20px;
     font-size: 12px;
 }
 
-.login-input-password,
-.login-input-email {
+.signin-input-password,
+.signin-input-email {
     font-size: 1.5rem !important;
     border: 0 !important;
     border-bottom: 1px solid #ccc !important;
@@ -63,17 +63,17 @@
     cursor: text;
 }
 
-.login-input-password,
-.login-input-email:focus {
+.signin-input-password,
+.signin-input-email:focus {
     outline: 0;
     border-bottom: 1px solid #666;
 }
 
-.login-label {
+.signin-label {
     letter-spacing: 0.05em;
 }
 
-.login-input-password:placeholder-shown+.login-label {
+.signin-input-password:placeholder-shown+.signin-label {
     cursor: text;
     max-width: 66.66%;
     white-space: nowrap;
@@ -83,7 +83,7 @@
     transform: translate(0, 2.125rem) scale(1.5);
 }
 
-.login-input-email:placeholder-shown+.login-label {
+.signin-input-email:placeholder-shown+.signin-label {
     cursor: text;
     max-width: 66.66%;
     white-space: nowrap;
@@ -102,14 +102,14 @@ input:focus::-webkit-input-placeholder {
     opacity: 1;
 }
 
-.login-input-password:not(:placeholder-shown)+.login-label,
-.login-input-password:focus+.login-label {
+.signin-input-password:not(:placeholder-shown)+.signin-label,
+.signin-input-password:focus+.signin-label {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
 }
 
-.login-input-email:not(:placeholder-shown)+.login-label,
-.login-input-email:focus+.login-label {
+.signin-input-email:not(:placeholder-shown)+.signin-label,
+.signin-input-email:focus+.signin-label {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
 }

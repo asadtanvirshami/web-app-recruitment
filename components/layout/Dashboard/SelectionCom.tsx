@@ -1,8 +1,9 @@
-import React,{useState, useEffect} from 'react';
-import {Col, Form, Button } from 'react-bootstrap';
+import React,{useState} from 'react';
 import axios from "axios";
-import SendMailCom from './SendMailCom';
+import {Col, Form, Button } from 'react-bootstrap';
 import {List} from './Interface/ListInterface';
+
+import SendMailCom from './SendMailCom';
 
 export const SelectionCom = () => {
   const [selection, setSelection] = useState(false);
@@ -11,6 +12,7 @@ export const SelectionCom = () => {
   const [data,setData] =  useState<List[]>([]);
 
 const getList= async(e:React.FormEvent):Promise<any> => {
+  setSelection(true)
   e.preventDefault();
   const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
    await axios.post(Get_List,{
@@ -18,7 +20,6 @@ const getList= async(e:React.FormEvent):Promise<any> => {
     category:category
    }).then((response:any) => {
       setData(response.data[0]);
-      setSelection(true);
       console.log(response.data);
       })
     }

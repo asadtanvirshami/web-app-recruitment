@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
 import axios from 'axios';
 
-type Props = {}
+
 
 const EntryCom = () => {
   const [email, setEmail] = useState('')
