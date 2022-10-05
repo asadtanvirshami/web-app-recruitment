@@ -4,10 +4,12 @@ import {
   CarryOutOutlined,
   ContainerOutlined,
   TeamOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
-import CooKies from "js-cookie";
+import Cookies from "js-cookie";
+import Router,{ useRouter } from 'next/router';
 
 const { Header, Content, Sider } = Layout;
 
@@ -38,7 +40,7 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
   const [collapsed, setCollapsed] = useState(true);
   const [email, setEmail] = useState<any>("");
 
-  useEffect(() =>{setEmail(CooKies.get("email"))}, []);
+  useEffect(() =>{setEmail(Cookies.get("email"))}, []);
 
   return (
     <Layout >
@@ -48,10 +50,21 @@ export const MainLayout = ({children}:{children:React.ReactNode}) => {
       </Sider>
       <Layout className="site-layout">
       <Header className="site-layout-background px-3" style={{ padding: 0}}>
-      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}><p className="mx-4">Logout</p></nav> 
-      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}>{email}
+      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}>
+      <span style={{position:'relative', top:3}}>{email}</span>
       <img className="header-admin-img mx-2" src={"admin.png"}/>
       </nav>
+      <span 
+       onClick={()=>{
+        Cookies.remove('token');
+        Cookies.remove('email');
+        Cookies.remove('id');
+        Router.push('/signin')
+      }}
+      className="mx-3" style={{float:"right", color:'white', backgroundColor:''}}>
+      <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
+      <span style={{position:'relative', top:3}}>Sign Out</span>
+      </span> 
       </Header>
       <Content style={{ margin: '0 16px' }}>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
