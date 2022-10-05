@@ -10,7 +10,9 @@ function Layout ({children}:{children:React.ReactNode}) {
 
   return(
     <>
-    <MainLayout children={children}/>
+    <MainLayout>
+    {children}
+    </MainLayout>
     </>
     )
 
