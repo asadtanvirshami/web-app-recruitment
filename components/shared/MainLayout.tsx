@@ -58,7 +58,7 @@ export const MainLayout = ({children}:{children:any}) => {
         Cookies.remove('token');
         Cookies.remove('email');
         Cookies.remove('id');
-        Router.push('/signin')
+        Router.push('/')
       }}
       className="mx-3" style={{float:"right", color:'white', backgroundColor:''}}>
       <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
