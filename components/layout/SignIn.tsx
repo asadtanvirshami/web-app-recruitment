@@ -4,19 +4,12 @@ import {Button,Spinner} from 'react-bootstrap'
 import CooKies from "js-cookie";
 import Router from "next/router";
 
-const SignIn = ({sessionData}:any) => {
+const SignIn = () => {
 axios.defaults.withCredentials = true;
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
 const [loading, setLoading] = useState(false)
-
-useEffect(() => {
-  console.log(sessionData)
-  if(sessionData.auth==true){
-      Router.push('/')
-  }
-}, [sessionData])
 
 const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
 const Auth_Detail: string = (process.env.NEXT_PUBLIC_FP_GET_AUTH_DETAIL  as string);
