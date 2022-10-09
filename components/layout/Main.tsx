@@ -10,10 +10,6 @@ const Main = ({sessionData}:any) => {
     }else if(sessionData.auth == true){
         Router.push('/dashboard')
     }
-
-    return () => {
-
-    }
 }, [sessionData])
 
     return (
