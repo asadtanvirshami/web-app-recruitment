@@ -20,6 +20,8 @@
     overflow:hidden;
     overflow-y: scroll;
     max-height: 500px; // change this to desired height 
+    overflow-x: auto ;
+    white-space: nowrap;
 }
 
 th {

@@ -1,8 +1,10 @@
 import React,{ useState, useEffect } from 'react';
 import type { AppProps } from 'next/app'
+import Router, { useRouter  } from 'next/router';
+
 import Layout from '../components/shared/Layout';
 import Loader from '.././components/shared/Loader';
-import Router, { useRouter  } from 'next/router';
+
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss'

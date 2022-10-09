@@ -10,9 +10,9 @@ const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
 const [loading, setLoading] = useState(false)
+const [reveal, setReveal] = useState(false);
 
 const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
-const Auth_Detail: string = (process.env.NEXT_PUBLIC_FP_GET_AUTH_DETAIL  as string);
 
 const Signin =(e:React.FormEvent)=>{
   e.preventDefault();
@@ -33,13 +33,6 @@ const Signin =(e:React.FormEvent)=>{
     }
   })
   }
-  useEffect(() => {
-    const res = axios
-      .get(Auth_Detail)
-      .then((response) => {
-        console.table(response.data);
-      });
-  }, []);
 
   return (
     <div className='signin-form-container'>
@@ -52,8 +45,8 @@ const Signin =(e:React.FormEvent)=>{
       </div>
       <div className="signin-field">
       <span style={{color:"red",margin:0,padding:0,fontSize:13}}>{message}</span>
-      <input type="password" name="password" id="password" className='signin-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
-      <label className='signin-label'><img src={"login-lock.png"} className="signin-label-img"/></label>
+      <input type={reveal?'text':'password'} name="password" id="password" className='signin-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
+      <label className='signin-label'><img src={"login-lock.png"} className="signin-label-img"  onClick={()=>setReveal(!reveal)}/></label>
       </div>
       <div className='col-md-12 text-center mt-5'>
       {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}

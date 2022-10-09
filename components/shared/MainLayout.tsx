@@ -55,6 +55,9 @@ export const MainLayout = ({children}:{children:any}) => {
       </nav>
       <span 
        onClick={()=>{
+        Cookies.remove('token');
+        Cookies.remove('email');
+        Cookies.remove('id');
         Router.push('/signin')
       }}
       className="mx-3" style={{float:"right", color:'white', backgroundColor:'', cursor:'pointer'}}>
