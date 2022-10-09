@@ -5,14 +5,8 @@ import Cookies from "cookies";
 
 import EntryCom from '../components/layout/Entry';
 
-
 const entry = () => {
-
-return (   
-<div className='signin-page-div'>
-<EntryCom/>
-</div>
-)
+return (<div className='signin-page-div'><EntryCom/></div>)
 }
 
 export default entry

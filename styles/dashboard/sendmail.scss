@@ -1,0 +1,30 @@
+.box{
+    align-items: center !important;
+    background-color: white;
+    border-radius: 15px;
+}
+.box-container{
+    display: flex !important;
+    flex: 1 !important;
+    justify-content: center;
+    align-items: center !important;
+    min-height: 75vh;
+}
+.table-div{
+    color: gray;
+    box-shadow: 2px 2px 15px silver !important;
+    padding: 50px !important;
+}
+
+.table-sm-1{
+    overflow:hidden;
+    overflow-y: scroll;
+    max-height: 500px; // change this to desired height 
+}
+
+th {
+    top: 0;
+    z-index: 1;
+    position: sticky;
+    background-color: white !important;
+ }

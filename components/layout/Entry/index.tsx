@@ -17,8 +17,7 @@ const EntryCom = () => {
   
   const Post_Entry: string = (process.env.NEXT_PUBLIC_FP_POST_ENTRIES  as string);
   
-  const postEntry=(e:React.FormEvent)=>{
-
+  const postEntry=(e:any)=>{
     e.preventDefault();
     setLoading(true);
     let res = axios.post(Post_Entry,{
@@ -38,6 +37,7 @@ const EntryCom = () => {
       }else if(res.data.message === "Success") {
         setMessage("Uploaded successfully!");
         setLoading(false);
+        e.target.reset()
       }
     })
   }
@@ -64,7 +64,7 @@ const EntryCom = () => {
     {year:"8"},
     {year:"9"},
     {year:"10"},
-    {year:"above 10 years"},
+    {year:"above 10"},
   ]
 
   let Categories = [
@@ -85,19 +85,19 @@ const EntryCom = () => {
       <div className='login-heading-div'><h4 className='mb-4'>Enter Detail.</h4></div>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>First name</Form.Label>
-          <Form.Control type="text" required placeholder="First name" onChange={(e) =>{setFirstname(e.target.value)}}/>
+        <Form.Label>First name</Form.Label>
+        <Form.Control type="text" required placeholder="First name" onChange={(e) =>{setFirstname(e.target.value)}}/>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Last name</Form.Label>
-          <Form.Control type="text" required placeholder="Last name" onChange={(e) =>{setLastname(e.target.value)}}/>
+        <Form.Label>Last name</Form.Label>
+        <Form.Control type="text" required placeholder="Last name" onChange={(e) =>{setLastname(e.target.value)}}/>
         </Form.Group>
       </Row>
       <Row className="mb-3">
-      <Form.Group as={Col}  className="" controlId="formGridAddress2">
+        <Form.Group as={Col}  className="" controlId="formGridAddress2">
         <Form.Label>LinkedIn</Form.Label>
         <Form.Control placeholder="Enter LinkedIn" required onChange={(e) =>{setLinkedIn(e.target.value)}}/>
-      </Form.Group>
+        </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
         <Form.Label>Field</Form.Label>
         <Form.Select required onChange={(e) =>{setField(e.target.value)}} defaultValue="Choose...">
@@ -106,28 +106,28 @@ const EntryCom = () => {
         </Form.Select>
         </Form.Group>
       </Row>
-      <Form.Group className="mb-3" controlId="formGridAddress1">
+        <Form.Group className="mb-3" controlId="formGridAddress1">
         <Form.Label>Phone</Form.Label>
         <Form.Control placeholder="Enter phone number" required onChange={(e) =>{setPhone(e.target.value)}}/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formGridAddress2">
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGridAddress2">
         <Form.Label>Email</Form.Label>
         <Form.Control placeholder="Enter Email" type='email' required onChange={(e) =>{setEmail(e.target.value)}}/>
-      </Form.Group>
+        </Form.Group>
       <Row className="mb-3">
         <Form.Group as={Col} md={8} controlId="formGridCity">
-          <Form.Label>Region</Form.Label>
-          <Form.Select required onChange={(e) =>{setRegion(e.target.value)}} >
+        <Form.Label>Region</Form.Label>
+        <Form.Select required onChange={(e) =>{setRegion(e.target.value)}} >
             <option style={{display:'none'}}>Select Region</option>
             {Provinces.map((province:{plain:string}, index)=>{return(<option key={index}>{province.plain}</option>)})}
-          </Form.Select>
+        </Form.Select>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridState">
         <Form.Label>Experience</Form.Label>
         <Form.Select required onChange={(e) =>{setExperience(e.target.value)}} defaultValue="Choose...">
-          <option style={{display:'none'}}>Select Year</option>
+        <option style={{display:'none'}}>Select Year</option>
           {Experience.map((experience:{year:string}, index)=>{return(<option key={index}>{experience.year}</option>)})}
-          </Form.Select>
+        </Form.Select>
         </Form.Group>
       </Row>
       {error&&<span style={{fontSize:14, color:'red'}}>{message}</span>}
@@ -140,8 +140,7 @@ const EntryCom = () => {
       }
       </div>
     </Form>
-      </div>
-      
+    </div>
     </div>
   )
 }

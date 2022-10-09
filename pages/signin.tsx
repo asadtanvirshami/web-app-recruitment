@@ -5,20 +5,8 @@ import Cookies from "cookies";
 
 import SignIn from '../components/layout/SignIn';
 
-type Props = {}
-
 const signin = ({sessionData}:any) => {
-  
-  // useEffect(() => {
-  //   setTimeout(() => setLoading(false), 1000)
-  // }, [])
-
-  return (
-  <div className='signin-page-div'>
-  <SignIn sessionData={sessionData}/>
-  </div>
-  )
-  
+return ( <div className='signin-page-div'><SignIn sessionData={sessionData}/></div>)
 }
 
 export default signin
@@ -41,3 +29,7 @@ return {
   props: { sessionData: sessionData },
 };
 }
+
+  // useEffect(() => {
+  //   setTimeout(() => setLoading(false), 1000)
+  // }, [])

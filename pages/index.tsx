@@ -6,9 +6,8 @@ import axios from 'axios';
 import Main from '../components/layout/Main';
 
  const Home = ({sessionData}:any) => {
-
-  return ( <Main sessionData={sessionData}/>)
-}
+return ( <Main sessionData={sessionData}/>)
+ }
 
 export default Home
 

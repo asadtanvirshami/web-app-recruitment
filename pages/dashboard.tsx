@@ -6,13 +6,7 @@ import axios from 'axios';
 import Dashboard from '../components/layout/Dashboard';
 
  const dashboard = ({sessionData}:any) => {
-
-
-return (
- <>
- <Dashboard sessionData={sessionData}/>
- </>
- )
+ return (<><Dashboard sessionData={sessionData}/></>)
 }
 
 export default dashboard

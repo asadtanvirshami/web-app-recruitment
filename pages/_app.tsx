@@ -18,8 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     setTimeout(() => setLoading(false), 1000)
   }, [])
 
-  
-
   return( 
     <>
       { (router.pathname !='/signin' && router.pathname != '/signup' && router.pathname != '/') &&

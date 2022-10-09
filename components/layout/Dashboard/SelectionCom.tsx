@@ -2,24 +2,29 @@ import React,{useState} from 'react';
 import axios from "axios";
 import {Col, Form, Button } from 'react-bootstrap';
 import {List} from './Interface/ListInterface';
-
-import SendMailCom from './SendMailCom';
+import SendMailCom from './Sendmail/SendMailCom';
+import Loader from '../../shared/Loader';
 
 export const SelectionCom = () => {
   const [selection, setSelection] = useState(false);
   const [region, setRegion] = useState('');
   const [category, setCategory] = useState('');
   const [data,setData] =  useState<List[]>([]);
+  const [ loading, setLoading ] = useState(false);
+
+
+const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
 
 const getList= async(e:React.FormEvent):Promise<any> => {
   setSelection(true)
+  setLoading(true)
   e.preventDefault();
-  const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
    await axios.post(Get_List,{
     region:region,
     category:category
    }).then((response:any) => {
       setData(response.data[0]);
+      setLoading(false)
       console.log(response.data);
       })
     }
@@ -77,7 +82,8 @@ const getList= async(e:React.FormEvent):Promise<any> => {
     </form>
     </div>
     </div>)} 
-    {selection && (<><SendMailCom data={data}/></>)}
+    {loading && selection && (<Loader/>)}
+    {!loading && selection && (<><SendMailCom data={data} /></>)}
     </>
   )
 }

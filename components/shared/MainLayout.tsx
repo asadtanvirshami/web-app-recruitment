@@ -1,15 +1,14 @@
 import React,{ useState,useEffect } from "react";
 import Link from 'next/link';
 import {
-  CarryOutOutlined,
+  FormOutlined,
   ContainerOutlined,
-  TeamOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import Cookies from "js-cookie";
-import Router,{ useRouter } from 'next/router';
+import Router from 'next/router';
 
 const { Header, Content, Sider } = Layout;
 
@@ -31,8 +30,7 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem('Recruitment', '1',<Link href="/dashboard"><ContainerOutlined/></Link>),
-  getItem('Create Entry', '2',<Link href="/entry"><CarryOutOutlined/></Link>),
-  getItem('Team', 'sub2', <TeamOutlined />),
+  getItem('Create Entry', '2',<Link href="/entry"><FormOutlined /></Link>),
 ];
 
 
