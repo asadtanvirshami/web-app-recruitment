@@ -5,7 +5,7 @@ import SelectionCom from './SelectionCom';
 
  const Dashboard = ({sessionData}:any) => {
     useEffect(() => {
-        if(sessionData.auth==false){
+        if(sessionData.auth != true){
         Router.push('/signin')
         }
     }, [])
