@@ -1,15 +1,10 @@
-import React,{useEffect} from 'react'
-import Router from 'next/router';
+import React from 'react'
+
 
 import SelectionCom from './SelectionCom';
 
- const Dashboard = ({sessionData}:any) => {
-    useEffect(() => {
-        if(sessionData.auth != true){
-        Router.push('/signin')
-        }
-    }, [])
-
+ const Dashboard = () => {
+ 
 return (
  <>
  <SelectionCom/>
