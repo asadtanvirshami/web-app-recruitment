@@ -56,6 +56,9 @@ const SendMailCom = ({data}:any) => {
     axios.post(Send_Mail,{
       email:data.email,
       field:data.field,
+      firstname:data.firstname,
+      lastname:data.lastname,
+      region:data.region
     }).then((response) => { 
       console.log(response);
     })
