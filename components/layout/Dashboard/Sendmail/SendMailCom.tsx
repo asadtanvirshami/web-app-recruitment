@@ -10,7 +10,8 @@ import
   EditOutlined,
   MailOutlined,
   DownloadOutlined,
-  DeleteOutlined} 
+  DeleteOutlined,
+  SendOutlined} 
   from '@ant-design/icons';
   
 import{List} from '../Interface/ListInterface'
@@ -135,12 +136,50 @@ const SendMailCom = ({data}:any) => {
         {edit&&<Edit data={editValues} setVisible={setVisible} updateListData={updateListData} />}
         </Modal></>
         ):(<>
-        <div className="text-center" style={{position:"relative",top:"350px", alignSelf:"center", justifyContent:"center"}}>
-        <span>
-        <span style={{position:'relative',color:'gray',top:4,fontSize:33,marginRight:8,}}>Nothing found inside the directory.</span>
-        <CloseCircleOutlined style={{marginBottom:3, fontSize:36, color:'red'}} />
-        </span>
-        </div>
+         <>
+        <div className='box-container '>
+        <Row className='box m-3 table-div container'>
+          <span>
+          <Col> 
+          <CSVLink data={List} filename={"Recruitment-List.csv"} style={{float:'right', fontSize:25, color:'gray'}} target="_blank"><DownloadOutlined /></CSVLink>
+          <h3 className='f my-2'>Send Email</h3>
+          </Col>
+          </span>
+          <Col style={{textAlign:'right'}}>
+          </Col>
+           <div className='px-2 '>
+           <hr className='my-2' />
+           </div>
+           <div className='table-sm-1 mt-3' >
+              <Table className='tableFixHead' >
+              <thead>
+              <tr className='text-center'>
+               <th>Sr.</th>
+               <th>Name</th>
+               <th>Email</th>
+               <th>LinkedIn</th>
+               <th>Phone no.</th>
+               <th>Region</th>
+               <th>Field</th>    
+               <th>Experience</th>    
+               <th>Delete</th>    
+               <th>Edit</th>    
+              <th style={{width:90}}>
+              <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
+              <Space>
+              <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
+              </Space>
+              </th>        
+              </tr>
+              </thead>
+               </Table>
+               <span>
+              <span style={{position:'relative',color:'gray',top:4,fontSize:23,marginRight:8,}}>Nothing found inside the directory.</span>
+              <CloseCircleOutlined style={{marginBottom:3, fontSize:26, color:'red'}} />
+              </span>
+             </div>
+           </Row>
+           </div></>
          </>)
      }
 
