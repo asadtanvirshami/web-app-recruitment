@@ -3,7 +3,7 @@ import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
 import Router from 'next/router';
 import axios from 'axios';
 
-const EntryCom = (sessionData:any) => {
+const EntryCom = ({sessionData}:any) => {
 
   useEffect(() => {
     if(sessionData.auth != true){

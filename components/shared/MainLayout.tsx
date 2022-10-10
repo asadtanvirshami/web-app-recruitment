@@ -59,7 +59,7 @@ export const MainLayout = ({children}:{children:any}) => {
         Cookies.remove('token');
         Cookies.remove('email');
         Cookies.remove('id');
-        Router.push('/signin')
+        Router.push("/signin");
       }}>
       <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
       <span style={{position:'relative', top:3}}>Sign Out</span>

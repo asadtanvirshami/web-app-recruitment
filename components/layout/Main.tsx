@@ -6,7 +6,7 @@ const Main = ({sessionData}:any) => {
     React.useEffect(() => {
         
     if(sessionData.auth != true){
-        Router.push('/signin')
+        Router.push("/signin");
     }else if(sessionData.auth == true){
         Router.push('/dashboard')
     }
