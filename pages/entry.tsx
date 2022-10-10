@@ -1,18 +1,12 @@
 import {GetServerSideProps} from 'next'
-import React,{useEffect} from 'react'
+import React from 'react'
 import axios from 'axios';
 import Cookies from "cookies";
-import Router from 'next/router';
 
 import EntryCom from '../components/layout/Entry';
 
 const entry = (sessionData:any) => {
-  useEffect(() => {
-    if(sessionData.auth != true){
-    Router.push('/signin')
-    }
-}, [])
-return (<div className='signin-page-div'><EntryCom/></div>)
+return (<div className='signin-page-div'><EntryCom sessionData={sessionData}/></div>)
 }
 
 export default entry

@@ -1,5 +1,5 @@
-import React from 'react'
 import {GetServerSideProps} from 'next'
+import React from 'react'
 import Cookies from "cookies";
 import axios from 'axios';
 
@@ -22,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
   },
 })
 .then((x) => x.data);
+console.log(value)
 const sessionData = await value;
 
 // Pass data to the page via props

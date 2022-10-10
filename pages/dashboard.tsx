@@ -1,19 +1,12 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {GetServerSideProps} from 'next'
 import Cookies from "cookies";
 import axios from 'axios';
-import Router from 'next/router';
 
 import Dashboard from '../components/layout/Dashboard';
 
  const dashboard = ({sessionData}:any) => {
-  useEffect(() => {
-    if(sessionData.auth != true){
-    Router.push('/signin')
-    }
-}, [])
-
-  return (<><Dashboard /></>)
+ return (<><Dashboard sessionData={sessionData}/></>)
 }
 
 export default dashboard
