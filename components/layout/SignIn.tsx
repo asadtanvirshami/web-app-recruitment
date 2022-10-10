@@ -1,20 +1,20 @@
 import axios from 'axios';
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import {Button,Spinner} from 'react-bootstrap'
 import CooKies from "js-cookie";
 import Router from "next/router";
 
 const SignIn = () => {
-axios.defaults.withCredentials = true;
+
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
 const [loading, setLoading] = useState(false)
 const [reveal, setReveal] = useState(false);
 
-const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
 
 const Signin =(e:React.FormEvent)=>{
+  const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
   e.preventDefault();
   setLoading(true);
   axios.post(Post_Auth,{

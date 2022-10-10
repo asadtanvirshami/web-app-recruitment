@@ -2,7 +2,7 @@ import React from 'react'
 
 import SignIn from '../components/layout/SignIn';
 
-const signin = () => {
+export const signin = () => {
 return ( <div className='signin-page-div'><SignIn/></div>)
 }
 

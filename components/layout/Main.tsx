@@ -1,10 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Router from 'next/router'
 
 const Main = ({sessionData}:any) => {
     
-    React.useEffect(() => {
-        
+    useEffect(() => {   
     if(sessionData.auth != true){
         Router.push("/signin");
     }else if(sessionData.auth == true){
