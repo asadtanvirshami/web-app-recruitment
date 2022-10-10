@@ -45,7 +45,14 @@ export const MainLayout = ({children}:{children:any}) => {
     <Layout >
       <Sider style={{ minHeight: '100vh'}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  style={{marginTop:60}}/>
+      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{marginTop:60}}>
+      <Menu.Item icon={<ContainerOutlined />}>
+      <Link href="/dashboard"><a style={{textDecoration:'none'}}>Dashboard</a></Link>
+      </Menu.Item>
+      <Menu.Item icon={<FormOutlined />}>
+      <Link href="/entry"><a style={{textDecoration:'none'}}>FormOutlined</a></Link>
+      </Menu.Item>
+      </Menu>
       </Sider>
       <Layout className="site-layout">
       <Header className="site-layout-background px-3" style={{ padding: 0}}>
