@@ -5,7 +5,7 @@ import Cookies from "cookies";
 
 import EntryCom from '../components/layout/Entry';
 
-const entry = (sessionData:any) => {
+const entry = ({sessionData}:any) => {
 return (<div className='signin-page-div'><EntryCom sessionData={sessionData}/></div>)
 }
 
