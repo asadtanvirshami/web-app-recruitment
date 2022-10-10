@@ -49,7 +49,7 @@ const Signin =(e:React.FormEvent)=>{
       <label className='signin-label'><img src={"login-lock.png"} className="signin-label-img"  onClick={()=>setReveal(!reveal)}/></label>
       </div>
       <div className='col-md-12 text-center mt-5'>
-      {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}
+      {!loading && <Button className='form-signin-btn' type="submit"> Sign in </Button>}
       {loading && <Button className='form-signin-btn' disabled type="submit"> 
       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
       </Button>
