@@ -45,7 +45,7 @@ const Signin =(e:React.FormEvent)=>{
       </div>
       <div className="signin-field">
       <span style={{color:"red",margin:0,padding:0,fontSize:13}}>{message}</span>
-      <input type={reveal?'text':'password'} name="password" id="password" className='signin-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
+      <input type={reveal?'text':'password'} className='signin-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
       <label className='signin-label'><img src={"login-lock.png"} className="signin-label-img"  onClick={()=>setReveal(!reveal)}/></label>
       </div>
       <div className='col-md-12 text-center mt-5'>

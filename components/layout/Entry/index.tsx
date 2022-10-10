@@ -1,8 +1,16 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
+import Router from 'next/router';
 import axios from 'axios';
 
-const EntryCom = () => {
+const EntryCom = (sessionData:any) => {
+
+  useEffect(() => {
+    if(sessionData.auth==false){
+    Router.push('/signin')
+    }
+}, [])
+
   const [email, setEmail] = useState('')
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')

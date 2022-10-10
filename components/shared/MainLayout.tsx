@@ -54,13 +54,13 @@ export const MainLayout = ({children}:{children:any}) => {
       <img className="header-admin-img mx-2" src={"admin.png"}/>
       </nav>
       <span 
+       className="mx-3" style={{float:"right", color:'white', backgroundColor:'', cursor:'pointer'}}
        onClick={()=>{
         Cookies.remove('token');
         Cookies.remove('email');
         Cookies.remove('id');
         Router.push('/signin')
-      }}
-      className="mx-3" style={{float:"right", color:'white', backgroundColor:'', cursor:'pointer'}}>
+      }}>
       <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
       <span style={{position:'relative', top:3}}>Sign Out</span>
       </span> 
