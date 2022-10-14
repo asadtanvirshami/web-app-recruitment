@@ -128,7 +128,7 @@ const SendMailCom = ({data}:any) => {
                 <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
                 <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
                 <td>
-                {data.status===""&&<Space onClick={(e) =>{SendEmail(e,data)}}><MailOutlined style={{fontSize:18,cursor:'pointer'}}/></Space>}
+                {data.status===null&&<Space onClick={(e) =>{SendEmail(e,data)}}><MailOutlined style={{fontSize:18,cursor:'pointer'}}/></Space>}
                 {data.status==="Sent"&&<Space><CheckCircleOutlined disabled={true} style={{fontSize:18, color:"green"}}/></Space>}
                 </td>
               </tr>)})}
