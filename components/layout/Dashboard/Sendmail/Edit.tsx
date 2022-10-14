@@ -14,6 +14,7 @@ const Edit = ({updateListData, data, setVisible}:any) => {
   const [experience, setExperience] = useState('')
   const [region, setRegion] = useState('')
   const [phone, setPhone] = useState('')
+  const [status, setStaus] = useState('')
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const Edit = ({updateListData, data, setVisible}:any) => {
     setExperience(data.experience)
     setRegion(data.region)
     setPhone(data.phone)
+    setStaus(data.status)
 }, [data])
 
 const Update_Entry: string = (process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES as string);
@@ -44,6 +46,7 @@ const updateEntry=(e:any)=>{
    linkedIn:linkedIn, 
    experience:experience, 
    region:region, 
+   status:status, 
   }).then((x:any)=>{
     console.log(x)
     setLoading(false);
@@ -60,6 +63,7 @@ const updateEntry=(e:any)=>{
         linkedIn:linkedIn, 
         experience:experience, 
         region:region, 
+        status:status
       })
       setLoading(false);
       setVisible(false);
