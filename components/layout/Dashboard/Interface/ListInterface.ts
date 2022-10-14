@@ -8,6 +8,7 @@ export type List = {
     email:string,
     linkedIn:string,
     phone:string,
+    status:string,
     createdAt:string,
     updatedAt:string,
   }

@@ -51,16 +51,25 @@ const SendMailCom = ({data}:any) => {
 
   const SendEmail=(e:any, data:any)=>{
     e.preventDefault();
-    console.log(data.email, data.field)
     const Send_Mail: string = (process.env.NEXT_PUBLIC_FP_SEND_MAIL as string);
     axios.post(Send_Mail,{
+      id:data.id,
       email:data.email,
       field:data.field,
       firstname:data.firstname,
       lastname:data.lastname,
       region:data.region
-    }).then((response) => { 
-      console.log(response);
+    }).then((x:any) => { 
+      console.log(data, x);
+        let tempState = [...List];
+        tempState.forEach((x:any) => {
+          if (x.id==data.id) {  
+            x.id = data.id;
+            x.status='Sent'
+            console.log(x.id, x.status);
+          }
+          });
+          setList(tempState);
     })
   }
 
@@ -118,10 +127,9 @@ const SendMailCom = ({data}:any) => {
                 {data.experience} years</td>
                 <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
                 <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
-                <td onClick={(e) =>{SendEmail(e,data)}} >
-                <Space>
-                <MailOutlined style={{fontSize:18,cursor:'pointer'}}/>
-                </Space>
+                <td>
+                {data.status===""&&<Space onClick={(e) =>{SendEmail(e,data)}}><MailOutlined style={{fontSize:18,cursor:'pointer'}}/></Space>}
+                {data.status==="Sent"&&<Space><CheckCircleOutlined disabled={true} style={{fontSize:18, color:"green"}}/></Space>}
                 </td>
               </tr>)})}
               </tbody>
