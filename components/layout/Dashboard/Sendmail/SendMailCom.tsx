@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from 'react'
 import { CSVLink } from 'react-csv';
-import {Table,Row,Col} from 'react-bootstrap';
-import { Modal, Space } from 'antd'; 
+import {Table,Row,Col, Button} from 'react-bootstrap';
+import { Modal, Space,Checkbox } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox'; 
 import axios from 'axios';
 
 import 
@@ -20,14 +21,36 @@ import Edit from './Edit';
 const SendMailCom = ({data}:any) => {
   const [List, setList] = useState<List[]>([]);
   const [edit, setEdit] = useState(false)
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheck, setIsCheck] = useState<List[]>([]);
 
   const [editValues, setEditValues] = useState({});
   const [visible, setVisible] = useState(false);
+
+  const handleSelectAll = e => {
+    setIsCheckAll(!isCheckAll);
+    setIsCheck(List.map(li => li.id));
+    if (isCheckAll) {
+      setIsCheck([]);
+      console.log(isCheck, isCheckAll)
+    }
+  };
   
+  const handleClick = (e:any,data:any) => {
+    const {checked,id } = e.target;
+    console.log(checked, data.id)
+    console.log(`checked = ${e.target.checked}`);
+    setIsCheck([...isCheck, data.id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter(item => item !== data.id));
+    }
+  };
+  console.log(isCheck)
+  
+
   useEffect(() => {
     setList(data)
-  }, []);
-
+  }, [List]);
 
   const deleteEntry= async(id:any, i:any):Promise<any> => {
     const Delete_Entry: string = (process.env.NEXT_PUBLIC_FP_DELETE_ENTRY as string);
@@ -51,6 +74,7 @@ const SendMailCom = ({data}:any) => {
 
   const SendEmail=(e:any, data:any)=>{
     e.preventDefault();
+    console.log(data);
     const Send_Mail: string = (process.env.NEXT_PUBLIC_FP_SEND_MAIL as string);
     axios.post(Send_Mail,{
       id:data.id,
@@ -106,6 +130,7 @@ const SendMailCom = ({data}:any) => {
               <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
               <Space>
               <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
+              <Space><Checkbox onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
               </Space>
               </th>        
               </tr>
@@ -128,12 +153,12 @@ const SendMailCom = ({data}:any) => {
                 <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
                 <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
                 <td>
-                {data.status===null&&<Space onClick={(e) =>{SendEmail(e,data)}}><MailOutlined style={{fontSize:18,cursor:'pointer'}}/></Space>}
-                {data.status==="Sent"&&<Space><CheckCircleOutlined disabled={true} style={{fontSize:18, color:"green"}}/></Space>}
+                <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
                 </td>
               </tr>)})}
               </tbody>
                </Table>
+               <div className='text-center'><Button className='btn'onClick={(e) =>{SendEmail(e,data)}}>Send Mail</Button></div>
              </div>
            </Row>
          </div>

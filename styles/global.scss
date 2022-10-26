@@ -50,6 +50,24 @@
     }
   }
 
+  
+
+.btn {
+    color: white !important;
+    border-color: #002140 !important;
+    width: 150px;
+    background-color: #002140 !important;
+}
+
+
+.btn:hover {
+    font-weight: 600;
+    background-color: white !important;
+    color: #002140 !important;
+    border-color: #002140 !important;
+    width: 150px;
+}
+
 
 //   .main {
 //     min-height: 100vh;

@@ -50,7 +50,7 @@ export const MainLayout = ({children}:{children:any}) => {
       <Link href="/dashboard"><a style={{textDecoration:'none'}}>Dashboard</a></Link>
       </Menu.Item>
       <Menu.Item icon={<FormOutlined />}>
-      <Link href="/entry"><a style={{textDecoration:'none'}}>FormOutlined</a></Link>
+      <Link href="/entry"><a style={{textDecoration:'none'}}>Entry Form</a></Link>
       </Menu.Item>
       </Menu>
       </Sider>

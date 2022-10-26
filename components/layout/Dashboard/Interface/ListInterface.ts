@@ -1,5 +1,6 @@
 export type List = {
-    id:string,
+    key:any,
+    id:any,
     firstname:string,
     lastname:string,
     field:string,
