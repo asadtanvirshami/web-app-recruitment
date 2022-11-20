@@ -39,8 +39,8 @@ export const Notification = ({data}:any) => {
       <hr/>
       {List.map((data:List, index:number) =>{
         return(
-          <div>
-          <Row key={index}>
+          <div key={index}>
+          <Row>
             <Col md={11}>
              <li style={{listStyle:'none', fontSize:16}}>- You have sent <strong>{data.firstname} {data.lastname}</strong> a mail on <strong>{data.sent_day}</strong> for the recruitment in {data.region}, Canada for {data.field}.</li>
             </Col>
