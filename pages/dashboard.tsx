@@ -5,8 +5,8 @@ import axios from 'axios';
 
 import Dashboard from '../components/layout/Dashboard';
 
- const dashboard = ({sessionData}:any) => {
- return (<><Dashboard sessionData={sessionData}/></>)
+ const dashboard = ({sessionData,data}:any) => {
+ return (<><Dashboard sessionData={sessionData} data={data}/></>)
 }
 
 export default dashboard
@@ -27,9 +27,17 @@ export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
 console.table(value);
 const sessionData = await value;
 
+
+const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
+const request = await fetch(Get_List)
+.then((r) => r.json());
+
+console.log(request);
+const data = await request;
+
 // Pass data to the page via props
 return {
-  props: { sessionData: sessionData },
+  props: {data:data, sessionData: sessionData },
 };
 }
 {/* {!selection && <SelectionCom setSelection={setSelection}/>}

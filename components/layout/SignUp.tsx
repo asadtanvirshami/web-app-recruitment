@@ -60,8 +60,8 @@ const Signup =(e:React.FormEvent)=>{
      </div>
      </div>
      <div className='col-md-12 text-center'>
-     {!loading && <Button className='form-signin-btn' type="submit"> Submit </Button>}
-      {loading && <Button className='form-signin-btn' disabled type="submit"> 
+     {!loading && <Button className='btn' type="submit"> Submit </Button>}
+      {loading && <Button className='btn' disabled type="submit"> 
       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
       </Button>
       }

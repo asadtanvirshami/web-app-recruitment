@@ -113,28 +113,3 @@ input:focus::-webkit-input-placeholder {
     transform: translate(0, 0) scale(1);
     cursor: pointer;
 }
-
-.form-signin-btn,
-.form-signup-btn {
-    color: white !important;
-    border-color: #002140 !important;
-    width: 150px;
-    background-color: #002140 !important;
-}
-
-
-.form-signin-btn:hover {
-    font-weight: 600;
-    background-color: white !important;
-    color: #002140 !important;
-    border-color: #002140 !important;
-    width: 150px;
-}
-
-.form-signup-btn:hover {
-    font-weight: 600;
-    background-color: white !important;
-    color: #002140 !important;
-    border-color: #002140 !important;
-    width: 150px;
-}

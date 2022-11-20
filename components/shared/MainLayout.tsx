@@ -4,6 +4,7 @@ import {
   FormOutlined,
   ContainerOutlined,
   LogoutOutlined,
+  CheckSquareOutlined 
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
@@ -51,6 +52,9 @@ export const MainLayout = ({children}:{children:any}) => {
       </Menu.Item>
       <Menu.Item icon={<FormOutlined />}>
       <Link href="/entry"><a style={{textDecoration:'none'}}>Entry Form</a></Link>
+      </Menu.Item>
+      <Menu.Item icon={<CheckSquareOutlined />}>
+      <Link href="/notifications"><a style={{textDecoration:'none'}}>Mail history</a></Link>
       </Menu.Item>
       </Menu>
       </Sider>

@@ -1,0 +1,18 @@
+.notification-container{
+
+    min-height: 89vh;
+    background-color: white;
+    color: gray;
+    box-shadow: 2px 2px 15px silver !important;
+    padding: 16px !important;
+    padding-top: 25px !important;
+    border-radius: 15px;
+}
+
+.notification-div{
+    overflow:hidden;
+    overflow-y: scroll;
+    min-height: 790px;
+    max-height: 600px; // change this to desired height 
+    white-space: nowrap;
+}

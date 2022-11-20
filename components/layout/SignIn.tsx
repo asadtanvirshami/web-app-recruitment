@@ -59,7 +59,7 @@ const Signin =(e:React.FormEvent)=>{
       <small>or</small>
       </div>
       <div className='col-md-12 text-center'>
-      <Button href="/signup" variant="primary" className='form-signup-btn'>Sign up</Button>
+      <Button href="/signup" variant="primary" className='btn'>Sign up</Button>
       </div>  
     </form>
     </div>

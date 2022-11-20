@@ -1,8 +1,12 @@
 @import'sendmail.scss';
+@import'notification.scss';
 
-.login-page-div {
-  background-repeat: no-repeat;
-  background-size: cover !important;
+.form-div{
+  padding: 20px !important;
+  color: gray;
+    box-shadow: 2px 2px 15px silver !important;
+    padding: 20px !important;
+    max-width:100%;
 }
 
 .selection-form-div {
@@ -11,57 +15,28 @@
   border-radius: 15px;
 }
 
-.selection-form-container {
+.form-div-main {
   display: flex !important;
-  flex: 1 !important;
-  justify-content: center;
-  align-items: center !important;
-  min-height: 80vh;
+  justify-content: center;  
 }
-
-.selection-heading-div {
-  margin: 5px !important;
-}
-
-.selection-form-heading {
-  text-align: center;
-  font-size: 25px;
-  color: #3A3B3C;
-  font-weight: 600;
-  margin-bottom: 5rem;
-}
-
-.selection-form {
-  padding: 100px !important;
-  color: gray;
-  box-shadow: 2px 2px 15px silver !important;
-} 
 
 /* style the items (options), including the selected item: */
-.select-type,
-.select-field,
-.select-selected {
+ .search-bar{
   padding: 8px 16px;
   border: 1px solid transparent;
   cursor: pointer;
-  box-shadow: 2px 2px 15px silver !important;
+  box-shadow: 1px 1px 5px silver !important;
+
+  &:focus{
+    outline: none;
+    padding: 8px 16px;
+    border: 1px solid transparent !important;
+    cursor: pointer;
+    box-shadow: 2px 2px 15px silver !important;
+  }
 }
 
 .select-type{
   display: none;
 }
-
-.select-submit-btn{
-  background-color: #002140;
-  width: 120px;
-  border-color: #002140 !important;
-}
-.select-submit-btn:hover{
-  background-color: white !important;
-  color: #002140 !important;
-  font-weight: 600 !important;
-  width: 120px !important;
-  border-color: #002140 !important;
-}
-
 

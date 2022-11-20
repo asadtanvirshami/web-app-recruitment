@@ -3,18 +3,14 @@ import Router from 'next/router';
 
 import SelectionCom from './SelectionCom';
 
- const Dashboard = ({sessionData}:any) => {
+ export const Dashboard = ({sessionData,data}:any ) => {
     useEffect(() => {
         if(sessionData.auth != true){
             Router.push("/signin");
-        }
+        } 
     }, [])
 
-return (
- <>
- <SelectionCom/>
- </>
- )
+return (<><SelectionCom data={data}/></>)
 
 }
 export default Dashboard
