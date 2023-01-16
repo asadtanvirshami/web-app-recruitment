@@ -1,17 +1,17 @@
 import React,{useEffect} from 'react'
 import Router from 'next/router';
 
-import MailTableCom from './Table/index';
+import SendMail from './Sendmail/index';
 
- export const Dashboard = ({sessionData,data} ) => {
+ export const ConsultantInfo = ({sessionData,data} ) => {
     useEffect(() => {
         if(sessionData.auth != true){
             Router.push("/signin");
         } 
     }, [])
 
-return (<><MailTableCom data={data}/></>)
+return (<><SendMail data={data}/></>)
 
 }
-export default Dashboard
+export default ConsultantInfo
 

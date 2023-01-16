@@ -1,6 +1,8 @@
 .signup-page-div {
     background-repeat: no-repeat;
     background-size: cover !important;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,77,153,1) 100%, rgba(0,77,153,1) 100%);
 }
 
 .signup-form-div {
@@ -30,14 +32,14 @@
 }
 
 .signup-form {
-    color: gray;
-    box-shadow: 2px 2px 15px silver !important;
+    // color: gray;
+    // box-shadow: 2px 2px 15px silver !important;
     padding: 100px !important;
 }
 
 .signup-field {
-    display: flex;
-    flex-flow: column-reverse;
+    // display: flex;
+    // flex-flow: column-reverse;
     margin-bottom: 1em;
 }
 

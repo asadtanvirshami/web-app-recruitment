@@ -6,7 +6,7 @@ import Cookies from "cookies";
 import EntryCom from '../components/layout/Entry';
 
 const entry = ({sessionData}) => {
-return (<div className='signin-page-div'><EntryCom sessionData={sessionData}/></div>)
+return (<div className='entry-page-div'><EntryCom sessionData={sessionData}/></div>)
 }
 
 export default entry

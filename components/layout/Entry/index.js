@@ -120,7 +120,7 @@ const EntryCom = ({sessionData}) => {
     <div className='entry-form-container'>
       <div className='entry-form-div mt-4'>
       <Form className='entry-form' onSubmit={postEntry}>
-      <div className='login-heading-div'><h4 className='mb-4'>Enter Detail.</h4></div>
+      <div className='entry-heading-div'><h3 className='mb-4'>Enter Detail</h3></div>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
         <Form.Label>First name</Form.Label>

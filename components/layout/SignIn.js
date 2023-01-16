@@ -4,14 +4,16 @@ import {Button,Spinner} from 'react-bootstrap'
 import CooKies from "js-cookie";
 import Router from "next/router";
 
+import { InfoCircleOutlined, UserOutlined,LockOutlined,EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Input, Tooltip } from 'antd';
 const SignIn = () => {
 
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
 const [loading, setLoading] = useState(false)
-const [reveal, setReveal] = useState(false);
 
+const [passwordVisible, setPasswordVisible] = React.useState(false);
 
 const Signin =(e)=>{
   e.preventDefault();
@@ -35,17 +37,44 @@ const Signin =(e)=>{
 
   return (
     <div className='signin-form-container'>
-    <div className='signin-form-div ' >
+    <div className='signin-form-div' >
+      <div className='m-auto text-center'><img src={"logo_xl.png"} className="img-fluid m-5" width={400}/></div>
+      <div className='m-auto text-center'><img src={"group.png"} className="img-fluid m-3" width={70}/></div>
     <form onSubmit={Signin} className="signin-form">
-      <div className='signin-heading-div'><h1 className='signin-form-heading'>Sign in</h1></div>
+    {/* <div className='signin-heading-div'><h1 className='signin-form-heading'>Sign in</h1></div> */}
       <div className="signin-field">
-      <input type="email" name="email" className='signin-input-email' required placeholder="Email" onChange={(e) =>{setEmail(e.target.value)}}/>
-      <label className='signin-label'><img src={"login-user.png"} className="signin-label-img"/></label>
+      <div className='mt-0 mb-2'>
+      <Input
+      onChange={(e) =>{setEmail(e.target.value)}}
+      size="large" 
+      placeholder="Email"
+      className='input-placeholder'
+      prefix={<UserOutlined className="site-form-item-icon" />}
+      suffix={
+        <Tooltip title="enter your email">
+          <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+        </Tooltip>
+      }
+    />
+      {/* <MDBInput className='' label='Email' id='text' type='text'required onChange={(e) =>{setEmail(e.target.value)}} /> */}
+      </div>
+      {/* <label className='signin-label'><img src={"login-user.png"} className="signin-label-img"/></label> */}
       </div>
       <div className="signin-field">
       <span style={{color:"red",margin:0,padding:0,fontSize:13}}>{message}</span>
-      <input type={reveal?'text':'password'} className='signin-input-password' placeholder="Password" required onChange={(e) =>{setPassword(e.target.value)}}/>
-      <label className='signin-label'><img src={"login-lock.png"} className="signin-label-img"  onClick={()=>setReveal(!reveal)}/></label>
+      {/* <input type={reveal?'text':'password'} className='signin-input-password' placeholder="Password" /> */}
+      <div className=''>
+      {/* <MDBInput className='signin-input-label' label='Password' id='typePassword' type='password'required onChange={(e) =>{setPassword(e.target.value)}} /> */}
+      <Input.Password
+      onChange={(e) =>{setPassword(e.target.value)}}
+      size="large" 
+      placeholder="Password"
+      className='input-placeholder'
+      prefix={<LockOutlined className="site-form-item-icon" />}
+      visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+      iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+    /> 
+      </div>
       </div>
       <div className='col-md-12 text-center mt-5'>
       {!loading && <Button className='form-signin-btn' type="submit"> Sign in </Button>}
@@ -54,7 +83,7 @@ const Signin =(e)=>{
       </Button>
       }
       </div>
-      <div className='col-md-12 text-center mt-2 mb-2'>
+      <div className='col-md-12 text-center mt-1 mb-1'>
       <small>or</small>
       </div>
       <div className='col-md-12 text-center'>

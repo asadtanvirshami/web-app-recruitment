@@ -17,6 +17,7 @@ import
   
 import Edit from './Edit';
 import Comments from './Comments';
+import Link from 'next/link';
 
 const SendMailCom = ({data}) => {
   const [edit, setEdit] = useState(false)
@@ -34,23 +35,6 @@ const SendMailCom = ({data}) => {
   const [editValues, setEditValues] = useState({});
   const [visible, setVisible] = useState(false);
   const [commentVisible, setCommentVisible] = useState(false);
-
-  const handleSelectAll = e => {
-    setIsCheckAll(!isCheckAll);
-    setIsCheck(List.map((li)=>(li.id)));
-    if (isCheckAll) {
-      setIsCheck([]);
-    }
-  };
-
-  const handleClick = (e, data) => {
-    const {checked} = e.target;
-    setIsCheck([...isCheck,data.id]);
-    if (!checked) {
-      const unChecked =isCheck.filter((x) => x !== data.id)
-      setIsCheck(unChecked);
-    }
-  };
 
   useEffect(() => {
     setLoading(true)
@@ -88,34 +72,6 @@ const SendMailCom = ({data}) => {
       tempState[i] = x;
       setList(tempState);
   }
-
-  const SendEmail=(e)=>{
-    e.preventDefault();
-    const tempStateIsCheck = [...isCheck]
-    const tempStateList = [...List]
-    tempStateIsCheck.forEach((x,indexone)=>{
-      tempStateList.forEach((y,index)=>{
-        if(x === y.id){
-          axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL,{
-            id:y.id,
-            email:y.email,
-            firstname:y.firstname,
-            lastname:y.lastname,
-            region:y.region,
-            field:y.field,
-            sent_date:moment().format('MMMM Do YYYY'),
-            sent_day:moment().format('dddd')
-          }).then((x) => { 
-              let tempState = [...List];
-              tempState.forEach((x) => {
-                if (x.id==data.id) {  
-                  x.id = data.id;
-                  x.status='Sent'
-                }
-                });
-                setList(tempState); })}
-          })  
-       })}
   
   return List[0] ? (
     <>
@@ -125,12 +81,13 @@ const SendMailCom = ({data}) => {
       <Row className='box table-div container'>
       <span>
       <Col> 
-      <div style={{float:'right'}} className='text-center mt-2 mx-4'><Button className='send-btn'onClick={(e) =>{SendEmail(e)}}>Send Mail</Button></div>
-      <CSVLink data={List} filename={"Recruitment-List.csv"} style={{float:'right', fontSize:25, color:'gray'}} target="_blank"><DownloadOutlined /></CSVLink>
-      <h3 className='my-2'>Send Email</h3>
+      <h3 className='my-2'>Dashbaord</h3>
+      <div style={{float:'right'}} className='text-center mt-2 mx-4'><Link href="/consultantInfo"><Button className='send-btn'>Consultant</Button></Link></div>
+      <span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><DownloadOutlined style={{float:'right', fontSize:20, color:'white'}}  /></CSVLink></Button></span>
       <div>
       <input className='search-bar mt-2' placeholder='Search' onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/>
-      <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /></div>
+      {/* <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /> */}
+      </div>
       </Col>
       </span>
       <Col style={{textAlign:'right'}}></Col>
@@ -139,9 +96,10 @@ const SendMailCom = ({data}) => {
      <Table className='tableFixHead'>
       <thead>
       <tr className='text-center'>
-      <Space>
+      {/* <Space>
       <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
-      </Space>
+      </Space> */}
+      <th></th>
       <th>Sr.</th>
       <th>Name</th>
       <th>Email</th>
@@ -164,7 +122,7 @@ const SendMailCom = ({data}) => {
       return(
       <tr key={index} className='f text-center row-hover'>
         <td>
-        <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
+        {/* <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space> */}
         </td>
         <td>{index + 1}</td>
         <td>{data.firstname} {data.lastname}</td>
@@ -214,9 +172,9 @@ const SendMailCom = ({data}) => {
         <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
         <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
         <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} style={{cursor:'pointer'}}><StarOutlined/></td>
-        <td>
+        {/* <td>
         <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
-        </td>
+        </td> */}
       </tr>)})}
       </tbody>}
       </Table>
@@ -242,73 +200,75 @@ const SendMailCom = ({data}) => {
         </Col>
         </Row>
         </>
-          ):(<>
-            <Col md={12}>
-            <div className=''>
-            <Row className='box table-div container'>
-            <span>
-            <Col> 
-            <div style={{float:'right'}} className='text-center mt-2 mx-4'><Button className='send-btn'onClick={(e) =>{SendEmail(e)}}>Send Mail</Button></div>
-            <CSVLink data={List} filename={"Recruitment-List.csv"} style={{float:'right', fontSize:25, color:'gray'}} target="_blank"><DownloadOutlined /></CSVLink>
-            <h3 className='my-2'>Send Email</h3>
-            <div>
-            <input className='search-bar mt-2' placeholder='Search' onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/>
-            <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /></div>
-            </Col>
-            </span>
-            <Col style={{textAlign:'right'}}></Col>
-            <div className='px-2 mt-3'><hr className='my-2'/></div>
-            <div className='table-sm-1 mt-3'>
-            <Table className='tableFixHead'>
-              <thead>
-              <tr className='text-center'>
-              <th>Sr.</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Source</th>
-               <th>Source Link</th>
-               <th>Phone no.</th>
-               <th>Field</th>    
-               <th>Region</th>
-               <th>S.C</th>
-               <th>City</th>
-               <th>Experience</th>    
-               <th>Resource</th>    
-               <th>Delete</th>    
-               <th>Edit</th>    
-               <th>Comments</th>   
-              <th style={{width:90}}>
-              <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
-              <Space>
-              <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
-              </Space>
-              </th>        
-              </tr>
-              </thead>
-              <tbody style={{ height: 300,  overflow:'scroll'}}>
-              <tr className='f text-center row-hover'>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              </tr>
-              </tbody>
-               </Table>
-             </div>
-           </Row>
-           </div></Col>
+          ):(
+       <>
+        <Col md={12}>
+        <div className=''>
+        <Row className='box table-div container'>
+        <span>
+        <Col> 
+        <h3 className='my-2'>Dashbaord</h3>
+        <div style={{float:'right'}} className='text-center mt-2 mx-4'><Link href="/consultantInfo"><Button className='send-btn'>Consultant</Button></Link></div>
+        <span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><DownloadOutlined style={{float:'right', fontSize:20, color:'gray'}}  /></CSVLink></Button></span>
+        <div>
+        <input className='search-bar mt-2' placeholder='Search' onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/>
+        {/* <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /> */}
+        </div>
+        </Col>
+        </span>
+        <Col style={{textAlign:'right'}}></Col>
+        <div className='px-2 mt-3'><hr className='my-2'/></div>
+        <div className='table-sm-1 mt-3'>
+        <Table className='tableFixHead'>
+          <thead>
+          <tr className='text-center'>
+          <th>Sr.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Source</th>
+            <th>Source Link</th>
+            <th>Phone no.</th>
+            <th>Field</th>    
+            <th>Region</th>
+            <th>S.C</th>
+            <th>City</th>
+            <th>Experience</th>    
+            <th>Resource</th>    
+            <th>Delete</th>    
+            <th>Edit</th>    
+            <th>Comments</th>   
+          <th style={{width:90}}>
+          <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
+          <Space>
+          <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
+          </Space>
+          </th>        
+          </tr>
+          </thead>
+          <tbody style={{ height: 300,  overflow:'scroll'}}>
+          <tr className='f text-center row-hover'>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          </tr>
+          </tbody>
+            </Table>
+          </div>
+        </Row>
+        </div></Col>
          </>)
      }
 

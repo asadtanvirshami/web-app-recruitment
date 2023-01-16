@@ -1,5 +1,4 @@
 import React from 'react'
-import {GetServerSideProps} from 'next'
 import Cookies from "cookies";
 import axios from 'axios';
 

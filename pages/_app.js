@@ -5,6 +5,7 @@ import Layout from '../components/shared/Layout';
 import Loader from '../components/shared/Loader';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import '../styles/main.scss'
 
 function MyApp({ Component, pageProps }) {

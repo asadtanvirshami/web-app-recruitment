@@ -1,6 +1,8 @@
 .signin-page-div {
     background-repeat: no-repeat;
     background-size: cover !important;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,77,153,1) 100%, rgba(0,77,153,1) 100%);
 }
 
 .signin-form-div {
@@ -18,20 +20,22 @@
 }
 
 .signin-heading-div {
-    margin: 5px !important;
+    // margin: 5px !important;
 }
 
 .signin-form-heading {
-    text-align: center;
-    font-size: 50px;
-    color: '#002140 ';
-    margin-bottom: 3rem;
+    font-weight: 530;
+    text-align: left;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 45px;
+    color: #004D99;
 }
 
 .signin-form {
-    padding: 100px !important;
-    color: gray;
-    box-shadow: 2px 2px 15px silver !important;
+    padding: 130px !important;
+    padding-top:20px !important;
+    // color: gray;
+    // box-shadow: 2px 2px 15px silver !important;
 }
 
 .signin-field {
@@ -44,7 +48,9 @@
     height: 18px;
     width: 18px;
 }
-
+.input-placeholder{
+    width: 300px;
+}
 .signin-label {
     transition: all 0.2s;
     touch-action: manipulation;

@@ -44,14 +44,14 @@ export const MainLayout = ({children}:{children:any}) => {
   return (
     <>
     <Layout >
-      <Sider style={{ minHeight: '100vh'}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+      <Sider style={{ minHeight: '100vh', backgroundColor:''}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{marginTop:60}}>
       <Menu.Item icon={<ContainerOutlined />}>
       <Link href="/dashboard"><a style={{textDecoration:'none'}}>Dashboard</a></Link>
       </Menu.Item>
       <Menu.Item icon={<FormOutlined />}>
-      <Link href="/consultantInfo"><a style={{textDecoration:'none'}}>Entry Form</a></Link>
+      <Link href="/consultantInfo"><a style={{textDecoration:'none'}}>Consultant info</a></Link>
       </Menu.Item>
       <Menu.Item icon={<CheckSquareOutlined />}>
       <Link href="/history"><a style={{textDecoration:'none'}}>Mail history</a></Link>
@@ -59,8 +59,9 @@ export const MainLayout = ({children}:{children:any}) => {
       </Menu>
       </Sider>
       <Layout className="site-layout">
-      <Header className="site-layout-background px-3" style={{ padding: 0}}>
-      <nav className="" style={{float:"right", color:'white', backgroundColor:''}}>
+      <Header className="site-layout-background" style={{ padding: 0}}>
+      <img src={"logo.png"} className="img-fluid px-1" width={220} />
+      <nav className="px-3" style={{float:"right", color:'white', backgroundColor:''}}>
       <span style={{position:'relative', top:3}}>{email}</span>
       <img className="header-admin-img mx-2" src={"admin.png"}/>
       </nav>
