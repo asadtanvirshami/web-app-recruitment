@@ -1,14 +1,13 @@
 import React,{ useState, useEffect } from 'react';
-import type { AppProps } from 'next/app'
 import Router, { useRouter  } from 'next/router';
 
 import Layout from '../components/shared/Layout';
-import Loader from '.././components/shared/Loader';
+import Loader from '../components/shared/Loader';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }) {
   
   const [loading, setLoading] = useState(false);
   const router = useRouter();

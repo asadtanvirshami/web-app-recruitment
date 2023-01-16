@@ -1,7 +1,6 @@
 import React,{useEffect,useState} from 'react'
-import{List} from '../Interface/ListInterface'
 
-export const Comments = ({data}:any) => {
+export const Comments = ({data}) => {
 
     useEffect(() => {
         console.log('data',data)

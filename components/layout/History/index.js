@@ -4,32 +4,25 @@ import { Col, Row } from 'react-bootstrap'
 import {DeleteOutlined,} from '@ant-design/icons';
 import axios from 'axios'
 
-import List from '../Dashboard/Interface/ListInterface'
-
-export const Notification = ({data}:any) => {
+export const Notification = ({data}) => {
   const [List, setList] = useState([])
-
-  
-  const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_SENT_LIST as string);
-  const Update_Notification: string = (process.env.NEXT_PUBLIC_FP_UPDATE_NOTIFICATION as string);
 
   useEffect(() => {
     axios
-   .get(Get_List)
+   .get(process.env.NEXT_PUBLIC_FP_GET_SENT_LIST)
    .then((response)=>{
     setList(response.data[0])
     console.log(response.data)
    })
   }, [])
 
-  const updateNotification= async(id:any, i:any):Promise<any> => {
-     await axios.post(Update_Notification, {id:id})
-     .then((response:any) => {
+  const updateNotification= async(id, i) => {
+     await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_NOTIFICATION, {id:id})
+     .then((response) => {
         console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
         setList(newPeople);
     })}
-
 
   return (
     <div className='notification-container'>
@@ -37,7 +30,7 @@ export const Notification = ({data}:any) => {
     <div className='notification-form'>
       <h3>Mail History</h3>
       <hr/>
-      {List.map((data:List, index:number) =>{
+      {List.map((data, index) =>{
         return(
           <div key={index}>
           <Row>

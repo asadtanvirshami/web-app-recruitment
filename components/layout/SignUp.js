@@ -3,9 +3,7 @@ import {Button,Col,Row,Spinner} from 'react-bootstrap'
 import axios from 'axios';
 import Router from "next/router";
 
-type Props = {}
-
-const SignUp = (props: Props) => {
+const SignUp = () => {
 const [firstname, setFirstname] = useState('')
 const [lastname, setLastname] = useState('')
 const [email, setEmail] = useState('')
@@ -13,12 +11,10 @@ const [password, setPassword] = useState('')
 const [message, setMessage] = useState('')
 const [loading, setLoading] = useState(false)
 
-const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_USER  as string);
-
-const Signup =(e:React.FormEvent)=>{
+const Signup =(e)=>{
     e.preventDefault();
     setLoading(true);
-    axios.post(Post_Auth,{
+    axios.post(process.env.NEXT_PUBLIC_FP_POST_USER,{
      firstname:firstname,
      lastname:lastname,
      email:email,

@@ -15,18 +15,17 @@ import
   SearchOutlined} 
   from '@ant-design/icons';
   
-import{List} from '../Interface/ListInterface'
 import Edit from './Edit';
 import Comments from './Comments';
 
-const SendMailCom = ({data}:any) => {
+const SendMailCom = ({data}) => {
   const [edit, setEdit] = useState(false)
   const [commentModal, setCommentModal] = useState(false)
   const [isCheckAll, setIsCheckAll] = useState(false);
   
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [List, setList] = useState<List[]>([]);
+  const [List, setList] = useState([]);
   const [isCheck, setIsCheck] = useState([]);
   const [commentValue,setCommentValue]= useState({})
   const [searchItems, setSearchItems] = useState([]);
@@ -36,9 +35,6 @@ const SendMailCom = ({data}:any) => {
   const [visible, setVisible] = useState(false);
   const [commentVisible, setCommentVisible] = useState(false);
 
-  const Search_List: string = (process.env.NEXT_PUBLIC_FP_SEARCH_ENTRIES as string);
-  const Send_Mail: string = (process.env.NEXT_PUBLIC_FP_SEND_MAIL as string);
-
   const handleSelectAll = e => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(List.map((li)=>(li.id)));
@@ -47,7 +43,7 @@ const SendMailCom = ({data}:any) => {
     }
   };
 
-  const handleClick = (e:any, data) => {
+  const handleClick = (e, data) => {
     const {checked} = e.target;
     setIsCheck([...isCheck,data.id]);
     if (!checked) {
@@ -59,7 +55,7 @@ const SendMailCom = ({data}:any) => {
   useEffect(() => {
     setLoading(true)
     if(searchTerm.length>2){
-      axios.get(Search_List,{
+      axios.get(process.env.NEXT_PUBLIC_FP_SEARCH_ENTRIES,{
         headers: {searchKeyword: `${searchTerm}`}
       }).then((res)=>{
         setLoading(false)
@@ -76,17 +72,16 @@ const SendMailCom = ({data}:any) => {
   setList(data[0])
   }, []);
   
-  const deleteEntry= async(id:any, i:any):Promise<any> => {
-    const Delete_Entry: string = (process.env.NEXT_PUBLIC_FP_DELETE_ENTRY as string);
+  const deleteEntry= async(id) => {
      await axios
-     .delete(Delete_Entry, { headers: {id: id,},})
-     .then((response:any) => {
+     .delete(rocess.env.NEXT_PUBLIC_FP_DELETE_ENTRY, { headers: {id: id,},})
+     .then((response) => {
         console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
         setList(newPeople);
   })}
 
-  const updateListData = (x:any) => {
+  const updateListData = (x) => {
       console.log(x)
       let tempState = [...List];
       let i = tempState.findIndex((y=>x.id==y.id));
@@ -94,14 +89,14 @@ const SendMailCom = ({data}:any) => {
       setList(tempState);
   }
 
-  const SendEmail=(e:any)=>{
+  const SendEmail=(e)=>{
     e.preventDefault();
     const tempStateIsCheck = [...isCheck]
     const tempStateList = [...List]
     tempStateIsCheck.forEach((x,indexone)=>{
       tempStateList.forEach((y,index)=>{
         if(x === y.id){
-          axios.post(Send_Mail,{
+          axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL,{
             id:y.id,
             email:y.email,
             firstname:y.firstname,
@@ -110,9 +105,9 @@ const SendMailCom = ({data}:any) => {
             field:y.field,
             sent_date:moment().format('MMMM Do YYYY'),
             sent_day:moment().format('dddd')
-          }).then((x:any) => { 
+          }).then((x) => { 
               let tempState = [...List];
-              tempState.forEach((x:any) => {
+              tempState.forEach((x) => {
                 if (x.id==data.id) {  
                   x.id = data.id;
                   x.status='Sent'
@@ -165,7 +160,7 @@ const SendMailCom = ({data}:any) => {
       </tr>
       </thead>
       {loading==false && searchTerm==''&& <tbody style={{ height: 10,  overflow:'scroll'}}>
-      {List.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data:List, index:any)=>{
+      {List.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
       return(
       <tr key={index} className='f text-center row-hover'>
         <td>
@@ -195,7 +190,7 @@ const SendMailCom = ({data}:any) => {
       </tr>)})}
       </tbody>}
       {loading==false && searchTerm!=''&&<tbody style={{ height: 10,  overflow:'scroll'}}>
-      {searchItems.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data:List, index:any)=>{
+      {searchItems.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data, index)=>{
       return(
       <tr key={index} className='f text-center row-hover'>
         <td>{index + 1}</td>

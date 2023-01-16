@@ -13,11 +13,10 @@ const [loading, setLoading] = useState(false)
 const [reveal, setReveal] = useState(false);
 
 
-const Signin =(e:React.FormEvent)=>{
-  const Post_Auth: string = (process.env.NEXT_PUBLIC_FP_POST_AUTH  as string);
+const Signin =(e)=>{
   e.preventDefault();
   setLoading(true);
-  axios.post(Post_Auth,{
+  axios.post(process.env.NEXT_PUBLIC_FP_POST_AUTH,{
    email:email,
    password:password, 
   }).then((res) => {

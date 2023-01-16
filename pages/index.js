@@ -5,18 +5,17 @@ import axios from 'axios';
 
 import Main from '../components/layout/Main';
 
- const Home = ({sessionData}:any) => {
+ const Home = ({sessionData}) => {
 return ( <Main sessionData={sessionData}/>)
  }
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
+export const getServerSideProps = async ({req,res}) => {
   // Fetch data from external API
-  const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
   const cookies = new Cookies(req, res);
   const value = await axios
-  .get(Get_Jwt, {
+  .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
     headers: {
     "x-access-token": `${cookies.get("token")}`,
   },

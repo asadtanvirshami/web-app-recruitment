@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
 
-const EntryCom = ({sessionData}:any) => {
+const EntryCom = ({sessionData}) => {
 
   useEffect(() => {
     if(sessionData.auth != true){
@@ -31,11 +31,10 @@ const EntryCom = ({sessionData}:any) => {
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   
-  const Post_Entry: string = (process.env.NEXT_PUBLIC_FP_POST_ENTRIES  as string);
-  const postEntry=(e:any)=>{
+  const postEntry=(e)=>{
     e.preventDefault();
     setLoading(true);
-    let res = axios.post(Post_Entry,{
+    let res = axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{
      email:email,
      firstname:firstname, 
      lastname:lastname, 
@@ -137,7 +136,7 @@ const EntryCom = ({sessionData}:any) => {
         <Form.Label>Sources</Form.Label>
         <Form.Select required onChange={(e) =>{setSources(e.target.value),setShow(true)}} >
             <option style={{display:'none'}}>---Select Sources---</option>
-            {Sources.map((source:{source:string}, index)=>{return(<option key={index}>{source.source}</option>)})}
+            {Sources.map((source, index)=>{return(<option key={index}>{source.source}</option>)})}
         </Form.Select>
         {show && <Form.Group className='mt-3'>
         <Form.Label>Source Link</Form.Label>
@@ -148,7 +147,7 @@ const EntryCom = ({sessionData}:any) => {
         <Form.Label>Field</Form.Label>
         <Form.Select required onChange={(e) =>{setField(e.target.value)}} defaultValue="Choose...">
         <option style={{display:'none'}}>---Select Field---</option>
-          {Categories.map((category:{category:string}, index)=>{return(<option key={index}>{category.category}</option>)})}
+          {Categories.map((category, index)=>{return(<option key={index}>{category.category}</option>)})}
         </Form.Select>
         </Form.Group>
       </Row>
@@ -161,7 +160,7 @@ const EntryCom = ({sessionData}:any) => {
         <Form.Label>Tell us about Resourse:</Form.Label>
         <Form.Select required onChange={(e) =>{setResources(e.target.value)}} defaultValue="Choose...">
         <option style={{display:'none'}}>---Select Resource---</option>
-          {Resource.map((resource:{resource:string}, index)=>{return(<option key={index}>{resource.resource}</option>)})}
+          {Resource.map((resource, index)=>{return(<option key={index}>{resource.resource}</option>)})}
         </Form.Select>
         </Form.Group>
       </Row>
@@ -174,14 +173,14 @@ const EntryCom = ({sessionData}:any) => {
         <Form.Label>Region</Form.Label>
         <Form.Select required onChange={(e) =>{setRegion(e.target.value)}} >
         <option style={{display:'none'}}>---Select Region---</option>
-         {Provinces.map((province:{plain:string}, index)=>{return(<option key={index}>{province.plain}</option>)})}
+         {Provinces.map((province, index)=>{return(<option key={index}>{province.plain}</option>)})}
         </Form.Select>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridState">
         <Form.Label>City</Form.Label>
         <Form.Select required onChange={(e) =>{setCity(e.target.value)}}>
         <option style={{display:'none'}}>--Select City--</option>
-          {City.map((city:{city:string}, index)=>{return(<option key={index}>{city.city}</option>)})}
+          {City.map((city, index)=>{return(<option key={index}>{city.city}</option>)})}
         </Form.Select>
         </Form.Group>
       </Row>
@@ -190,14 +189,14 @@ const EntryCom = ({sessionData}:any) => {
         <Form.Label>Experience</Form.Label>
         <Form.Select required onChange={(e) =>{setExperience(e.target.value)}}>
         <option style={{display:'none'}}>---Select Year---</option>
-          {Experience.map((experience:{year:string}, index)=>{return(<option key={index}>{experience.year}</option>)})}
+          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
         </Form.Select>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridState">
         <Form.Label>Security Clearence</Form.Label>
         <Form.Select required onChange={(e) =>{setSecurityClearence(e.target.value)}}>
         <option style={{display:'none'}}>---Select S.C---</option>
-          {Experience.map((experience:{year:string}, index)=>{return(<option key={index}>{experience.year}</option>)})}
+          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
         </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">

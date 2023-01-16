@@ -51,10 +51,10 @@ export const MainLayout = ({children}:{children:any}) => {
       <Link href="/dashboard"><a style={{textDecoration:'none'}}>Dashboard</a></Link>
       </Menu.Item>
       <Menu.Item icon={<FormOutlined />}>
-      <Link href="/entry"><a style={{textDecoration:'none'}}>Entry Form</a></Link>
+      <Link href="/consultantInfo"><a style={{textDecoration:'none'}}>Entry Form</a></Link>
       </Menu.Item>
       <Menu.Item icon={<CheckSquareOutlined />}>
-      <Link href="/notifications"><a style={{textDecoration:'none'}}>Mail history</a></Link>
+      <Link href="/history"><a style={{textDecoration:'none'}}>Mail history</a></Link>
       </Menu.Item>
       </Menu>
       </Sider>

@@ -23,8 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "cypress/e2e/login-page/login.cy.ts"
-  ],
+    "cypress/e2e/login-page/login.cy.js"
+, "components/layout/Dashboard/Sendmail/Edit.js", "components/layout/Dashboard/Sendmail/Comments.js", "components/layout/Dashboard/index.js", "pages/notifications.js", "pages/index.js", "pages/signin.tjs", "pages/signup.js", "components/layout/SignUp.js", "components/layout/SignIn.js", "components/layout/Main.js", "components/layout/Entry/index.js", "components/layout/Dashboard/Sendmail/SendMailCom.js", "pages/entry.js", "pages/dashboard.js", "pages/_app.tjs", "components/layout/Notification/index.js"  ],
   "exclude": [
     "node_modules"
   ]

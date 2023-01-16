@@ -3,9 +3,9 @@ import {GetServerSideProps} from 'next'
 
 import {Col,Row} from 'react-bootstrap';
 
-import SendMailCom from './Sendmail/SendMailCom';
+import SendMailCom from './Sendmail';
 
-export const SelectionCom = ({data}:any) => {
+export const SelectionCom = ({data}) => {
   
   return (
     <Col><SendMailCom data={data}/></Col>
@@ -13,10 +13,8 @@ export const SelectionCom = ({data}:any) => {
 }
 export default SelectionCom
 
-export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
-
-  const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
-  const request = await fetch(Get_List)
+export const getServerSideProps = async ({req,res}) => {
+  const request = await fetch(process.env.NEXT_PUBLIC_FP_GET_LISTS)
   .then((r) => r.json());
 
   console.log(request);

@@ -5,18 +5,17 @@ import Cookies from "cookies";
 
 import EntryCom from '../components/layout/Entry';
 
-const entry = ({sessionData}:any) => {
+const entry = ({sessionData}) => {
 return (<div className='signin-page-div'><EntryCom sessionData={sessionData}/></div>)
 }
 
 export default entry
 
-export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
+export const getServerSideProps = async ({req,res}) => {
     // Fetch data from external API
-    const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
     const cookies = new Cookies(req, res);
     const value = await axios
-    .get(Get_Jwt, {
+    .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
       headers: {
       "x-access-token": `${cookies.get("token")}`,
     },

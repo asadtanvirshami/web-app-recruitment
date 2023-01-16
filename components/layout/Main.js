@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
 import Router from 'next/router'
 
-const Main = ({sessionData}:any) => {
+const Main = ({sessionData}) => {
     
     useEffect(() => {   
     if(sessionData.auth != true){

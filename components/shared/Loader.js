@@ -1,11 +1,7 @@
 import React from 'react'
 import {Spinner} from 'react-bootstrap'
 
-type Props = {
-
-}
-
-function Loader({}: Props) {
+function Loader({}) {
   return (
     <div>
     <div className="text-center" style={{position:"relative",top:"35vh"}}>

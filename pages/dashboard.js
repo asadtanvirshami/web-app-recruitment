@@ -5,18 +5,17 @@ import axios from 'axios';
 
 import Dashboard from '../components/layout/Dashboard';
 
- const dashboard = ({sessionData,data}:any) => {
+ const dashboard = ({sessionData,data}) => {
  return (<><Dashboard sessionData={sessionData} data={data}/></>)
 }
 
 export default dashboard
 
-export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
+export const getServerSideProps = async ({req,res}) => {
   // Fetch data from external API
-  const Get_Jwt: string = (process.env.NEXT_PUBLIC_FP_GET_JWT as string);
   const cookies = new Cookies(req, res);
   const value = await axios
-  .get(Get_Jwt, {
+  .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
     headers: {
     "x-access-token": `${cookies.get("token")}`,
     email: `${cookies.get("email")}`,
@@ -27,9 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({req,res}) => {
 console.table(value);
 const sessionData = await value;
 
-
-const Get_List: string = (process.env.NEXT_PUBLIC_FP_GET_LISTS as string);
-const request = await fetch(Get_List)
+const request = await fetch(process.env.NEXT_PUBLIC_FP_GET_LISTS)
 .then((r) => r.json());
 
 console.log(request);
