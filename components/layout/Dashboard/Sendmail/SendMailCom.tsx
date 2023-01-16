@@ -144,6 +144,9 @@ const SendMailCom = ({data}:any) => {
      <Table className='tableFixHead'>
       <thead>
       <tr className='text-center'>
+      <Space>
+      <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
+      </Space>
       <th>Sr.</th>
       <th>Name</th>
       <th>Email</th>
@@ -158,20 +161,16 @@ const SendMailCom = ({data}:any) => {
       <th>Resource</th>    
       <th>Delete</th>    
       <th>Edit</th>    
-      <th>Comments</th>    
-      <th style={{width:100}}>
-      <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
-      <Space>
-      <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
-      <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
-      </Space>
-      </th>        
+      <th>Comments</th>        
       </tr>
       </thead>
       {loading==false && searchTerm==''&& <tbody style={{ height: 10,  overflow:'scroll'}}>
       {List.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data:List, index:any)=>{
       return(
       <tr key={index} className='f text-center row-hover'>
+        <td>
+        <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
+        </td>
         <td>{index + 1}</td>
         <td>{data.firstname} {data.lastname}</td>
         <td>{data.email}</td>
@@ -193,9 +192,6 @@ const SendMailCom = ({data}:any) => {
         <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
         <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
         <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} style={{cursor:'pointer'}}><StarOutlined/></td>
-        <td>
-        <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
-        </td>
       </tr>)})}
       </tbody>}
       {loading==false && searchTerm!=''&&<tbody style={{ height: 10,  overflow:'scroll'}}>

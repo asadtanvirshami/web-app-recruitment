@@ -5,7 +5,6 @@ import Router, { useRouter  } from 'next/router';
 import Layout from '../components/shared/Layout';
 import Loader from '.././components/shared/Loader';
 
-import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss'
 
