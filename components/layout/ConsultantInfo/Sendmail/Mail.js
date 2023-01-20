@@ -2,22 +2,17 @@ import React,{useState,useMemo} from 'react'
 import moment from 'moment';
 import axios from 'axios';
 
-import{Row,Col,Form,Button,Alert} from 'react-bootstrap'
-import {
-  RadiusUprightOutlined,
-} from '@ant-design/icons';
+import{Row,Col,Form,Button} from 'react-bootstrap'
 import {Divider, notification, Space } from 'antd';
 
 const Context = React.createContext({
   name: 'Default',
 });
 
-const Mail = ({isCheck,List,setMailModal,mailModal}) => {
+const Mail = ({isCheck,List}) => {
 
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
-  
-  const [success, setSuccess] = useState(false)
 
   const SendEmail=(e)=>{
     e.preventDefault();
@@ -38,7 +33,6 @@ const Mail = ({isCheck,List,setMailModal,mailModal}) => {
             sent_date:moment().format('MMMM Do YYYY'),
             sent_day:moment().format('dddd')
           })
-          setSuccess(true)
           openNotification('topRight')
     }})})}
 
@@ -58,6 +52,7 @@ const Mail = ({isCheck,List,setMailModal,mailModal}) => {
     );
 
   return (
+    <>
     <div className=''>
       <div className='entry-form-div mt-4'>
       <Form className='' onSubmit={SendEmail}>
@@ -76,15 +71,17 @@ const Mail = ({isCheck,List,setMailModal,mailModal}) => {
       </Form.Group>
       </Row>
       <Button type='submit'>Send</Button>
-      {success && <Context.Provider value={contextValue}>
+    </Form>
+    </div>
+    </div>
+
+    <Context.Provider value={contextValue}>
         {contextHolder}
         <Space>
         </Space>
         <Divider />
-      </Context.Provider>}
-    </Form>
-    </div>
-    </div>
+      </Context.Provider>
+    </>
   )
 }
 

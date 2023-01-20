@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from 'react'
-import moment from 'moment';
 import axios from 'axios';
 import { CSVLink } from 'react-csv';
 
@@ -11,15 +10,13 @@ import
   EditOutlined,
   MailOutlined,
   DownloadOutlined,
-  DeleteOutlined,
-  SearchOutlined} 
+  DeleteOutlined,} 
   from '@ant-design/icons';
   
 import Edit from './Edit';
 import Comments from './Comments';
 import Mail from './Mail';
 import Link from 'next/link';
-import Notification from './Notification';
 
 const SendMailCom = ({data}) => {
   const [edit, setEdit] = useState(false)
@@ -257,7 +254,6 @@ const SendMailCom = ({data}) => {
         </Modal>
         </Col>
         </Row>
-        <Notification/>
         </>
           ):(
           <>
