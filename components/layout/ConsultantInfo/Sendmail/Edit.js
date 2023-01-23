@@ -41,7 +41,7 @@ const Edit = ({updateListData, data, setVisible}) => {
     setCity(data.city)
 }, [data])
   
-const updateEntry=()=>{
+const updateEntry=(e)=>{
   e.preventDefault();
   setLoading(true);
   let res = axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{
@@ -103,12 +103,17 @@ const updateEntry=()=>{
       // {plain:"Yukon"}
     ]
   
+    let Clearence =[
+      {clearence:"Enhance"},
+      {clearence:"Secret"},
+    ]
+  
     let Experience =[
       {year:"5"},
       {year:"6"},
       {year:"7"},
       {year:"10"},
-      {year:"...15"},
+      {year:"15"},
     ]
   
     let City =[
@@ -218,7 +223,7 @@ const updateEntry=()=>{
         <Form.Label>Security Clearence</Form.Label>
         <Form.Select value={securityClearence} required onChange={(e) =>{setSecurityClearence(e.target.value)}}>
         <option style={{display:'none'}}>---Select S.C---</option>
-          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
+          {Clearence.map((clearence, index)=>{return(<option key={index}>{clearence.clearence}</option>)})}
         </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">

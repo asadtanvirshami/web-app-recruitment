@@ -16,8 +16,6 @@ const Mail = ({isCheck,List}) => {
   const [email, setEmail] = useState('')
   const [body, setBody] = useState('')
 
-  const [api, contextHolder] = notification.useNotification();
-
   const SendEmail=(e)=>{
     e.preventDefault();
     const tempStateIsCheck = [...isCheck]
@@ -25,23 +23,25 @@ const Mail = ({isCheck,List}) => {
     tempStateIsCheck.forEach((x,indexone)=>{
       tempStateList.forEach((y,index)=>{
         if(x === y.id){
-          axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
-            id:y.id,
-            email:y.email,
-            firstname:y.firstname,
-            lastname:y.lastname,
-            region:y.region,
-            field:y.field,
-            txt_body:body,
-            subject:subject,
-            emailSentBy:email,
-            sender:nameOfSender,
-            sent_date:moment().format('MMMM Do YYYY'),
-            sent_day:moment().format('dddd')
-          })
+          console.log(body)
+          // axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
+          //   id:y.id,
+          //   email:y.email,
+          //   firstname:y.firstname,
+          //   lastname:y.lastname,
+          //   region:y.region,
+          //   field:y.field,
+          //   txt_body:body,
+          //   subject:subject,
+          //   emailSentBy:email,
+          //   sender:nameOfSender,
+          //   sent_date:moment().format('MMMM Do YYYY'),
+          //   sent_day:moment().format('dddd')
+          // })
           openNotification('topRight')
     }})})}
 
+    const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement) => {
       api.info({
         message: `Notification`,

@@ -79,12 +79,17 @@ const EntryCom = ({sessionData}) => {
     // {plain:"Yukon"}
   ]
 
+  let Clearence =[
+    {clearence:"Enhance"},
+    {clearence:"Secret"},
+  ]
+
   let Experience =[
     {year:"5"},
     {year:"6"},
     {year:"7"},
     {year:"10"},
-    {year:"...15"},
+    {year:"15"},
   ]
 
   let City =[
@@ -196,7 +201,7 @@ const EntryCom = ({sessionData}) => {
         <Form.Label>Security Clearence</Form.Label>
         <Form.Select required onChange={(e) =>{setSecurityClearence(e.target.value)}}>
         <option style={{display:'none'}}>---Select S.C---</option>
-          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
+          {Clearence.map((clearence, index)=>{return(<option key={index}>{clearence.clearence}</option>)})}
         </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
