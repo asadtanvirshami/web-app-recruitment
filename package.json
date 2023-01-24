@@ -28,11 +28,15 @@
     "mdb-ui-kit": "^6.1.0",
     "moment": "^2.29.4",
     "next": "^12.3.1",
+    "quill-resize-module": "^1.2.4",
+    "quill-resize-module-fix": "^1.0.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-csv": "^2.2.2",
     "react-dom": "18.2.0",
+    "react-draft-wysiwyg": "^1.15.0",
     "react-froala-wysiwyg": "^4.0.17",
+    "react-quill": "^2.0.0",
     "sass": "^1.55.0"
   },
   "devDependencies": {

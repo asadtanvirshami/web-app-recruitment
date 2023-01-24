@@ -1,4 +1,6 @@
 import React, { useState,useEffect } from 'react'
+import dynamic from "next/dynamic";
+import Link from 'next/link';
 
 import axios from 'axios';
 import { CSVLink } from 'react-csv';
@@ -17,8 +19,10 @@ import
   
 import Edit from './Edit';
 import Comments from './Comments';
-import Mail from './Mail';
-import Link from 'next/link';
+const Mail = dynamic(
+  () => import("./Mail"),
+  { ssr: false }
+);
 
 const SendMailCom = ({data}) => {
 
@@ -64,8 +68,9 @@ const SendMailCom = ({data}) => {
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_ENTRY, { headers: {id: id,},})
      .then((response) => {
         console.log(response);
-        const newPeople = List.filter((x) => x.id !== id);
+        const newPeople = List.splice((x) => x.id !== id);
         setListArr(newPeople);
+        setList(newPeople)
   })}
 
   const updateListData = (x) => {
@@ -74,6 +79,7 @@ const SendMailCom = ({data}) => {
       let i = tempState.findIndex((y=>x.id==y.id));
       tempState[i] = x;
       setListArr(tempState);
+      setList(tempState)
   }
  
   useEffect(() => {
@@ -228,12 +234,11 @@ let Categories = [
         <td>{data.region},Canada</td>
         <td>{data.city}</td>
         <td style={{
-        color:data.security_clearence=="5"?'orange':data.security_clearence=="6"?'orange':data.security_clearence=="7"?'orange':
-        data.security_clearence=="9"?'green':data.security_clearence=="10"?'green':data.security_clearence=="...15"?'green':null}}>
-        {data.security_clearence} year clearence</td>
+        color:data.security_clearence=="Secret"?'orange':data.security_clearence=="Enhance"?'green':null}}>
+        {data.security_clearence}</td>
         <td style={{
         color:data.experience=="5"?'orange':data.experience=="6"?'orange':data.experience=="7"?'orange':
-        data.experience=="9"?'green':data.experience=="10"?'green':data.experience=="...15"?'green':null}}>
+        data.experience=="9"?'green':data.experience=="10"?'green':data.experience=="15"?'green':null}}>
         {data.experience} years</td>
         <td>{data.resources}</td>
         <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>

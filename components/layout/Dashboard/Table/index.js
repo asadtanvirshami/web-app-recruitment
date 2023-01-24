@@ -1,4 +1,6 @@
 import React, { useState,useEffect } from 'react'
+import dynamic from "next/dynamic";
+import Link from 'next/link';
 
 import { CSVLink } from 'react-csv';
 import axios from 'axios';
@@ -17,8 +19,10 @@ import
   
 import Edit from './Edit';
 import Comments from './Comments';
-import Mail from '../../ConsultantInfo/Sendmail/Mail';
-import Link from 'next/link';
+const Mail = dynamic(
+  () => import("./Mail"),
+  { ssr: false }
+);
 
 const SendMailCom = ({data}) => {
   const [edit, setEdit] = useState(false)
@@ -53,7 +57,7 @@ const SendMailCom = ({data}) => {
     const {checked} = e.target;
     setIsCheck([...isCheck,data.id]);
     if (!checked) {
-      const unChecked =isCheck.filter((x) => x !== data.id)
+      const unChecked =isCheck.splice((x) => x !== data.id)
       setIsCheck(unChecked);
     }
   };
@@ -85,7 +89,9 @@ const SendMailCom = ({data}) => {
      .then((response) => {
         console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
+        setListArr(newPeople);
         setList(newPeople);
+        
   })}
 
   const updateListData = (x) => {
@@ -93,6 +99,7 @@ const SendMailCom = ({data}) => {
       let tempState = [...List];
       let i = tempState.findIndex((y=>x.id==y.id));
       tempState[i] = x;
+      setListArr(tempState);
       setList(tempState);
   }
 
@@ -201,9 +208,8 @@ const SendMailCom = ({data}) => {
         <td>{data.region},Canada</td>
         <td>{data.city}</td>
         <td style={{
-        color:data.security_clearence=="5"?'orange':data.security_clearence=="6"?'orange':data.security_clearence=="7"?'orange':
-        data.security_clearence=="9"?'green':data.security_clearence=="10"?'green':data.security_clearence=="...15"?'green':null}}>
-        {data.security_clearence} year clearence</td>
+        color:data.security_clearence=="Secret"?'orange':data.security_clearence=="Enhance"?'green':null}}>
+        {data.security_clearence}</td>
         <td style={{
         color:data.experience=="5"?'orange':data.experience=="6"?'orange':data.experience=="7"?'orange':
         data.experience=="9"?'green':data.experience=="10"?'green':data.experience=="...15"?'green':null}}>

@@ -1,9 +1,12 @@
 import React,{useState,useMemo} from 'react'
 import moment from 'moment';
 import axios from 'axios';
+import ReactQuill from "react-quill";
+
+import "react-quill/dist/quill.snow.css";
 
 import{Row,Col,Form,Button} from 'react-bootstrap'
-import {Divider, notification, Space } from 'antd';
+import {Divider, Space, notification } from 'antd';
 
 const Context = React.createContext({
   name: 'Default',
@@ -16,6 +19,8 @@ const Mail = ({isCheck,List}) => {
   const [email, setEmail] = useState('')
   const [body, setBody] = useState('')
 
+  const [api, contextHolder] = notification.useNotification();
+
   const SendEmail=(e)=>{
     e.preventDefault();
     const tempStateIsCheck = [...isCheck]
@@ -24,24 +29,23 @@ const Mail = ({isCheck,List}) => {
       tempStateList.forEach((y,index)=>{
         if(x === y.id){
           console.log(body)
-          // axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
-          //   id:y.id,
-          //   email:y.email,
-          //   firstname:y.firstname,
-          //   lastname:y.lastname,
-          //   region:y.region,
-          //   field:y.field,
-          //   txt_body:body,
-          //   subject:subject,
-          //   emailSentBy:email,
-          //   sender:nameOfSender,
-          //   sent_date:moment().format('MMMM Do YYYY'),
-          //   sent_day:moment().format('dddd')
-          // })
+          axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
+            id:y.id,
+            email:y.email,
+            firstname:y.firstname,
+            lastname:y.lastname,
+            region:y.region,
+            field:y.field,
+            txt_body:body,
+            subject:subject,
+            emailSentBy:email,
+            sender:nameOfSender,
+            sent_date:moment().format('MMMM Do YYYY'),
+            sent_day:moment().format('dddd')
+          })
           openNotification('topRight')
     }})})}
 
-    const [api, contextHolder] = notification.useNotification();
     const openNotification = (placement) => {
       api.info({
         message: `Notification`,
@@ -49,12 +53,52 @@ const Mail = ({isCheck,List}) => {
         placement,
       });
     };
+
     const contextValue = useMemo(
       () => ({
         name: 'Ant Design',
       }),
       [],
     );
+
+    const modules = {
+      toolbar: [
+        [{ header: "1" }, { header: "2" }, { font: [] }],
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+      ],
+      clipboard: {
+        matchVisual: false,
+      },
+    };
+
+    const formats = [
+      "header",
+      "font",
+      "size",
+      "bold",
+      "italic",
+      "underline",
+      "strike",
+      "blockquote",
+      "list",
+      "bullet",
+      "indent",
+      "link",
+      "image",
+      "video",
+    ];
+
+    const onChange = (value) => {
+      setBody(value);
+      console.log(body)
+    };
 
   return (
     <>
@@ -64,11 +108,11 @@ const Mail = ({isCheck,List}) => {
       <div className='login-heading-div'><h4 className='mb-4'>Mail</h4></div>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Sender:</Form.Label>
+        <Form.Label>Name of Sender:</Form.Label>
         <Form.Control type="text" required placeholder="John Doe" onChange={(e) =>{setNameOfSender(e.target.value)}}/>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Email:</Form.Label>
+        <Form.Label>From Email:</Form.Label>
         <Form.Control type="text" required placeholder="invisorsoft@gmail.com" onChange={(e) =>{setEmail(e.target.value)}}/>
         </Form.Group>
       </Row>
@@ -79,8 +123,18 @@ const Mail = ({isCheck,List}) => {
 
       <Row>
         <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Comments</Form.Label>
-        <Form.Control onChange={(e)=>{setBody(e.target.value)}} as="textarea" rows={3} />
+        <Form.Label>Compose</Form.Label>
+        <div style={{height:300}}>
+        <ReactQuill
+        style={{height:230}}
+              theme="snow"
+              value={body}
+              onChange={onChange}
+              placeholder={"Write something awesome..."}
+              modules={modules}
+              formats={formats}
+            />
+        </div>    
       </Form.Group>
       </Row>
       <Button type='submit'>Send</Button>
@@ -99,3 +153,10 @@ const Mail = ({isCheck,List}) => {
 }
 
 export default Mail
+
+//<Editor
+  //   onChange={onChange}
+  //   toolbarClassName="toolbarClassName"
+  //   wrapperClassName="wrapperClassName"
+  //   editorClassName="editorClassName"
+  // />
