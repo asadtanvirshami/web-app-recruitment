@@ -58,7 +58,7 @@ const EntryCom = ({sessionData}) => {
         setMessage("Uploaded successfully!");
         setLoading(false);
         setShow(false)
-        // e.target.reset()
+        e.target.reset()
       }
     })
   }

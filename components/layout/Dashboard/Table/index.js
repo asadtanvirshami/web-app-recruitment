@@ -57,7 +57,7 @@ const SendMailCom = ({data}) => {
     const {checked} = e.target;
     setIsCheck([...isCheck,data.id]);
     if (!checked) {
-      const unChecked =isCheck.splice((x) => x !== data.id)
+      const unChecked =isCheck.filter((x) => x !== data.id)
       setIsCheck(unChecked);
     }
   };
