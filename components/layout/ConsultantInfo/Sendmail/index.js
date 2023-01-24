@@ -101,7 +101,7 @@ const SendMailCom = ({data}) => {
   useEffect(() => {
   setList(data[0])
   setListArr(data[0])
-  }, []);
+  }, [data]);
   
 
   const FilterList=(e)=>{
