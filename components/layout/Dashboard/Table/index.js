@@ -162,6 +162,12 @@ const SendMailCom = ({data,optsets}) => {
       setList(tempState);
   } 
 
+  const handleReset = () => {
+    setFilterCategory("");   
+    setFilterSecurityClearence("");   
+}
+
+
   return(
 <>
   <Row>
@@ -176,30 +182,30 @@ const SendMailCom = ({data,optsets}) => {
               <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <DownloadOutlined style={{float:'right', fontSize:20, color:'white'}}  /></Button></span></CSVLink>
             </Col>
             </span>
-      <Row className='mt-3 mx-1' style={{justifyContent:"left"}}>
+            <Row className='mt-3 mx-1' style={{justifyContent:"left"}}>
         <Col md={2}>
-          <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}} value={filterCategory} className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select Category</option>
           {optionSets.length>0 ? optionSets[0].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
-          <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}} value={filterSecurityClearence} className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select S.C</option>
           {optionSets.length>0 ? optionSets[1].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
-          <input onChange={(e) =>{setFilterEmail(e.target.value)}} placeholder="Email"   className='select-bar' aria-label="Default select example"/>
+          <input onChange={(e) =>{setFilterEmail(e.target.value)}} type="email" name='Email' placeholder="Email" className='select-bar' aria-label="Default select example"/>
         </Col>
         <Col md={2}>
-          <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar' aria-label="Default select example"/>
+          <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name" type="email"  className='select-bar' aria-label="Default select example"/>
         </Col> 
         <Col md={4}>
             <button type='submit' className='group-btn-1' onClick={(e)=>{FilterList()}} style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
-            <button type="reset" className='group-btn-2' onClick={(e)=>{(setListArr(List))}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
+            <button type="reset" className='group-btn-2' onClick={(e)=>{(setListArr(List),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
         </Col> 
-        </Row>
+     </Row>
     <div className='px-2 mt-3'><hr className='my-2'/></div>
       <div className='table-sm-1 mt-3'>
         <Table className='tableFixHead'>
