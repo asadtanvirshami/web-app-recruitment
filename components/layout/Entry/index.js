@@ -46,8 +46,8 @@ const EntryCom = ({sessionData}) => {
   useEffect(() => {
   axios.get(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
   .then((r)=>{
+    if(r.status == 200){
     let tempStateOpt = []
-    
     r.data.forEach((item,index)=>{
       tempStateOpt.push(
     item.categories.split(","),
@@ -59,18 +59,19 @@ const EntryCom = ({sessionData}) => {
     item.regions.split(","),
       )
     })
-    setOptionSets(tempStateOpt)
+  setOptionSets(tempStateOpt)
+  }
   })
 }, [])
   
   const onSubmit=async(data)=>{
     setLoading(true);
-    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((res) => {
-      if (res.data.message !== "Success") {
+    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((r) => {
+      if (r.status!== 200) {
         setError(true);
         setLoading(false);
         setMessage("Not uploaded. Try again!");
-      }else if(res.data.message === "Success") {
+      }else if(res.status === 200) {
         setMessage("Uploaded successfully!");
         setLoading(false);
       }
