@@ -89,7 +89,6 @@ const SendMailCom = ({data,optsets}) => {
     const res = await axios.get(
       process.env.NEXT_PUBLIC_FP_GET_LISTS_PAGINATE,{headers:{offset:`${currentPage}`,limit:10}}
     ).then((r)=>{
-      console.log('-----<next>',r.data)
       let tempState = []
       r.data[0].List.forEach((x,i)=>{
         tempState.push(x)
@@ -104,21 +103,15 @@ const SendMailCom = ({data,optsets}) => {
     if(i=='next'){
       if(pageCount>=1){
         let currentPage = pageCount+1
-        console.log(currentPage,i)
         setPageCount(currentPage)
-        console.log(currentPage)
         const ConsultantList = await fetchConsultantList(currentPage)
-        console.log(ConsultantList)
         }
     }
     if(i=='previous'){
       if(pageCount>1){
       let currentPage = pageCount-1
-      console.log(currentPage,i)
       setPageCount(currentPage)
-      console.log(currentPage)
       const ConsultantList = await fetchConsultantList(currentPage)
-      console.log(ConsultantList)
       }
     }
    }

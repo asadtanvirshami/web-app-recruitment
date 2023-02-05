@@ -177,22 +177,22 @@ const SendMailCom = ({data,optsets}) => {
             </span>
       <Row className='mt-3 mx-1' style={{justifyContent:"left"}}>
         <Col md={2}>
-          <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}} className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select Category</option>
           {optionSets.length>0 ? optionSets[0].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
-          <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}} className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select S.C</option>
           {optionSets.length>0 ? optionSets[1].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
-          <input onChange={(e) =>{setFilterEmail(e.target.value)}} placeholder="Email"   className='select-bar' aria-label="Default select example"/>
+          <input onChange={(e) =>{setFilterEmail(e.target.value)}} type="email" name='Email' placeholder="Email" className='select-bar' aria-label="Default select example"/>
         </Col>
         <Col md={2}>
-          <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar' aria-label="Default select example"/>
+          <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name" type="email"  className='select-bar' aria-label="Default select example"/>
         </Col> 
         <Col md={4}>
             <button type='submit' className='group-btn-1' onClick={(e)=>{FilterList()}} style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
