@@ -2,10 +2,10 @@ import React from 'react'
 import Cookies from "cookies";
 import axios from 'axios';
 
-import Administration from '../components/layout/Administration/index';
+import AdminPanel from '../components/layout/Administration/AdminPanel';
 
  const admin = ({sessionData,optsets}) => {
-return ( <Administration sessionData={sessionData} optsets={optsets}/>)
+return ( <AdminPanel sessionData={sessionData} optsets={optsets}/>)
  }
 
 export default admin

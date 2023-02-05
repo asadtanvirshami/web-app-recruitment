@@ -8,7 +8,7 @@ import { Collapse,Input,Button,Space,Modal} from 'antd';
 import Cookies from 'js-cookie';
 const { Panel } = Collapse;
 
-const index = ({sessionData}) => {
+const AdminPanel = ({sessionData}) => {
 
   useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
@@ -366,4 +366,4 @@ const index = ({sessionData}) => {
   )
 }
 
-export default index
+export default AdminPanel
