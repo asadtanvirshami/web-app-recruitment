@@ -52,7 +52,7 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
         })
         setOptionSets(tempStateOpt)
         reset(tempState)
-  }, [data])
+  }, [data,optsets])
   
   const updateEntry=async(data)=>{
   setLoading(true)

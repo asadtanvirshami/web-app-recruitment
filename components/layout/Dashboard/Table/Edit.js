@@ -39,7 +39,6 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
   useEffect(() => {
         let tempState = {...data};
         let tempStateOpt = [];
-        console.log(tempState, optsets)
         optsets.forEach((item,index)=>{
           tempStateOpt.push(
         item.categories.split(","),
@@ -53,12 +52,11 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
         })
         setOptionSets(tempStateOpt)
         reset(tempState)
-}, [data])
+}, [data,optsets])
   
 const updateEntry=async(data)=>{
   setLoading(true)
   let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{data}).then((x)=>{
-    console.log(x)
     setLoading(false);
     setVisible(false);
   if(x.data[0]==1 && x.data[0]==1){

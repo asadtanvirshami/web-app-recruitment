@@ -67,7 +67,6 @@ const SendMailCom = ({data,optsets}) => {
 // }, [searchTerm]);
 
   useEffect(() => {
-    console.log(data)
    setList(data.rows)
    setListArr(data.rows)
 
@@ -83,13 +82,12 @@ const SendMailCom = ({data,optsets}) => {
         const totalPages = Math.ceil(data.count / 10);
         setTotalCount(totalPages)
         setOptionSets(tempStateOpt)
-  }, []);
+  }, [data,optsets]);
 
   async function fetchConsultantList (currentPage){
     const res = await axios.get(
       process.env.NEXT_PUBLIC_FP_GET_LISTS_PAGINATE,{headers:{offset:`${currentPage}`,limit:10}}
     ).then((r)=>{
-      console.log('-----<next>',r.data)
       let tempState = []
       r.data[0].List.forEach((x,i)=>{
         tempState.push(x)
@@ -104,21 +102,15 @@ const SendMailCom = ({data,optsets}) => {
     if(i=='next'){
       if(pageCount>=1){
         let currentPage = pageCount+1
-        console.log(currentPage,i)
         setPageCount(currentPage)
-        console.log(currentPage)
         const ConsultantList = await fetchConsultantList(currentPage)
-        console.log(ConsultantList)
         }
     }
     if(i=='previous'){
       if(pageCount>1){
       let currentPage = pageCount-1
-      console.log(currentPage,i)
       setPageCount(currentPage)
-      console.log(currentPage)
       const ConsultantList = await fetchConsultantList(currentPage)
-      console.log(ConsultantList)
       }
     }
    }
@@ -131,7 +123,7 @@ const SendMailCom = ({data,optsets}) => {
       email:`${filterEmail}`,
       name:`${filterName}`,
       sc:`${filterSecurityClearence}`
-    }).then((r)=>{console.log(r.data), setListArr(r.data),setLoading(false)})
+    }).then((r)=>{setListArr(r.data),setLoading(false)})
   }
   
   const handleSelectAll = e => {
@@ -155,7 +147,6 @@ const SendMailCom = ({data,optsets}) => {
      await axios
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_ENTRY, { headers: {id: id,},})
      .then((response) => {
-        console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
         setListArr(newPeople);
         setList(newPeople);    

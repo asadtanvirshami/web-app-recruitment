@@ -83,7 +83,7 @@ const SendMailCom = ({data,optsets}) => {
         const totalPages = Math.ceil(data.count / 10);
         setTotalCount(totalPages)
         setOptionSets(tempStateOpt)
-  }, []);
+  }, [data,optsets]);
 
   async function fetchConsultantList (currentPage){
     const res = await axios.get(

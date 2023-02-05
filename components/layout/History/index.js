@@ -21,7 +21,6 @@ export const Notification = ({sessionData}) => {
   const updateNotification= async(id, i) => {
      await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_NOTIFICATION, {id:id})
      .then((response) => {
-        console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
         setList(newPeople);
     })}
