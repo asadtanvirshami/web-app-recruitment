@@ -188,13 +188,13 @@ const SendMailCom = ({data,optsets}) => {
         <Col md={2}>
           <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}}  className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select Category</option>
-          {optionSets.length>0 ? optionSets[0].map((item,index)=>{return(<option style={{display:''}}>{item}</option>)}):[]}
+          {optionSets.length>0 ? optionSets[0].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
           <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}}  className='select-bar' aria-label="Default select example">
           <option style={{display:'none'}}>Select S.C</option>
-          {optionSets.length>0 ? optionSets[1].map((item,index)=>{return(<option style={{display:''}}>{item}</option>)}):[]}
+          {optionSets.length>0 ? optionSets[1].map((item,index)=>{return(<option key={index} style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
         </Col>
         <Col md={2}>
