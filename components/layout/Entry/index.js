@@ -74,6 +74,7 @@ const EntryCom = ({sessionData}) => {
       }else if(res.data.message === "Success") {
         setMessage("Uploaded successfully!");
         setLoading(false);
+        reset()
       }
     })
   }

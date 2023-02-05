@@ -5,7 +5,8 @@ import {
   ContainerOutlined,
   LogoutOutlined,
   CheckSquareOutlined,
-  UserOutlined 
+  UserOutlined,
+  UserAddOutlined 
 } from '@ant-design/icons';
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import type { MenuProps } from 'antd';
@@ -60,6 +61,9 @@ export const MainLayout = ({children}:{children:any}) => {
       </Menu.Item>
       <Menu.Item icon={<UserOutlined />}>
       <Link href="/admin"><a style={{textDecoration:'none'}}>Administration</a></Link>
+      </Menu.Item>
+      <Menu.Item icon={<UserAddOutlined/>}>
+      <Link href="/entry"><a style={{textDecoration:'none'}}>Add Consultant</a></Link>
       </Menu.Item>
       </Menu>
       </Sider>

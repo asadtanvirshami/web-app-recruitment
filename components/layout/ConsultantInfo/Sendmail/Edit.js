@@ -19,14 +19,13 @@ const SignupSchema = yup.object().shape({
   experience:yup.string(),
   source:yup.string(),
   comments:yup.string(),
-  status:yup.string()
 })
 
 import InputComp from '../../../shared/Form/Input'
 import OptionSet from '../../../shared/Form/OptionSet'
 import CommenAreaCom from '../../../shared/Form/Comment'
 
-const Edit = ({data, setVisible, optsets,updateListData}) => {
+const Edit = ({consultantInfo, setVisible, optsets,updateListData}) => {
 
   const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
   resolver: yupResolver(SignupSchema),
@@ -37,7 +36,8 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
   const[loading, setLoading]=useState(false)
 
   useEffect(() => {
-        let tempState = {...data};
+    console.log(consultantInfo)
+        let tempState = {...consultantInfo};
         let tempStateOpt = [];
         optsets.forEach((item,index)=>{
           tempStateOpt.push(
@@ -52,9 +52,10 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
         })
         setOptionSets(tempStateOpt)
         reset(tempState)
-  }, [data,optsets])
+  }, [consultantInfo,optsets])
   
   const updateEntry=async(data)=>{
+    console.log(data)
   setLoading(true)
   let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{data}).then((x)=>{
     setLoading(false);
@@ -81,7 +82,6 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
       setVisible(false);
     }})
   }
-
   return (
     <div>  
         <form onSubmit={handleSubmit(updateEntry)}>
@@ -89,7 +89,6 @@ const Edit = ({data, setVisible, optsets,updateListData}) => {
         <Row>
         <Col md={6} className='py-1'>
         <InputComp  register={register} name='name' control={control} label='Name:' />
-        {errors.lastname && <div className='error-line'>{errors.lastname.message}*</div>} 
         </Col>  
         <Col md={6} className='py-1'>
         <InputComp  register={register} name='email' control={control} label='Email:' />

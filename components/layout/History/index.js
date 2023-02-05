@@ -14,7 +14,7 @@ export const Notification = ({sessionData}) => {
     axios
    .get(process.env.NEXT_PUBLIC_FP_GET_SENT_LIST)
    .then((response)=>{
-    setList(response.data[0])
+    setList(response.data)
    })
   }, [])
 
@@ -31,6 +31,8 @@ export const Notification = ({sessionData}) => {
     <div className='notification-form'>
       <h3>Mail History</h3>
       <hr/>
+      {List.lenght>0 ? <></>:
+      <>
       {List.map((data, index) =>{
         return(
           <div key={index}>
@@ -48,7 +50,7 @@ export const Notification = ({sessionData}) => {
           <hr/>
           </div>
         )
-      })}
+      })} </>}
     </div>
     </div>
     </div>

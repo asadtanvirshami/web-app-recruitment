@@ -148,7 +148,6 @@ const SendMailCom = ({data,optsets}) => {
      await axios
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_ENTRY, { headers: {id: id,},})
      .then((response) => {
-        console.log(response);
         const newPeople = List.filter((x) => x.id !== id);
         setListArr(newPeople);
         setList(newPeople);    
@@ -173,7 +172,7 @@ const SendMailCom = ({data,optsets}) => {
             <Col> 
               <h3 className='my-2'>Dashbaord</h3>
               <div style={{float:'right'}} className='text-center mt-2 mx-1'><Button className='send-btn' onClick={()=>{setMailModal(true);setMailVisible(true)}}>Send Mail</Button></div>
-              <div style={{float:'right'}} className='text-center mt-2 mx-1'><Link href="/entry"><Button className='add-btn'>Add Consultant</Button></Link></div>
+              <div style={{float:'right'}} className='text-center mt-2 mx-1'><Link href="/admin"><Button className='add-btn'>Administration</Button></Link></div>
               <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <DownloadOutlined style={{float:'right', fontSize:20, color:'white'}}  /></Button></span></CSVLink>
             </Col>
             </span>
@@ -229,7 +228,7 @@ const SendMailCom = ({data,optsets}) => {
             </tr>
             </thead>
             {loading==false && searchTerm=='' && List.length > 0 ? <tbody style={{ height: 10,  overflow:'scroll'}}>
-            {listArr.map((data,index)=>{
+            {listArr.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
             return(
             <tr key={index} className='f text-center row-hover'>
               <td>
@@ -278,7 +277,10 @@ const SendMailCom = ({data,optsets}) => {
       </Row>
       <div className='m-3' style={{textAlign:'right'}}>
         <span style={{position:'relative'}}>
-          <span className='m-1'><BackwardOutlined onClick={({i='previous'})=>{PaginationCall({i})}} style={{color:'#004D99',cursor:'pointer',fontSize:30}}/></span>
+          {
+           pageCount==1 ?<span className='m-1'><BackwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
+           <span className='m-1'><BackwardOutlined onClick={({i='previous'})=>{PaginationCall({i})}} style={{color:'#004D99',cursor:'pointer',fontSize:30}}/></span> 
+           }
           <strong style={{color:'black'}}>{pageCount} of {Totalcount}</strong>
            {
            pageCount==Totalcount?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
@@ -288,7 +290,7 @@ const SendMailCom = ({data,optsets}) => {
         </div>
       </div>
         <Modal centered open={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} footer={false}>
-          {edit&&<Edit data={editValues} optsets={optsets} setVisible={setVisible} updateListData={updateListData} />}
+          {edit&&<Edit consultantInfo={editValues} optsets={optsets} setVisible={setVisible} updateListData={updateListData} />}
         </Modal>
         <Modal centered open={commentModal} onOk={() => setCommentModal(false)} onCancel={() => setCommentModal(false)} footer={false}>
           {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
