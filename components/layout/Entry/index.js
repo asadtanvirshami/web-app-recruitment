@@ -66,12 +66,12 @@ const EntryCom = ({sessionData}) => {
   
   const onSubmit=async(data)=>{
     setLoading(true);
-    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((r) => {
-      if (r.status!== 200) {
+    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((res) => {
+      if (res.data.message !== "Success") {
         setError(true);
         setLoading(false);
         setMessage("Not uploaded. Try again!");
-      }else if(res.status === 200) {
+      }else if(res.data.message === "Success") {
         setMessage("Uploaded successfully!");
         setLoading(false);
       }
