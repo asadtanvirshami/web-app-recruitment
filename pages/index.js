@@ -1,4 +1,3 @@
-import {GetServerSideProps} from 'next'
 import React from 'react'
 import Cookies from "cookies";
 import axios from 'axios';
@@ -12,7 +11,7 @@ return ( <Main sessionData={sessionData}/>)
 export default Home
 
 export const getServerSideProps = async ({req,res}) => {
-  // Fetch data from external API
+
   const cookies = new Cookies(req, res);
   const value = await axios
   .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
@@ -21,13 +20,10 @@ export const getServerSideProps = async ({req,res}) => {
   },
 })
 .then((x) => x.data);
-console.log(value)
 const sessionData = await value;
 
-// Pass data to the page via props
+
 return {
   props: { sessionData: sessionData },
 };
 }
-{/* {!selection && <SelectionCom setSelection={setSelection}/>}
-{selection && <SendMailCom/>} */}

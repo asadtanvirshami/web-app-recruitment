@@ -6,6 +6,7 @@ import Router from "next/router";
 
 import { InfoCircleOutlined, UserOutlined,LockOutlined,EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input, Tooltip } from 'antd';
+
 const SignIn = () => {
 
 const [email, setEmail] = useState('')
@@ -41,7 +42,6 @@ const Signin =(e)=>{
       <div className='m-auto text-center'><img src={"logo_xl.png"} className="img-fluid m-5" width={400}/></div>
       <div className='m-auto text-center'><img src={"group.png"} className="img-fluid m-3" width={70}/></div>
     <form onSubmit={Signin} className="signin-form">
-    {/* <div className='signin-heading-div'><h1 className='signin-form-heading'>Sign in</h1></div> */}
       <div className="signin-field">
       <div className='mt-0 mb-2'>
       <Input
@@ -56,15 +56,11 @@ const Signin =(e)=>{
         </Tooltip>
       }
     />
-      {/* <MDBInput className='' label='Email' id='text' type='text'required onChange={(e) =>{setEmail(e.target.value)}} /> */}
       </div>
-      {/* <label className='signin-label'><img src={"login-user.png"} className="signin-label-img"/></label> */}
       </div>
       <div className="signin-field">
       <span style={{color:"red",margin:0,padding:0,fontSize:13}}>{message}</span>
-      {/* <input type={reveal?'text':'password'} className='signin-input-password' placeholder="Password" /> */}
       <div className=''>
-      {/* <MDBInput className='signin-input-label' label='Password' id='typePassword' type='password'required onChange={(e) =>{setPassword(e.target.value)}} /> */}
       <Input.Password
       onChange={(e) =>{setPassword(e.target.value)}}
       size="large" 

@@ -4,8 +4,8 @@ import axios from 'axios';
 
 import ConsultantInfo from '../components/layout/ConsultantInfo/index';
 
- const consultantinfo = ({sessionData,data}) => {
- return (<><ConsultantInfo sessionData={sessionData} data={data}/></>)
+ const consultantinfo = ({sessionData,data,optsets}) => {
+ return (<><ConsultantInfo sessionData={sessionData} data={data} optsets={optsets}/></>)
 }
 
 export default consultantinfo
@@ -22,17 +22,20 @@ export const getServerSideProps = async ({req,res}) => {
   },
 })
 .then((x) => x.data);
-console.table(value);
+
 const sessionData = await value;
 
 const request = await fetch(process.env.NEXT_PUBLIC_FP_GET_LISTS)
 .then((r) => r.json());
 
-console.log(request);
 const data = await request;
 
-// Pass data to the page via props
+const optionsets = await fetch(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
+.then((r) => r.json());
+
+const optsets = await optionsets;
+
 return {
-  props: {data:data, sessionData: sessionData },
+  props: {data:data, sessionData: sessionData, optsets:optsets },
 };
 }

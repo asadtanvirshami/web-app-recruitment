@@ -2,244 +2,144 @@ import React,{useEffect,useState} from 'react'
 import axios from 'axios';
 
 import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const Edit = ({updateListData, data, setVisible}) => {
-  const [id, setId] = useState('')
-  const [email, setEmail] = useState('')
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [field, setField] = useState('')
-  const [sources, setSources] = useState('')
-  const [resources, setResources] = useState('')
-  const [sourceLink, setSourceLink] = useState('')
-  const [comments, setComment] = useState('')
-  const [experience, setExperience] = useState('')
-  const [securityClearence, setSecurityClearence] = useState('')
-  const [city, setCity] = useState('')
-  const [region, setRegion] = useState('')
-  const [phone, setPhone] = useState('')
+const SignupSchema = yup.object().shape({
+  id:yup.string(),
+  name: yup.string(),
+  email: yup.string(),
+  phone:yup.string(),
+  resource:yup.string(),
+  category:yup.string(),
+  security_clearence:yup.string(),
+  region:yup.string(),
+  city:yup.string(),
+  experience:yup.string(),
+  source:yup.string(),
+  comments:yup.string(),
+  status:yup.string()
+})
+
+import InputComp from '../../../shared/Form/Input'
+import OptionSet from '../../../shared/Form/OptionSet'
+import CommenAreaCom from '../../../shared/Form/Comment'
+
+const Edit = ({data, setVisible, optsets,updateListData}) => {
+
+  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
+  resolver: yupResolver(SignupSchema),
+  });
   
-  const [status, setStatus] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [optionSets, setOptionSets] = useState([])
+
+  const[loading, setLoading]=useState(false)
 
   useEffect(() => {
-    console.log('edithere',data)
-    setId(data.id)
-    setEmail(data.email)
-    setFirstname(data.firstname)
-    setLastname(data.lastname)
-    setField(data.field)
-    setSources(data.source)
-    setSourceLink(data.source_link)
-    setResources(data.resources)
-    setExperience(data.experience)
-    setComment(data.comments)
-    setRegion(data.region)
-    setPhone(data.phone)
-    setStatus(data.status)
-    setSecurityClearence(data.security_clearence)
-    setCity(data.city)
+        let tempState = {...data};
+        let tempStateOpt = [];
+        console.log(tempState, optsets)
+        optsets.forEach((item,index)=>{
+          tempStateOpt.push(
+        item.categories.split(","),
+        item.cities.split(","),
+        item.resources.split(","),
+        item.sources.split(","),
+        item.experiences.split(","),
+        item.security_clearences.split(","),
+        item.regions.split(","),
+          )
+        })
+        setOptionSets(tempStateOpt)
+        reset(tempState)
 }, [data])
   
-const updateEntry=(e)=>{
-  e.preventDefault();
-  setLoading(true);
-  let res = axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{
-   id:id,
-   email:email,
-   firstname:firstname, 
-   lastname:lastname, 
-   field:field, 
-   phone:phone, 
-   source:sources, 
-   source_link:sourceLink, 
-   resources:resources, 
-   comments:comments,  
-   experience:experience, 
-   region:region, 
-   status:status, 
-   sc:securityClearence,
-   city:city, 
-  }).then((x)=>{
+const updateEntry=async(data)=>{
+  setLoading(true)
+  let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{data}).then((x)=>{
     console.log(x)
     setLoading(false);
     setVisible(false);
   if(x.data[0]==1 && x.data[0]==1){
       //removeValues();
       updateListData({
-        id:id,
-        email:email,
-        firstname:firstname, 
-        lastname:lastname, 
-        field:field, 
-        phone:phone, 
-        source:sources, 
-        source_link:sourceLink, 
-        resources:resources, 
-        comments:comments,  
-        experience:experience, 
-        region:region, 
-        status:status, 
-        security_clearence:securityClearence,
-        city:city, 
+        id:data.id,
+        email:data.email,
+        name:data.name,
+        category:data.category, 
+        phone:data.phone, 
+        source:data.source, 
+        source_link:data.source_link, 
+        resource:data.resource, 
+        comments:data.comments,  
+        experience:data.experience, 
+        region:data.region, 
+        status:data.status, 
+        security_clearence:data.security_clearence,
+        city:data.city, 
       })
       setLoading(false);
       setVisible(false);
-    }})}
-        
-    let Provinces = [
-      {plain:"Alberta"},
-      {plain:"Ontario"},
-      {plain:"Quebec"},
-      // {plain:"British Columbia"},
-      // {plain:"Manitoba"},
-      // {plain:"New Brunswick"},
-      // {plain:"Newfoundland"},
-      // {plain:"Northwest Territories"},
-      // {plain:"Nova Scotia"},
-      // {plain:"Nunavut"},
-      // {plain:"Prince Edward Island"},
-      // {plain:"Saskatchewan"},
-      // {plain:"Yukon"}
-    ]
-
-    let Clearence =[
-      {clearence:"Enhance"},
-      {clearence:"Secret"},
-    ]
-  
-    let Experience =[
-      {year:"5"},
-      {year:"6"},
-      {year:"7"},
-      {year:"10"},
-      {year:"15"},
-    ]
-  
-    let City =[
-      {city:"Montreal"},
-      {city:"Ottawa"},
-      {city:"Gatineu"},
-    ]
-  
-    let Categories = [
-      {category:"Web Developer"},
-      {category:"Scrum Master"},
-      {category:"App Developer"},
-      {category:".Net Developer"},
-      {category:"AI Engineer"},
-      {category:"Business Analyst"},
-      {category:"Power App Developer"},
-    ]
-
-    let Sources = [
-      {source:"LinkedIn"},
-      {source:"Indeed"},
-      {source:"Reference"},
-    ]
-  
-    let Resource = [
-      {resource:"Good"},
-      {resource:"Excellent"},
-      {resource:"Super"},
-    ]  
+    }})
+  }
 
   return (
     <div>  
-    <Form className='' onSubmit={updateEntry} >
-    <div className='login-heading-div'><h4 className='mb-4'>Update Detail</h4></div>
-    <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>First name</Form.Label>
-        <Form.Control value={firstname} type="text" required placeholder="First name" onChange={(e) =>{setFirstname(e.target.value)}}/>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Last name</Form.Label>
-        <Form.Control value={lastname} type="text" required placeholder="Last name" onChange={(e) =>{setLastname(e.target.value)}}/>
-        </Form.Group>
+        <form onSubmit={handleSubmit(updateEntry)}>
+        <div className='pb-4'><h3>Enter Consultant Detail</h3></div>
+        <Row>
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='name' control={control} label='Name:' />
+        {errors.lastname && <div className='error-line'>{errors.lastname.message}*</div>} 
+        </Col>  
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='email' control={control} label='Email:' />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='phone' control={control} label='Phone No.' />
+        {errors.phone && <div className='error-line'>{errors.phone.message}*</div>} 
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='category' control={control} label='Category:'
+        options={optionSets.length>0 ? optionSets[0].map(x=>x) :[]} />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='source' control={control} label='Source:'
+          options={optionSets.length>0 ? optionSets[3].map(x=>x) :[]} />
+        </Col>  
+        <Col className='py-1' style={{maxWidth:'32%'}}>
+        <InputComp  register={register} name='source_link' control={control} label='Source Link:' /> 
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='resource' control={control} label='Resources:'
+         options={optionSets.length>0 ? optionSets[2].map(x=>x) :[]} />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='security_clearence' control={control} label='Security Clearence:'
+        options={optionSets.length>0 ? optionSets[5].map(x=>x) :[]} />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='experience' control={control} label='Experience:'
+        options={optionSets.length>0 ? optionSets[4].map(x=>x) :[]} />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='city' control={control} label='City:'
+        options={optionSets.length>0 ? optionSets[1].map(x=>x) :[]} />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <OptionSet register={register} name='region' control={control} label='Region:'
+        options={optionSets.length>0 ? optionSets[6].map(x=>x) :[]} />
+        </Col>  
+        <Col md={12} className='py-1'>
+        <CommenAreaCom  register={register} name='comments' control={control} label='Comment:' /> 
+        </Col>  
       </Row>
-      <Row className="mb-3">
-        <Form.Group as={Col}  className="" controlId="formGridAddress2">
-        <Form.Label>Sources</Form.Label>
-        <Form.Select value={sources} required onChange={(e) =>{setSources(e.target.value)}} >
-            <option style={{display:'none'}}>---Select Sources---</option>
-            {Sources.map((source, index)=>{return(<option key={index}>{source.source}</option>)})}
-        </Form.Select>
-        <Form.Group className='mt-3'>
-        <Form.Label>Source Link</Form.Label>
-        <Form.Control value={sourceLink} placeholder="Enter source link" required onChange={(e) =>{setSourceLink(e.target.value)}}/>
-        </Form.Group>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Field</Form.Label>
-        <Form.Select value={field} required onChange={(e) =>{setField(e.target.value)}} defaultValue="Choose...">
-        <option style={{display:'none'}}>---Select Field---</option>
-          {Categories.map((category, index)=>{return(<option key={index}>{category.category}</option>)})}
-        </Form.Select>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Phone</Form.Label>
-        <Form.Control value={phone} placeholder="Enter phone number" required onChange={(e) =>{setPhone(e.target.value)}}/>
-        </Form.Group>
-        <Form.Group as={Col}  className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Tell us about Resourse:</Form.Label>
-        <Form.Select value={resources} required onChange={(e) =>{setResources(e.target.value)}} defaultValue="Choose...">
-        <option style={{display:'none'}}>---Select Resource---</option>
-          {Resource.map((resource, index)=>{return(<option key={index}>{resource.resource}</option>)})}
-        </Form.Select>
-        </Form.Group>
-      </Row>
-        <Form.Group className="mb-3" controlId="formGridAddress2">
-        <Form.Label>Email</Form.Label>
-        <Form.Control value={email} placeholder="Enter Email" type='email' required onChange={(e) =>{setEmail(e.target.value)}}/>
-        </Form.Group>
-      <Row className="mb-3">
-        <Form.Group as={Col} md={6} controlId="formGridCity">
-        <Form.Label>Region</Form.Label>
-        <Form.Select value={region} required onChange={(e) =>{setRegion(e.target.value)}} >
-            <option style={{display:'none'}}>---Select Region---</option>
-            {Provinces.map((province, index)=>{return(<option key={index}>{province.plain}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>City</Form.Label>
-        <Form.Select value={city} required onChange={(e) =>{setCity(e.target.value)}}>
-        <option style={{display:'none'}}>--Select City--</option>
-          {City.map((city, index)=>{return(<option key={index}>{city.city}</option>)})}
-        </Form.Select>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>Experience</Form.Label>
-        <Form.Select value={experience} required onChange={(e) =>{setExperience(e.target.value)}}>
-        <option style={{display:'none'}}>---Select Year---</option>
-          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>Security Clearence</Form.Label>
-        <Form.Select value={securityClearence} required onChange={(e) =>{setSecurityClearence(e.target.value)}}>
-        <option style={{display:'none'}}>---Select S.C---</option>
-          {Clearence.map((clearence, index)=>{return(<option key={index}>{clearence.clearence}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Comments</Form.Label>
-        <Form.Control value={comments} onChange={(e)=>{setComment(e.target.value)}} as="textarea" rows={3} />
-        </Form.Group>
-      </Row>
-    <div className='mt-4'>
-    {!loading && <Button className='form-signin-btn' type="submit">Update</Button> }
-    {loading && <Button className='form-signin-btn' disabled type="submit"> 
-    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
-    </Button>
-    }
-    </div>
-  </Form>
-  </div>
+      {loading ?<Button className='form-signin-btn' disabled type="submit"> <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>: 
+      <Button className='form-signin-btn' type="submit">Update</Button>
+       }
+      </form>
+      </div>
   )
 }
 

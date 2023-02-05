@@ -1,18 +1,20 @@
 import React,{useEffect,useState} from 'react'
+import Router from 'next/router';
+import axios from 'axios'
 
 import { Col, Row } from 'react-bootstrap'
 import {DeleteOutlined,} from '@ant-design/icons';
-import axios from 'axios'
 
-export const Notification = ({data}) => {
+export const Notification = ({sessionData}) => {
   const [List, setList] = useState([])
+
+  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
   useEffect(() => {
     axios
    .get(process.env.NEXT_PUBLIC_FP_GET_SENT_LIST)
    .then((response)=>{
     setList(response.data[0])
-    console.log(response.data)
    })
   }, [])
 
@@ -25,8 +27,8 @@ export const Notification = ({data}) => {
     })}
 
   return (
-    <div className='notification-container'>
-    <div className='notification-div'>
+    <div className='global-container'>
+    <div className='global-div'>
     <div className='notification-form'>
       <h3>Mail History</h3>
       <hr/>
@@ -35,7 +37,7 @@ export const Notification = ({data}) => {
           <div key={index}>
           <Row>
             <Col md={11}>
-             <li style={{listStyle:'none', fontSize:16}}>- You have sent <strong>{data.firstname} {data.lastname}</strong> a mail on <strong>{data.sent_day}</strong> for the recruitment in {data.region}, Canada for {data.field}.</li>
+             <li style={{listStyle:'none', fontSize:16}}>- You have sent <strong>{data.name}</strong> a mail on <strong>{data.sent_day}</strong> for the recruitment in {data.region}, Canada for {data.field}.</li>
             </Col>
             <Col >
             <li onClick={()=>{updateNotification(data.id,index)}} style={{listStyle:'none', fontSize:18}}><DeleteOutlined style={{cursor:'pointer', position:'relative'}}/></li>

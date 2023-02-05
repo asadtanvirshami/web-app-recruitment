@@ -32,7 +32,7 @@
     justify-content: center;
     align-self:center;
   }
-
+  
 .btn {
     color: white !important;
     border-color: #004D99 !important;
@@ -47,6 +47,7 @@
       width: 150px;
     }
 }
+
 
 .send-btn{
     color: white !important;
@@ -94,6 +95,29 @@
   }
 }
 
+.error-line{
+  color: red;
+  font-size: 12px;
+}
+
+
+.global-container{
+  min-height: 80vh;
+  background-color: white;
+  color: gray;
+  box-shadow: 2px 2px 15px silver !important;
+  padding: 16px !important;
+  padding-top: 25px !important;
+  border-radius: 15px;
+}
+
+.global-div{
+  overflow:hidden;
+  overflow-y: scroll;
+  min-height: 790px;
+  max-height: 600px; // change this to desired height 
+  white-space: nowrap;
+}
 //   .main {
 //     min-height: 100vh;
 //     padding: 4rem 0;

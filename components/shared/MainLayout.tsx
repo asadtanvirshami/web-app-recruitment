@@ -4,8 +4,10 @@ import {
   FormOutlined,
   ContainerOutlined,
   LogoutOutlined,
-  CheckSquareOutlined 
+  CheckSquareOutlined,
+  UserOutlined 
 } from '@ant-design/icons';
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import Cookies from "js-cookie";
@@ -36,7 +38,7 @@ const items: MenuItem[] = [
 
 
 export const MainLayout = ({children}:{children:any}) => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [email, setEmail] = useState<any>("");
 
   useEffect(() =>{setEmail(Cookies.get("email"))}, []);
@@ -44,7 +46,7 @@ export const MainLayout = ({children}:{children:any}) => {
   return (
     <>
     <Layout >
-      <Sider style={{ minHeight: '100vh', backgroundColor:''}} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+      <Sider style={{ minHeight: '100vh', backgroundColor:''}}  collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{marginTop:60}}>
       <Menu.Item icon={<ContainerOutlined />}>
@@ -55,6 +57,9 @@ export const MainLayout = ({children}:{children:any}) => {
       </Menu.Item>
       <Menu.Item icon={<CheckSquareOutlined />}>
       <Link href="/history"><a style={{textDecoration:'none'}}>Mail history</a></Link>
+      </Menu.Item>
+      <Menu.Item icon={<UserOutlined />}>
+      <Link href="/admin"><a style={{textDecoration:'none'}}>Administration</a></Link>
       </Menu.Item>
       </Menu>
       </Sider>
@@ -68,16 +73,18 @@ export const MainLayout = ({children}:{children:any}) => {
       <span 
        className="mx-3" style={{float:"right", color:'white', backgroundColor:'', cursor:'pointer'}}
        onClick={()=>{
-        Cookies.remove('token');
-        Cookies.remove('email');
-        Cookies.remove('id');
-        Router.push("/signin");
-      }}>
+         Cookies.remove('token');
+         Cookies.remove('email');
+         Cookies.remove('id');
+         Router.push("/signin");
+        }}>
       <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
       <span style={{position:'relative', top:3}}>Sign Out</span>
       </span> 
       </Header>
       <Content style={{ margin: '0 16px' }}>
+        {collapsed && <span className="menu-toggler"><AiOutlineRight onClick={() => setCollapsed(!collapsed)} /></span>}
+        {!collapsed && <span className="menu-toggler"><AiOutlineLeft onClick={() => setCollapsed(!collapsed)} /></span>}
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <>{children}</>
       </div>

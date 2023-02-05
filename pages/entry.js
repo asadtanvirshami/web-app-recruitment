@@ -1,4 +1,3 @@
-import {GetServerSideProps} from 'next'
 import React from 'react'
 import axios from 'axios';
 import Cookies from "cookies";
@@ -12,7 +11,7 @@ return (<div className='entry-page-div'><EntryCom sessionData={sessionData}/></d
 export default entry
 
 export const getServerSideProps = async ({req,res}) => {
-    // Fetch data from external API
+
     const cookies = new Cookies(req, res);
     const value = await axios
     .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
@@ -23,7 +22,6 @@ export const getServerSideProps = async ({req,res}) => {
   .then((x) => x.data);
   const sessionData = await value;
   
-  // Pass data to the page via props
   return {
     props: { sessionData: sessionData },
   };

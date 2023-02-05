@@ -32,10 +32,9 @@ const Mail = ({isCheck,List}) => {
           axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
             id:y.id,
             email:y.email,
-            firstname:y.firstname,
-            lastname:y.lastname,
+            name:y.name,
             region:y.region,
-            field:y.field,
+            category:y.category,
             txt_body:body,
             subject:subject,
             emailSentBy:email,

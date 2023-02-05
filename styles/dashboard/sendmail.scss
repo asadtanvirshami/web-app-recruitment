@@ -20,7 +20,8 @@
 .table-sm-1{
     overflow:hidden;
     overflow-y: scroll;
-    min-height: 760px;
+    max-height: 600px; // change this to desired height 
+    min-height: 600px;
     overflow-x: auto ;
     white-space: nowrap;
 }

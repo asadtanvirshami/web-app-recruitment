@@ -7,8 +7,6 @@ import Loader from '../components/shared/Loader';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 // Require Editor CSS files.
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
 import '../styles/main.scss'
 
 function MyApp({ Component, pageProps }) {

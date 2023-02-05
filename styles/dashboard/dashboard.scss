@@ -1,24 +1,6 @@
 @import'sendmail.scss';
 @import'notification.scss';
 
-.form-div{
-  padding: 20px !important;
-  color: gray;
-    box-shadow: 2px 2px 15px silver !important;
-    padding: 20px !important;
-    max-width:100%;
-}
-
-.selection-form-div {
-  align-items: center !important;
-  background-color: white;
-  border-radius: 15px;
-}
-
-.form-div-main {
-  display: flex !important;
-  justify-content: center;  
-}
 
 /* style the items (options), including the selected item: */
  .search-bar{
@@ -37,15 +19,15 @@
 }
 
 .select-type{
-  display: none;
+    display: none;
 }
 
 .select-bar{
+  max-width: 100%;
   padding: 8px 16px;
   border: 1px solid transparent;
   cursor: pointer;
   box-shadow: 1px 1px 5px silver !important;
-
   &:focus{
     outline: none;
     padding: 8px 16px;
@@ -81,6 +63,7 @@
     
   }
 }
+
 .group-btn-2{
   color: #002140 !important;
   background-color: white !important;

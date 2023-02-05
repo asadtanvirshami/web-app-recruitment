@@ -32,10 +32,9 @@ const Mail = ({isCheck,List}) => {
           axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,{
             id:y.id,
             email:y.email,
-            firstname:y.firstname,
-            lastname:y.lastname,
+            name:y.name,
             region:y.region,
-            field:y.field,
+            category:y.category,
             txt_body:body,
             subject:subject,
             emailSentBy:email,
@@ -113,7 +112,7 @@ const Mail = ({isCheck,List}) => {
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
         <Form.Label>From Email:</Form.Label>
-        <Form.Control type="text" required placeholder="invisorsoft@gmail.com" onChange={(e) =>{setEmail(e.target.value)}}/>
+        <Form.Control type="text" required placeholder="info@invisorsoft.com" onChange={(e) =>{setEmail(e.target.value)}}/>
         </Form.Group>
       </Row>
         <Form.Group as={Col} md={12} controlId="formGridEmail">

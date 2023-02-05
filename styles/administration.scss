@@ -1,0 +1,18 @@
+.scroll-div{
+    overflow:hidden;
+    overflow-y: scroll;
+    min-height: 40px;
+    max-height: 60px; // change this to desired height 
+    overflow-x: auto ;
+    white-space: nowrap;
+}
+.options{
+    padding: 0px 7px 3px 5px;
+}
+.settings ul li{
+list-style: none;
+cursor: pointer;
+ &:hover{
+    color: rgb(10, 110, 204);
+ }
+}

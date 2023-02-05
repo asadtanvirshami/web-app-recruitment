@@ -2,33 +2,26 @@ import React from 'react'
 import Cookies from "cookies";
 import axios from 'axios';
 
-import Dashboard from '../components/layout/Dashboard';
+import Administration from '../components/layout/Administration/index';
 
- const dashboard = ({sessionData,data,optsets}) => {
- return (<><Dashboard sessionData={sessionData} data={data} optsets={optsets}/></>)
-}
+ const admin = ({sessionData,optsets}) => {
+return ( <Administration sessionData={sessionData} optsets={optsets}/>)
+ }
 
-export default dashboard
+export default admin
 
 export const getServerSideProps = async ({req,res}) => {
-  // Fetch data from external API
+
   const cookies = new Cookies(req, res);
   const value = await axios
   .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
     headers: {
     "x-access-token": `${cookies.get("token")}`,
-    email: `${cookies.get("email")}`,
-    id: `${cookies.get("id")}`,
   },
 })
 .then((x) => x.data);
-
+console.log(value)
 const sessionData = await value;
-
-const request = await axios.get(process.env.NEXT_PUBLIC_FP_GET_LISTS)
-.then((r) => r.data);
-
-const data = await request;
 
 const optionsets = await fetch(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
 .then((r) => r.json());
@@ -36,6 +29,6 @@ const optionsets = await fetch(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
 const optsets = await optionsets;
 
 return {
-  props: {data:data, sessionData: sessionData, optsets:optsets },
+  props: { sessionData: sessionData ,optsets:optsets},
 };
 }

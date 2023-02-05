@@ -7,8 +7,3 @@ return ( <div className='signin-page-div'><SignIn/></div>)
 }
 
 export default signin
-
-
-  // useEffect(() => {
-  //   setTimeout(() => setLoading(false), 1000)
-  // }, [])

@@ -2,54 +2,70 @@ import React,{useState,useEffect} from 'react'
 import Router from 'next/router';
 import axios from 'axios';
 
-import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import{Row,Col,Button,Spinner} from 'react-bootstrap'
+
+import InputComp from '../../shared/Form/Input'
+import OptionSet from '../../shared/Form/OptionSet'
+import CommenAreaCom from '../../shared/Form/Comment'
+
+const SignupSchema = yup.object().shape({
+
+  firstname: yup.string().required('Required'),
+  lastname: yup.string().required('Required'),
+  email: yup.string(),
+  phone:yup.string(),
+  resources:yup.string(),
+  field:yup.string(),
+  security_clearence:yup.string(),
+  region:yup.string(),
+  city:yup.string(),
+  experience:yup.string(),
+  source:yup.string(),
+  comments:yup.string(),
+
+})
 
 const EntryCom = ({sessionData}) => {
 
-  useEffect(() => {
-    if(sessionData.auth != true){
-    Router.push('/signin')
-    }
-}, [])
+  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
-  const [email, setEmail] = useState('')
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [field, setField] = useState('')
-  const [sources, setSources] = useState('')
-  const [resources, setResources] = useState('')
-  const [sourceLink, setSourceLink] = useState('')
-  const [comments, setComment] = useState('')
-  const [experience, setExperience] = useState('')
-  const [securityClearence, setSecurityClearence] = useState('')
-  const [city, setCity] = useState('')
-  const [region, setRegion] = useState('')
-  const [phone, setPhone] = useState('')
+  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
+  resolver: yupResolver(SignupSchema),
+  });
 
-  const [show, setShow] = useState(false)
-  const [error, setError] = useState(false)
+  const [optionSets, setOptionSets] = useState([])
+
   const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState(false)
-  
-  const postEntry=(e)=>{
-    e.preventDefault();
-    setLoading(true);
-    let res = axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{
-     email:email,
-     firstname:firstname, 
-     lastname:lastname, 
-     field:field, 
-     phone:phone, 
-     source:sources, 
-     source_link:sourceLink, 
-     resources:resources, 
-     comments:comments, 
-     sc:securityClearence, 
-     city:city,
-     experience:experience, 
-     region:region,
 
-    }).then((res) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+  axios.get(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
+  .then((r)=>{
+    let tempStateOpt = []
+    
+    r.data.forEach((item,index)=>{
+      tempStateOpt.push(
+    item.categories.split(","),
+    item.cities.split(","),
+    item.resources.split(","),
+    item.sources.split(","),
+    item.experiences.split(","),
+    item.security_clearences.split(","),
+    item.regions.split(","),
+      )
+    })
+    setOptionSets(tempStateOpt)
+  })
+}, [])
+  
+  const onSubmit=async(data)=>{
+    setLoading(true);
+    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((res) => {
       if (res.data.message !== "Success") {
         setError(true);
         setLoading(false);
@@ -57,168 +73,74 @@ const EntryCom = ({sessionData}) => {
       }else if(res.data.message === "Success") {
         setMessage("Uploaded successfully!");
         setLoading(false);
-        setShow(false)
-        e.target.reset()
       }
     })
   }
-  
-  let Provinces = [
-    {plain:"Alberta"},
-    {plain:"Ontario"},
-    {plain:"Quebec"},
-    // {plain:"British Columbia"},
-    // {plain:"Manitoba"},
-    // {plain:"New Brunswick"},
-    // {plain:"Newfoundland"},
-    // {plain:"Northwest Territories"},
-    // {plain:"Nova Scotia"},
-    // {plain:"Nunavut"},
-    // {plain:"Prince Edward Island"},
-    // {plain:"Saskatchewan"},
-    // {plain:"Yukon"}
-  ]
 
-  let Clearence =[
-    {clearence:"Enhance"},
-    {clearence:"Secret"},
-  ]
-
-  let Experience =[
-    {year:"5"},
-    {year:"6"},
-    {year:"7"},
-    {year:"10"},
-    {year:"15"},
-  ]
-
-  let City =[
-    {city:"Montreal"},
-    {city:"Ottawa"},
-    {city:"Gatineu"},
-  ]
-
-  let Categories = [
-    {category:"Web Developer"},
-    {category:"Scrum Master"},
-    {category:"App Developer"},
-    {category:".Net Developer"},
-    {category:"AI Engineer"},
-    {category:"Business Analyst"},
-    {category:"Power App Developer"},
-  ]
-
-  let Sources = [
-    {source:"LinkedIn"},
-    {source:"Indeed"},
-    {source:"Reference"},
-  ]
-
-  let Resource = [
-    {resource:"Good"},
-    {resource:"Excellent"},
-    {resource:"Super"},
-  ]
-
-
+console.log('red---', )
   return (
     <div className='entry-form-container'>
       <div className='entry-form-div mt-4'>
-      <Form className='entry-form' onSubmit={postEntry}>
-      <div className='entry-heading-div'><h3 className='mb-4'>Enter Detail</h3></div>
-      <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>First name</Form.Label>
-        <Form.Control type="text" required placeholder="First name" onChange={(e) =>{setFirstname(e.target.value)}}/>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Last name</Form.Label>
-        <Form.Control type="text" required placeholder="Last name" onChange={(e) =>{setLastname(e.target.value)}}/>
-        </Form.Group>
-      </Row>
-      <Row className="mb-3">
-        <Form.Group as={Col}  className="" controlId="formGridAddress2">
-        <Form.Label>Sources</Form.Label>
-        <Form.Select required onChange={(e) =>{setSources(e.target.value),setShow(true)}} >
-            <option style={{display:'none'}}>---Select Sources---</option>
-            {Sources.map((source, index)=>{return(<option key={index}>{source.source}</option>)})}
-        </Form.Select>
-        {show && <Form.Group className='mt-3'>
-        <Form.Label>Source Link</Form.Label>
-        <Form.Control placeholder="Enter source link" required onChange={(e) =>{setSourceLink(e.target.value)}}/>
-        </Form.Group>}
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridEmail">
-        <Form.Label>Field</Form.Label>
-        <Form.Select required onChange={(e) =>{setField(e.target.value)}} defaultValue="Choose...">
-        <option style={{display:'none'}}>---Select Field---</option>
-          {Categories.map((category, index)=>{return(<option key={index}>{category.category}</option>)})}
-        </Form.Select>
-        </Form.Group>
-      </Row>
+      <form onSubmit={handleSubmit(onSubmit)} className='entry-form'>
+        <div className='pb-4'><h3>Enter Consultant Detail</h3></div>
       <Row>
-        <Form.Group as={Col}  className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Phone</Form.Label>
-        <Form.Control placeholder="Enter phone number" required onChange={(e) =>{setPhone(e.target.value)}}/>
-        </Form.Group>
-        <Form.Group as={Col}  className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Tell us about Resourse:</Form.Label>
-        <Form.Select required onChange={(e) =>{setResources(e.target.value)}} defaultValue="Choose...">
-        <option style={{display:'none'}}>---Select Resource---</option>
-          {Resource.map((resource, index)=>{return(<option key={index}>{resource.resource}</option>)})}
-        </Form.Select>
-        </Form.Group>
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='firstname' control={control} label='First name:' />
+        {errors.firstname && <div className='error-line'>{errors.firstname.message}*</div>} 
+        </Col>  
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='lastname' control={control} label='Last name:' />
+        {errors.lastname && <div className='error-line'>{errors.lastname.message}*</div>} 
+        </Col>  
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='email' control={control} label='Email:' />
+        </Col>  
+        <Col md={6} className='py-1'>
+        <InputComp  register={register} name='phone' control={control} label='Phone No.' />
+        {errors.phone && <div className='error-line'>{errors.phone.message}*</div>} 
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='field' control={control} label='Category:'
+        options={optionSets.length>0 ? optionSets[0].map(x=>x) :[]} />
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='source' control={control} label='Source:'
+          options={optionSets.length>0 ? optionSets[3].map(x=>x) :[]} />
+        </Col>  
+        <Col className='py-1' style={{maxWidth:'32%'}}>
+        <InputComp  register={register} name='source_link' control={control} label='Source Link:' /> 
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='resources' control={control} label='Resources:'
+         options={optionSets.length>0 ? optionSets[2].map(x=>x) :[]} />
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='security_clearence' control={control} label='Security Clearence:'
+        options={optionSets.length>0 ? optionSets[5].map(x=>x) :[]} />
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='experience' control={control} label='Experience:'
+        options={optionSets.length>0 ? optionSets[4].map(x=>x) :[]} />
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='city' control={control} label='City:'
+        options={optionSets.length>0 ? optionSets[1].map(x=>x) :[]} />
+        </Col>  
+        <Col md={4} className='py-1'>
+        <OptionSet register={register} name='region' control={control} label='Region:'
+        options={optionSets.length>0 ? optionSets[6].map(x=>x) :[]} />
+        </Col>  
+        <Col md={8} className='py-1'>
+        <CommenAreaCom  register={register} name='comments' control={control} label='Comment:' /> 
+        </Col>  
       </Row>
-        <Form.Group className="mb-3" controlId="formGridAddress2">
-        <Form.Label>Email</Form.Label>
-        <Form.Control placeholder="Enter Email" type='email' required onChange={(e) =>{setEmail(e.target.value)}}/>
-        </Form.Group>
-      <Row className="mb-3">
-        <Form.Group as={Col} md={6} controlId="formGridCity">
-        <Form.Label>Region</Form.Label>
-        <Form.Select required onChange={(e) =>{setRegion(e.target.value)}} >
-        <option style={{display:'none'}}>---Select Region---</option>
-         {Provinces.map((province, index)=>{return(<option key={index}>{province.plain}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>City</Form.Label>
-        <Form.Select required onChange={(e) =>{setCity(e.target.value)}}>
-        <option style={{display:'none'}}>--Select City--</option>
-          {City.map((city, index)=>{return(<option key={index}>{city.city}</option>)})}
-        </Form.Select>
-        </Form.Group>
-      </Row>
-      <Row>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>Experience</Form.Label>
-        <Form.Select required onChange={(e) =>{setExperience(e.target.value)}}>
-        <option style={{display:'none'}}>---Select Year---</option>
-          {Experience.map((experience, index)=>{return(<option key={index}>{experience.year}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>Security Clearence</Form.Label>
-        <Form.Select required onChange={(e) =>{setSecurityClearence(e.target.value)}}>
-        <option style={{display:'none'}}>---Select S.C---</option>
-          {Clearence.map((clearence, index)=>{return(<option key={index}>{clearence.clearence}</option>)})}
-        </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Comments</Form.Label>
-        <Form.Control onChange={(e)=>{setComment(e.target.value)}} as="textarea" rows={3} />
-      </Form.Group>
-      </Row>
-      {error&&<span style={{fontSize:14, color:'red'}}>{message}</span>}
-      {!error&&<span style={{fontSize:14, color:'lightgreen'}}>{message}</span>}
       <div className='mt-4'>
-      {!loading && <Button className='btn' type="submit">Submit</Button>}
-      {loading && <Button className='btn' disabled type="submit"> 
-      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
-      </Button>
-      }
+      {loading?<Button className='btn' disabled type="submit"><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<button type="submit" className='btn' >Submit</button>}
       </div>
-    </Form>
+      <div className='mt-3'>
+       {error?<span style={{fontSize:14, color:'red'}}>{message}</span>:<span style={{fontSize:14, color:'lightgreen'}}>{message}</span>}
+      </div>
+    </form>
     </div>
     </div>
   )

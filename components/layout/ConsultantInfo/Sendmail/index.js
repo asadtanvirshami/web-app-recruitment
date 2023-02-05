@@ -2,15 +2,16 @@ import React, { useState,useEffect } from 'react'
 import dynamic from "next/dynamic";
 import Link from 'next/link';
 
-import axios from 'axios';
 import { CSVLink } from 'react-csv';
-import {Table,Row,Col, Button, Spinner, Form} from 'react-bootstrap';
+import axios from 'axios';
+import {Table,Row,Col, Button, Spinner, Form,} from 'react-bootstrap';
 import { Modal, Space,Checkbox } from 'antd';   
 
 import 
 { StarOutlined,
   EditOutlined,
-  MailOutlined,
+  BackwardOutlined,
+  ForwardOutlined,
   DownloadOutlined,
   ReloadOutlined,
   FilterOutlined,
@@ -19,24 +20,27 @@ import
   
 import Edit from './Edit';
 import Comments from './Comments';
-const Mail = dynamic(
-  () => import("./Mail"),
-  { ssr: false }
-);
+const Mail = dynamic(() => import("./Mail"),{ ssr: false });
 
-const SendMailCom = ({data}) => {
-
+const SendMailCom = ({data,optsets}) => {
   const [edit, setEdit] = useState(false)
   const [commentModal, setCommentModal] = useState(false)
   const [isCheckAll, setIsCheckAll] = useState(false);
   
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterField, setFilterField] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterEmail, setFilterEmail] = useState("");
+  const [filterName, setfilterName] = useState("");
+  const [filterSecurityClearence, setFilterSecurityClearence] = useState("");
+  
+  const [pageCount, setPageCount] = useState(1);
+  const [Totalcount, setTotalCount] = useState(0)
 
   const [List, setList] = useState([]);
   const [listArr, setListArr] = useState([]);
   const [isCheck, setIsCheck] = useState([]);
-  const [searchItems, setSearchItems] = useState([]);
+  const [searchItems, setSearchItems] = useState([])
+  const [optionSets, setOptionSets] = useState([])
   const [commentValue,setCommentValue]= useState({})
   const [editValues, setEditValues] = useState({});
   
@@ -46,6 +50,90 @@ const SendMailCom = ({data}) => {
   const [mailModal, setMailModal] = useState(false);
   const [mailVisible, setMailVisible] = useState(false);
 
+//   useEffect(() => {
+//     setLoading(true)
+//     if(searchTerm.length>2){
+//       axios.get(process.env.NEXT_PUBLIC_FP_SEARCH_ENTRIES,{
+//         headers: {searchKeyword: `${searchTerm}`}
+//       }).then((res)=>{
+//         setLoading(false)
+//         console.log(res.data[0])
+//         setSearchItems(res.data[0]);
+//       })
+//     }else if(searchTerm.length<2){
+//       setSearchItems([]);
+//       setLoading(false)
+//     }
+// }, [searchTerm]);
+
+  useEffect(() => {
+    console.log(data)
+   setList(data.rows)
+   setListArr(data.rows)
+
+    let tempState = [...optsets]
+    let tempStateOpt = []
+    
+    tempState.forEach((item,index)=>{
+      tempStateOpt.push(
+        item.categories.split(","),
+        item.security_clearences.split(","),
+          )
+        })
+        const totalPages = Math.ceil(data.count / 10);
+        setTotalCount(totalPages)
+        setOptionSets(tempStateOpt)
+  }, []);
+
+  async function fetchConsultantList (currentPage){
+    const res = await axios.get(
+      process.env.NEXT_PUBLIC_FP_GET_LISTS_PAGINATE,{headers:{offset:`${currentPage}`,limit:10}}
+    ).then((r)=>{
+      console.log('-----<next>',r.data)
+      let tempState = []
+      r.data[0].List.forEach((x,i)=>{
+        tempState.push(x)
+      })
+      const totalPages = Math.ceil(data.count / 10);
+      setTotalCount(totalPages)
+      setListArr(tempState)
+    });
+   }
+
+   const PaginationCall =async ({i}) =>{ 
+    if(i=='next'){
+      if(pageCount>=1){
+        let currentPage = pageCount+1
+        console.log(currentPage,i)
+        setPageCount(currentPage)
+        console.log(currentPage)
+        const ConsultantList = await fetchConsultantList(currentPage)
+        console.log(ConsultantList)
+        }
+    }
+    if(i=='previous'){
+      if(pageCount>1){
+      let currentPage = pageCount-1
+      console.log(currentPage,i)
+      setPageCount(currentPage)
+      console.log(currentPage)
+      const ConsultantList = await fetchConsultantList(currentPage)
+      console.log(ConsultantList)
+      }
+    }
+   }
+
+  async function FilterList (){
+    setLoading(true)
+    await axios
+    .post(process.env.NEXT_PUBLIC_FP_FILTER_LIST,{
+      category:`${filterCategory}`,
+      email:`${filterEmail}`,
+      name:`${filterName}`,
+      sc:`${filterSecurityClearence}`
+    }).then((r)=>{console.log(r.data), setListArr(r.data),setLoading(false)})
+  }
+  
   const handleSelectAll = e => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(List.map((li)=>(li.id)));
@@ -62,15 +150,15 @@ const SendMailCom = ({data}) => {
       setIsCheck(unChecked);
     }
   };
-
+  
   const deleteEntry= async(id) => {
      await axios
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_ENTRY, { headers: {id: id,},})
      .then((response) => {
         console.log(response);
-        const newPeople = List.splice((x) => x.id !== id);
+        const newPeople = List.filter((x) => x.id !== id);
         setListArr(newPeople);
-        setList(newPeople)
+        setList(newPeople);    
   })}
 
   const updateListData = (x) => {
@@ -79,176 +167,109 @@ const SendMailCom = ({data}) => {
       let i = tempState.findIndex((y=>x.id==y.id));
       tempState[i] = x;
       setListArr(tempState);
-      setList(tempState)
-  }
- 
-  useEffect(() => {
-    setLoading(true)
-    if(searchTerm.length>2){
-      axios.get(process.env.NEXT_PUBLIC_FP_SEARCH_ENTRIES,{
-        headers: {searchKeyword: `${searchTerm}`}
-      }).then((res)=>{
-        setLoading(false)
-        console.log(res.data[0])
-        setSearchItems(res.data[0]);
-      })
-    }else if(searchTerm.length<2){
-      setSearchItems([]);
-      setLoading(false)
-    }
-}, [searchTerm]);
+      setList(tempState);
+  } 
 
-  useEffect(() => {
-  setList(data[0])
-  setListArr(data[0])
-  }, [data]);
-  
-
-  const FilterList=(e)=>{
-  e.preventDefault();
-  const FilteredList = []
-  const tempData = List.filter((x)=>  x.field == filterField)
-
-  //Code for more filters
-  // x.field == filterField && x.resources == filterResourcelvl && x.region == filterRegion && x.city == filterCity|| 
-  // x.field == filterField || x.resources == filterResourcelvl || x.region == filterRegion || x.city == filterCity|| 
-  // x.field == filterField && x.city == filterCity || 
-  // x.field == filterField &&  x.region == filterRegion || 
-  // x.field == filterField &&  x.resources == filterResourcelvl||
-  // x.city == filterCity && x.region == filterRegion ||
-  // x.city == filterCity && x.resources == filterResourcelvl ||
-  // x.region == filterRegion && x.resources == filterResourcelvl 
-  
-    tempData.forEach((x,index)=>{
-      FilteredList.push(x)
-      setListArr(FilteredList)
-  })
-}     
-
-let Categories = [
-  {category:"Web Developer"},
-  {category:"Scrum Master"},
-  {category:"App Developer"},
-  {category:".Net Developer"},
-  {category:"AI Engineer"},
-  {category:"Business Analyst"},
-  {category:"Power App Developer"},
-]
-  
-  return List[0] ? (
-    <>
-      <Row>
-      <Col md={12}>
-      <div className=''>
-      <Row className='box table-div container'>
-      <span>
-      <Col> 
-      <h3 className='my-2'>Send Email</h3>
-        <Row className='mt-3' style={{justifyContent:"center"}}>
-          <Col md={2}>
-          <Form.Select onChange={(e) =>{setFilterField(e.target.value)}}  className='select-bar' aria-label="Default select example">
-          <option style={{display:'none'}}>Sort field</option>
-          {Categories.map((r, index)=>{return(<option key={index}>{r.category}</option>)})}
+  return(
+<>
+  <Row>
+    <Col md={12}>
+      <div className='global-container'>
+        <Row className=''>
+          <span>
+            <Col> 
+              <h3 className='my-2'>Dashbaord</h3>
+              <div style={{float:'right'}} className='text-center mt-2 mx-1'><Button className='send-btn' onClick={()=>{setMailModal(true);setMailVisible(true)}}>Send Mail</Button></div>
+              <div style={{float:'right'}} className='text-center mt-2 mx-1'><Link href="/entry"><Button className='add-btn'>Add Consultant</Button></Link></div>
+              <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <DownloadOutlined style={{float:'right', fontSize:20, color:'white'}}  /></Button></span></CSVLink>
+            </Col>
+            </span>
+      <Row className='mt-3 mx-1' style={{justifyContent:"left"}}>
+        <Col md={2}>
+          <Form.Select onChange={(e) =>{setFilterCategory(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <option style={{display:'none'}}>Select Category</option>
+          {optionSets.length>0 ? optionSets[0].map((item,index)=>{return(<option style={{display:''}}>{item}</option>)}):[]}
           </Form.Select>
-          </Col>
-          <Col md={2}>
-            <button type='submit' className='group-btn-1' onClick={(e)=>{FilterList(e)}}  style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
-            <button type="reset" className='group-btn-2' onClick={(e)=>{(setListArr(List),setFilterField("name"))}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
-          </Col> 
+        </Col>
+        <Col md={2}>
+          <Form.Select onChange={(e) =>{setFilterSecurityClearence(e.target.value)}}  className='select-bar' aria-label="Default select example">
+          <option style={{display:'none'}}>Select S.C</option>
+          {optionSets.length>0 ? optionSets[1].map((item,index)=>{return(<option style={{display:''}}>{item}</option>)}):[]}
+          </Form.Select>
+        </Col>
+        <Col md={2}>
+          <input onChange={(e) =>{setFilterEmail(e.target.value)}} placeholder="Email"   className='select-bar' aria-label="Default select example"/>
+        </Col>
+        <Col md={2}>
+          <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar' aria-label="Default select example"/>
+        </Col> 
+        <Col md={4}>
+            <button type='submit' className='group-btn-1' onClick={(e)=>{FilterList()}} style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
+            <button type="reset" className='group-btn-2' onClick={(e)=>{(setListArr(List))}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
+        </Col> 
         </Row>
-      <div style={{float:'right'}} className='text-center mt-2 mx-1'><Button className='send-btn' onClick={()=>{setMailModal(true);setMailVisible(true)}}>Send Mail</Button></div>
-      <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <DownloadOutlined style={{float:'right', fontSize:20, color:'white'}}  /></Button></span></CSVLink>
-      <div style={{float:'right'}} className='text-center mt-2 mx-1'><Link href="/entry"><Button className='add-btn'>Add Consultant</Button></Link></div>
-      <div>
-      {/* <input className='search-bar mt-2' placeholder='Search' onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/> */}
-      {/* <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /> */}
-      </div>
-      </Col>
-      </span>
-      <div className='px-2 mt-3'><hr className='my-2'/></div>
-      <div className='table-sm-1 mt-3'>
+  <div className='px-2 mt-3'><hr className='my-2'/></div>
+    <div className='table-sm-1 mt-3'>
      <Table className='tableFixHead'>
-      <thead>
-      <tr className='text-center'>
-      <th>
-      <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
-      </th>
-      <th>Sr.</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Source</th>
-      <th>Source Link</th>
-      <th>Phone no.</th>
-      <th>Field</th>    
-      <th>Region</th>
-      <th>City</th>
-      <th>S.C</th>
-      <th>Experience</th>    
-      <th>Resource</th>    
-      <th>Delete</th>    
-      <th>Edit</th>    
-      <th>Comments</th>        
-      </tr>
-      </thead>
-      {loading==false && searchTerm==''&& <tbody style={{ height: 10,  overflow:'scroll'}}>
-      {listArr.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
-      return(
-      <tr key={index} className='f text-center row-hover'>
-        <td>
-        <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
-        </td>
-        <td>{index + 1}</td>
-        <td>{data.firstname} {data.lastname}</td>
-        <td>{data.email}</td>
-        <td>{data.source}</td>
-        <td><a target="_blank" rel="noopener noreferrer" href={data.source_link}>{data.source_link.slice(0,20)}</a></td>
-        <td>{data.phone}</td>
-        <td>{data.field}</td>
-        <td>{data.region},Canada</td>
-        <td>{data.city}</td>
-        <td style={{
-        color:data.security_clearence=="5"?'orange':data.security_clearence=="6"?'orange':data.security_clearence=="7"?'orange':
-        data.security_clearence=="9"?'green':data.security_clearence=="10"?'green':data.security_clearence=="...15"?'green':null}}>
-        {data.security_clearence} year clearence</td>
-        <td style={{
-        color:data.experience=="5"?'orange':data.experience=="6"?'orange':data.experience=="7"?'orange':
-        data.experience=="9"?'green':data.experience=="10"?'green':data.experience=="...15"?'green':null}}>
-        {data.experience} years</td>
-        <td>{data.resources}</td>
-        <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
-        <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
-        <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} style={{cursor:'pointer'}}><StarOutlined/></td>
-      </tr>)})}
-      </tbody>}
-      {loading==false && searchTerm!=''&&<tbody style={{ height: 10,  overflow:'scroll'}}>
-      {searchItems.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data, index)=>{
-      return(
-      <tr key={index} className='f text-center row-hover'>
-        <td>{index + 1}</td>
-        <td>{data.firstname} {data.lastname}</td>
-        <td>{data.email}</td>
-        <td>{data.source}</td>
-        <td><a target="_blank" rel="noopener noreferrer" href={data.source_link}>{data.source_link.slice(0,20)}</a></td>
-        <td>{data.phone}</td>
-        <td>{data.field}</td>
-        <td>{data.region},Canada</td>
-        <td>{data.city}</td>
-        <td style={{
-        color:data.security_clearence=="Secret"?'orange':data.security_clearence=="Enhance"?'green':null}}>
-        {data.security_clearence}</td>
-        <td style={{
-        color:data.experience=="5"?'orange':data.experience=="6"?'orange':data.experience=="7"?'orange':
-        data.experience=="9"?'green':data.experience=="10"?'green':data.experience=="15"?'green':null}}>
-        {data.experience} years</td>
-        <td>{data.resources}</td>
-        <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
-        <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true);}}><EditOutlined style={{cursor:'pointer'}}/></td>
-        <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} style={{cursor:'pointer'}}><StarOutlined/></td>
-        <td>
-        <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
-        </td>
-      </tr>)})}
-      </tbody>}
+        <thead>
+          <tr className='text-center'>
+            <th>
+            <Space>
+            <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
+            </Space>
+            </th>
+            <th>Sr.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Source</th>
+            <th>Source Link</th>
+            <th>Phone no.</th>
+            <th>Category</th>    
+            <th>Region</th>
+            <th>City</th>
+            <th>S.C</th>
+            <th>Experience</th>    
+            <th>Resource</th>    
+            <th>Delete</th>    
+            <th>Edit</th>    
+            <th>Comments</th>        
+            </tr>
+            </thead>
+            {loading==false && searchTerm=='' && List.length > 0 ? <tbody style={{ height: 10,  overflow:'scroll'}}>
+            {listArr.map((data,index)=>{
+            return(
+            <tr key={index} className='f text-center row-hover'>
+              <td>
+              <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
+              </td>
+              <td>{index + 1}</td>
+              <td>{data.name}</td>
+              <td>{data.email}</td>
+              <td>{data.source}</td>
+              <td><a target="_blank" rel="noopener noreferrer" href={data.source_link}>{data.source_link.slice(0,20)}</a></td>
+              <td>{data.phone}</td>
+              <td>{data.category}</td>
+              <td>{data.region},Canada</td>
+              <td>{data.city}</td>
+              <td style={{
+              color:data.security_clearence=="Enhance"?'orange':data.security_clearence=="Secret"?'green':null}}>
+              {data.security_clearence}</td>
+              <td style={{
+              color:
+              data.experience=="5"?'orange':
+              data.experience=="6"?'orange':
+              data.experience=="7"?'green':
+              data.experience=="8"?'green':
+              data.experience=="9"?'green':
+              data.experience=="10"?'green':
+              data.experience=="15"?'green':null}}>
+              {data.experience} years</td>
+              <td>{data.resource}</td>
+              <td onClick={()=>{deleteEntry(data.id,index)}} key={index}><DeleteOutlined style={{cursor:'pointer'}}/></td>
+              <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true)}}><EditOutlined style={{cursor:'pointer'}}/></td>
+                <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} style={{cursor:'pointer'}}><StarOutlined/></td>
+          </tr>)})}
+        </tbody>:<></>}
       </Table>
       {loading&&<>
       <div>
@@ -262,90 +283,29 @@ let Categories = [
       </div></>}
      </div>
       </Row>
+      <div className='m-3' style={{textAlign:'right'}}>
+        <span style={{position:'relative'}}>
+          <span className='m-1'><BackwardOutlined onClick={({i='previous'})=>{PaginationCall({i})}} style={{color:'#004D99',cursor:'pointer',fontSize:30}}/></span>
+          <strong style={{color:'black'}}>{pageCount} of {Totalcount}</strong>
+           {
+           pageCount==Totalcount?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
+           <span className='m-1'><ForwardOutlined onClick={({i='next'})=>{PaginationCall({i})}} style={{color:'#004D99',cursor:'pointer',fontSize:30}}/></span> 
+           }
+          </span>
+        </div>
       </div>
         <Modal centered open={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} footer={false}>
-        {edit&&<Edit data={editValues} setVisible={setVisible} updateListData={updateListData} />}
+          {edit&&<Edit data={editValues} optsets={optsets} setVisible={setVisible} updateListData={updateListData} />}
         </Modal>
         <Modal centered open={commentModal} onOk={() => setCommentModal(false)} onCancel={() => setCommentModal(false)} footer={false}>
-        {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
+          {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
         </Modal>
         <Modal centered open={mailModal} onOk={() => setMailModal(false)} onCancel={() => setMailModal(false)} footer={false}>
-        {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} List={List}/>}
+          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} List={List}/>}
         </Modal>
-        </Col>
-        </Row>
+      </Col>
+    </Row>
         </>
-          ):(
-          <>
-          <Col md={12}>
-          <div className=''>
-          <Row className='box table-div container'>
-          <span>
-          <Col> 
-          <h3 className='my-2'>Send Email</h3>
-          <div style={{float:'right'}} className='text-center mt-2 mx-1'><Link href="/entry"><Button className='add-btn' onClick={()=>{setMailModal(true);setMailVisible(true)}}>Add Consultant</Button></Link></div>
-          <div style={{float:'right'}} className='text-center mt-2 mx-4'><Button className='send-btn' onClick={()=>{setMailModal(true);setMailVisible(true)}}>Send Mail</Button></div>
-          <span style={{float:'right'}} className='text-center mt-2 mx-1'> <Button className='btn-xl'>Download <CSVLink data={List} filename={"Recruitment-List.csv"} target="_blank"><DownloadOutlined style={{float:'right', fontSize:20, color:'gray'}}  /></CSVLink></Button></span>
-          <div>
-          <input className='search-bar mt-2' placeholder='Search' onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/>
-          {/* <SearchOutlined style={{position:'absolute', fontSize:25,left:320,marginTop:17}} /> */}
-          </div>
-          </Col>
-          </span>
-          <Col style={{textAlign:'right'}}></Col>
-          <div className='px-2 mt-3'><hr className='my-2'/></div>
-          <div className='table-sm-1 mt-3'>
-          <Table className='tableFixHead'>
-            <thead>
-            <tr className='text-center'>
-            <th>Sr.</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Source</th>
-              <th>Source Link</th>
-              <th>Phone no.</th>
-              <th>Field</th>    
-              <th>Region</th>
-              <th>S.C</th>
-              <th>City</th>
-              <th>Experience</th>    
-              <th>Resource</th>    
-              <th>Delete</th>    
-              <th>Edit</th>    
-              <th>Comments</th>   
-            <th style={{width:90}}>
-            <span style={{position:'relative', marginRight:5, top:3}}>Mail</span>
-            <Space>
-            <MailOutlined style={{marginBottom:3, fontSize:18,}}/>
-            </Space>
-            </th>        
-            </tr>
-            </thead>
-            <tbody style={{ height: 300,  overflow:'scroll'}}>
-            <tr className='f text-center row-hover'>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            </tbody>
-              </Table>
-            </div>
-          </Row>
-          </div></Col>
-         </>)
-     }
+    )}
 
 export default SendMailCom
