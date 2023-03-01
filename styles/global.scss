@@ -32,74 +32,22 @@
     justify-content: center;
     align-self:center;
   }
-  
-.btn {
-    color: white !important;
-    border-color: #004D99 !important;
-    width: 150px;
-    background-color: #004D99 !important;
-
-    &:hover{
-      font-weight: 600;
-      background-color: white !important;
-      color: #004D99 !important;
-      border-color: #004D99 !important;
-      width: 150px;
-    }
-}
-
-
-.send-btn{
-    color: white !important;
-    background-color: #004D99 !important;
-    width: 130px;
-    height: 40px;
-
-    &:hover{
-      font-weight: 600;
-      background-color: white !important;
-      color: #004D99 !important;
-      border-color: #004D99 !important;
-      width: 130px;
-    }
-}
-
-.add-btn{
-  color: white !important;
-  background-color: #004D99 !important;
-    width: 180px;
-    height: 40px !important;
-
-    &:hover{
-      font-weight: 600;
-      background-color: white !important;
-      color: #002140 !important;
-      border-color: #002140 !important;
-      width: 180px;
-      height: 40px !important;
-    }
-}
-
-.btn-xl{
-  color: white !important;
-  background-color: #004D99 !important;
-  width: 150px;
-  height: 40px !important;
-
-  &:hover{
-    font-weight: 600;
-    background-color: white !important;
-    color: #004D99 !important;
-    border-color: #004D99 !important;
-    width: 150px;
-  }
-}
 
 .error-line{
   color: red;
   font-size: 12px;
 }
 
+.ant-menu-item{
+  &:hover{
+    background-color: white !important;
+    color: #4fafe7 !important;
+  }
+}
+
+.ant-menu-item-selected {
+  background-color:#4fafe7 !important;
+  }
 
 .global-container{
   min-height: 80vh;
@@ -118,49 +66,181 @@
   max-height: 600px; // change this to desired height 
   white-space: nowrap;
 }
-//   .main {
-//     min-height: 100vh;
-//     padding: 4rem 0;
-//     flex: 1;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//   }
+
+
+// Font Sizings 
+.f-5{ font-size: 5px!important; }
+.f-10{ font-size: 10px!important; }
+.f-11{ font-size: 11px!important; }
+.f-12{ font-size: 12px!important; }
+.f-13{ font-size: 13px!important; }
+.f-15{ font-size: 15px!important; }
+.f-20{ font-size: 20px!important; }
+.f-25{ font-size: 25px!important; }
+.f-30{ font-size: 30px!important; }
+.f-35{ font-size: 35px!important; }
+
+// Font Weight 
+.fw-100{ font-weight: 100!important; }
+.fw-200{ font-weight: 200!important; }
+.fw-300{ font-weight: 300!important; }
+.fw-500{ font-weight: 500!important; }
+.fw-600{ font-weight: 600!important; }
+.fw-700{ font-weight: 700!important; }
+.fw-800{ font-weight: 800!important; }
+
+.table-sm-1{
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
   
-//   .footer {
-//     display: flex;
-//     flex: 1;
-//     padding: 2rem 0;
-//     border-top: 1px solid #eaeaea;
-//     justify-content: center;
-//     align-items: center;
-//   }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 25px;
   
-//   .footer a {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-grow: 1;
-//   }
-  
-  // body{
-  //   -webkit-animation: fadein 2s;
-  //   /* Safari, Chrome and Opera > 12.1 */
-  //   -moz-animation: fadein 2s;
-  //   /* Firefox < 16 */
-  //   -ms-animation: fadein 2s;
-  //   /* Internet Explorer */
-  //   -o-animation: fadein 2s;
-  //   /* Opera < 12.1 */
-  //   animation: fadein 2s;
-  // }
-  
-  // @keyframes fadein {
-  //   from {
-  //       opacity: 0;
-  //   }
-  //   to {
-  //       opacity: 1;
-  //   }
-  // }
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.custom-btn-sm{
+  transition: all 0.5s;
+  font-size: 14px;
+  background-color: white;
+  border: 1px solid #4fafe7 !important;
+  border-radius: 13px !important;
+  padding:5px 20px 5px 20px;
+  font-weight: 500;
+  &:hover{
+    transition-duration: 300ms;
+    background-color: #4fafe7;
+    color: white !important;
+  }
+}
+
+.custom-btn-xsm{
+  transition: all 0.5s;
+  font-size: 13px;
+  background-color: white;
+  border: 1px solid #4fafe7 !important;
+  border-radius: 13px !important;
+  padding:5px 20px 5px 20px;
+  font-weight: 500;
+  &:hover{
+    transition-duration: 300ms;
+    background-color: #4fafe7;
+    color: white !important;
+  }
+}
+
+.custom-btn{
+  // rgb(93, 223, 243)
+  // rgb(117, 220, 236)
+  transition: all 0.5s;
+  font-size: 15px;
+  width: 22%;
+  background-color: white;
+  border: 1px solid #4fafe7 !important;
+  border-radius: 13px !important;
+  padding:5px 20px 5px 20px;
+  font-weight: 500;
+  &:hover{
+    transition-duration: 300ms;
+    background-color:#4fafe7 !important;
+    color: white !important;
+  }
+}
+
+.custom-btn-lg{
+  transition: all 0.5s;
+  font-size: 15px;
+  background-color:#4fafe7 ;
+  border: 1px solid #4fafe7 !important;
+  border-radius: 13px !important;
+  padding:15px 25px px 25px;
+  font-weight: 500;
+  &:hover{
+    transition-duration: 300ms;
+    background-color:#4fafe7;
+    color: white !important;
+  }
+}
+
+.cancel-btn{
+  width: 22%;
+  font-size: 15px;
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgb(203, 38, 9) !important;
+  color: rgb(203, 38, 9) ;
+  border-radius: 13px !important;
+  padding:5px 20px 5px 20px;
+  font-weight: 500;
+
+  &:hover{
+  color: white !important;
+  transition-duration: 300ms;
+  background-color: rgb(203, 38, 9);
+  color: white;
+  }
+}
+
+.cancel-btn-xsm{
+  font-size: 13px;
+  transition: all 0.5s;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgb(203, 38, 9) !important;
+  color: rgb(203, 38, 9) ;
+  border-radius: 13px !important;
+  padding:5px 20px 5px 20px;
+  font-weight: 500;
+
+  &:hover{
+  color: white !important;
+  transition-duration: 300ms;
+  background-color: rgb(203, 38, 9);
+  color: white;
+  }
+}
+
+.special-btn-xl{
+  color: white !important;
+  background-color: #004D99 !important;
+  width: 135px;
+  height: 35px !important;
+
+  &:hover{
+    font-weight: 600;
+    background-color: white !important;
+    color: #004D99 !important;
+    border-color: #004D99 !important;
+    width: 135px;
+    height: 35px !important;
+  }
+}
+
+.theme-color{
+  color: rgb(6, 150, 172)!important;
+}
+
+.modify-edit:hover{
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  color:#4fafe7!important;
+}
+
+

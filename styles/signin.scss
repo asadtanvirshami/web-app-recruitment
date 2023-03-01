@@ -19,10 +19,6 @@
     min-height: 100vh;
 }
 
-.signin-heading-div {
-    // margin: 5px !important;
-}
-
 .signin-form-heading {
     font-weight: 530;
     text-align: left;
@@ -31,91 +27,18 @@
     color: #004D99;
 }
 
-.signin-form {
-    padding: 130px !important;
-    padding-top:20px !important;
-    // color: gray;
-    // box-shadow: 2px 2px 15px silver !important;
-}
-
 .signin-field {
     display: flex;
     flex-flow: column-reverse;
     margin-bottom: 1em;
 }
 
-.signin-label-img {
-    height: 18px;
-    width: 18px;
+.signin-form {
+    padding: 130px !important;
+    padding-top:20px !important;
+    // color: gray;
+    // box-shadow: 2px 2px 15px silver !important;
 }
 .input-placeholder{
     width: 300px;
-}
-.signin-label {
-    transition: all 0.2s;
-    touch-action: manipulation;
-    width: 20px;
-    font-size: 12px;
-}
-
-.signin-input-password,
-.signin-input-email {
-    font-size: 1.5rem !important;
-    border: 0 !important;
-    border-bottom: 1px solid #ccc !important;
-    font-family: inherit !important;
-    -webkit-appearance: none !important;
-    border-radius: 0 !important;
-    cursor: text;
-}
-
-.signin-input-password,
-.signin-input-email:focus {
-    outline: 0;
-    border-bottom: 1px solid #666;
-}
-
-.signin-label {
-    letter-spacing: 0.05em;
-}
-
-.signin-input-password:placeholder-shown+.signin-label {
-    cursor: text;
-    max-width: 66.66%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transform-origin: left bottom;
-    transform: translate(0, 2.125rem) scale(1.5);
-}
-
-.signin-input-email:placeholder-shown+.signin-label {
-    cursor: text;
-    max-width: 66.66%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transform-origin: left bottom;
-    transform: translate(0, 2.125rem) scale(1.5);
-}
-
-::-webkit-input-placeholder {
-    opacity: 0;
-    transition: inherit;
-}
-
-input:focus::-webkit-input-placeholder {
-    opacity: 1;
-}
-
-.signin-input-password:not(:placeholder-shown)+.signin-label,
-.signin-input-password:focus+.signin-label {
-    transform: translate(0, 0) scale(1);
-    cursor: pointer;
-}
-
-.signin-input-email:not(:placeholder-shown)+.signin-label,
-.signin-input-email:focus+.signin-label {
-    transform: translate(0, 0) scale(1);
-    cursor: pointer;
 }

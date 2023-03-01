@@ -73,8 +73,8 @@ const Signin =(e)=>{
       </div>
       </div>
       <div className='col-md-12 text-center mt-5'>
-      {!loading && <Button className='form-signin-btn' type="submit"> Sign in </Button>}
-      {loading && <Button className='form-signin-btn' disabled type="submit"> 
+      {!loading && <Button type="submit" className='special-btn-xl'> Sign in </Button>}
+      {loading && <Button disabled className='special-btn-xl' type="submit"> 
       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
       </Button>
       }
@@ -83,7 +83,7 @@ const Signin =(e)=>{
       <small>or</small>
       </div>
       <div className='col-md-12 text-center'>
-      <Button href="/signup" variant="primary" className='btn'>Sign up</Button>
+      <Button href="/signup" variant="primary" className='special-btn-xl'>Sign up</Button>
       </div>  
     </form>
     </div>

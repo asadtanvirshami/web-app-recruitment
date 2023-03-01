@@ -192,7 +192,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Categories" key="1" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[0].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=0})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[0].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=0})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -200,7 +201,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                     <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                     {loading && type=='categories'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=0})=>{addItem({i})}}>Add</Button>} 
-                    {loading && type=='categories'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=0})=>{saveItem({i})}}>Save</Button>}
+                    {loading && type=='categories'?<button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></button>:
+                    <Button type="primary" className='mx-1' onClick={({i=0})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -210,7 +212,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Cities" key="2" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[1].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=1})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[1].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=1})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -218,7 +221,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                     <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                     {loading && type=='cities'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=1})=>{addItem({i})}}>Add</Button>} 
-                    {loading && type=='cities'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=1})=>{saveItem({i})}}>Save</Button>}
+                    {loading && type=='cities'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                    <Button type="primary" className='mx-1' onClick={({i=1})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -228,7 +232,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Resources" key="3" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[2].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=2})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[2].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=2})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -236,7 +241,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                     <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                     {loading && type=='resources'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=2})=>{addItem({i})}}>Add</Button>} 
-                    {loading && type=='resources'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=2})=>{saveItem({i})}}>Save</Button>}
+                    {loading && type=='resources'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                    <Button type="primary" className='mx-1' onClick={({i=2})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -246,7 +252,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Sources" key="4" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[3].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=3})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[3].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=3})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -254,7 +261,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                   <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                   {loading && type=='sources'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=3})=>{addItem({i})}}>Add</Button>} 
-                  {loading && type=='sources'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=3})=>{saveItem({i})}}>Save</Button>}
+                  {loading && type=='sources'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                  <Button type="primary" className='mx-1' onClick={({i=3})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -264,7 +272,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Experiences" key="5" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[4].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=4})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[4].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=4})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -272,7 +281,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                   <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                   {loading && type=='experiences'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=4})=>{addItem({i})}}>Add</Button>} 
-                  {loading && type=='experiences'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=4})=>{saveItem({i})}}>Save</Button>}
+                  {loading && type=='experiences'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                  <Button type="primary" className='mx-1' onClick={({i=4})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -282,7 +292,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Security Clearences" key="6" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[5].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=5})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[5].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=5})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -290,7 +301,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                     <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                     {loading && type=='security_clearences'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=5})=>{addItem({i})}}>Add</Button>} 
-                    {loading && type=='security_clearences'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=5})=>{saveItem({i})}}>Save</Button>}
+                    {loading && type=='security_clearences'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                    <Button type="primary" className='mx-1' onClick={({i=5})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>
@@ -300,7 +312,8 @@ const AdminPanel = ({sessionData}) => {
             <Collapse ghost>
               <Panel header="Regions" key="7" extra={genExtra()}>
                 <div div className='scroll-div'>
-                    {optionSets.length>0 ? optionSets[6].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}<CloseCircleOutlined style={{float:"right"}} onClick={({i=6})=>{deleteItem({index,i})}}/></p></>)}):[]}
+                    {optionSets.length>0 ? optionSets[6].map((x,index)=>{return(<><p key={index} className='options'>{index+1}. {x}
+                    <CloseCircleOutlined style={{float:"right", color:'red'}} onClick={({i=6})=>{deleteItem({index,i})}}/></p></>)}):[]}
                 </div>
                   <hr></hr>
                   <label className=''>Add Item</label>
@@ -308,7 +321,8 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                   <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                   {loading && type=='regions'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=6})=>{addItem({i})}}>Add</Button>} 
-                  {loading && type=='regions'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<Button type="primary" className='mx-1' onClick={({i=6})=>{saveItem({i})}}>Save</Button>}
+                  {loading && type=='regions'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
+                  <Button type="primary" className='mx-1' onClick={({i=6})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
               </Panel>

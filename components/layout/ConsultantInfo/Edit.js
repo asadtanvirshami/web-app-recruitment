@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
 
-import{Row,Col,Form,Button,Spinner} from 'react-bootstrap'
+import{Row,Col,Button,Spinner} from 'react-bootstrap'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,11 +21,11 @@ const SignupSchema = yup.object().shape({
   comments:yup.string(),
 })
 
-import InputComp from '../../../shared/Form/Input'
-import OptionSet from '../../../shared/Form/OptionSet'
-import CommenAreaCom from '../../../shared/Form/Comment'
+import InputComp from '../../shared/Form/Input'
+import OptionSet from '../../shared/Form/OptionSet'
+import CommenAreaCom from '../../shared/Form/Comment'
 
-const Edit = ({consultantInfo, setVisible, optsets,updateListData}) => {
+const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {
 
   const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
   resolver: yupResolver(SignupSchema),
@@ -52,16 +52,17 @@ const Edit = ({consultantInfo, setVisible, optsets,updateListData}) => {
         })
         setOptionSets(tempStateOpt)
         reset(tempState)
-}, [consultantInfo,optsets])
+  }, [consultantInfo,optsets])
   
-const updateEntry=async(data)=>{
+  const updateEntry=async(data)=>{
+    console.log(data)
   setLoading(true)
-  let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_ENTRIES,{data}).then((x)=>{
+  let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_CONSULTANT,{data}).then((x)=>{
     setLoading(false);
     setVisible(false);
   if(x.data[0]==1 && x.data[0]==1){
       //removeValues();
-      updateListData({
+      updateConsultant({
         id:data.id,
         email:data.email,
         name:data.name,
@@ -81,7 +82,6 @@ const updateEntry=async(data)=>{
       setVisible(false);
     }})
   }
-
   return (
     <div>  
         <form onSubmit={handleSubmit(updateEntry)}>

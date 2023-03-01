@@ -11,7 +11,7 @@ import ConsultantInfo from '../components/layout/ConsultantInfo/index';
 export default consultantinfo
 
 export const getServerSideProps = async ({req,res}) => {
-  // Fetch data from external API
+  
   const cookies = new Cookies(req, res);
   const value = await axios
   .get(process.env.NEXT_PUBLIC_FP_GET_JWT, {
@@ -25,7 +25,7 @@ export const getServerSideProps = async ({req,res}) => {
 
 const sessionData = await value;
 
-const request = await fetch(process.env.NEXT_PUBLIC_FP_GET_LISTS)
+const request = await fetch(process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS)
 .then((r) => r.json());
 
 const data = await request;

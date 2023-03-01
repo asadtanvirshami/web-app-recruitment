@@ -4,6 +4,7 @@
 
 /* style the items (options), including the selected item: */
  .search-bar{
+  border-radius: 10px !important;
   padding: 8px 16px;
   border: 1px solid transparent;
   cursor: pointer;
@@ -15,14 +16,12 @@
     border: 1px solid transparent !important;
     cursor: pointer;
     box-shadow: 2px 2px 15px silver !important;
+  
   }
 }
 
-.select-type{
-    display: none;
-}
-
 .select-bar{
+  border-radius: 13px !important;
   max-width: 100%;
   padding: 8px 16px;
   border: 1px solid transparent;
@@ -53,7 +52,7 @@
   &:hover{
     font-weight: 600;
     background-color: white !important;
-    color: #002140 !important;
+    color: #4fafe7 !important;
     width: 50px;
     padding-top: 4px;
     padding-bottom: 3px;
@@ -62,6 +61,16 @@
     border-bottom-left-radius: 10px;
     
   }
+}
+.ant-checkbox-checked .ant-checkbox-inner 
+ {
+  background-color: #4fafe7 ;
+  border-color:#4fafe7 ;
+
+&:hover{
+  background-color: #4fafe7 ;
+  border-color:#4fafe7; 
+}
 }
 
 .group-btn-2{
@@ -79,7 +88,7 @@
   &:hover{
     font-weight: 600;
     background-color: white !important;
-    color: #002140 !important;
+    color: #4fafe7 !important;
     width: 50px;
     padding-top: 4px;
     padding-bottom: 3px;

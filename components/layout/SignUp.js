@@ -5,6 +5,7 @@ import Router from "next/router";
 import {EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input } from 'antd';
 import {Button,Col,Row,Spinner} from 'react-bootstrap'
+import Link from 'next/link';
 
 const SignUp = () => {
 const [firstname, setFirstname] = useState('')
@@ -66,9 +67,14 @@ const Signup =(e)=>{
     /> 
      </div>
      </div>
+        <div>
+          <Link href='/signin'>
+            <p style={{fontSize:14,color:'#4fafe7', cursor:'pointer'}}>Already have an account?</p>
+          </Link>  
+        </div>
      <div className='col-md-12 text-center mt-5'>
-     {!loading && <Button className='btn' type="submit"> Submit </Button>}
-      {loading && <Button className='btn' disabled type="submit"> 
+     {!loading && <Button className='special-btn-xl' type="submit"> Submit </Button>}
+      {loading && <Button className='special-btn-xl' disabled type="submit"> 
       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
       </Button>
       }

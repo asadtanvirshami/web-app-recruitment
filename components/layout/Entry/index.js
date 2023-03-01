@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import Router from 'next/router';
 import axios from 'axios';
+import Link from 'next/link';
 
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import{Row,Col,Button,Spinner} from 'react-bootstrap'
+import{Row,Col,Spinner} from 'react-bootstrap'
 
 import InputComp from '../../shared/Form/Input'
 import OptionSet from '../../shared/Form/OptionSet'
@@ -66,7 +67,7 @@ const EntryCom = ({sessionData}) => {
   
   const onSubmit=async(data)=>{
     setLoading(true);
-    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_ENTRIES,{data}).then((res) => {
+    let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_CONSULTANT,{data}).then((res) => {
       if (res.data.message !== "Success") {
         setError(true);
         setLoading(false);
@@ -74,7 +75,6 @@ const EntryCom = ({sessionData}) => {
       }else if(res.data.message === "Success") {
         setMessage("Uploaded successfully!");
         setLoading(false);
-        reset()
       }
     })
   }
@@ -137,7 +137,12 @@ console.log('red---', )
         </Col>  
       </Row>
       <div className='mt-4'>
-      {loading?<Button className='btn' disabled type="submit"><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:<button type="submit" className='btn' >Submit</button>}
+      {loading?
+      <button  className='custom-btn' disabled type="submit"><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></button>
+      :
+      <button size='large' className='custom-btn'>Submit</button>
+      } 
+      <Link href="/dashboard"><button size='large' className='cancel-btn mx-3'>Cancel</button></Link>
       </div>
       <div className='mt-3'>
        {error?<span style={{fontSize:14, color:'red'}}>{message}</span>:<span style={{fontSize:14, color:'lightgreen'}}>{message}</span>}

@@ -47,7 +47,7 @@ export const MainLayout = ({children}:{children:any}) => {
   return (
     <>
     <Layout >
-      <Sider style={{ minHeight: '100vh', backgroundColor:''}}  collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+      <Sider style={{ minHeight: '100vh'}}  collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{marginTop:60}}>
       <Menu.Item icon={<ContainerOutlined />}>

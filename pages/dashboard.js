@@ -25,7 +25,7 @@ export const getServerSideProps = async ({req,res}) => {
 
 const sessionData = await value;
 
-const request = await axios.get(process.env.NEXT_PUBLIC_FP_GET_LISTS)
+const request = await axios.get(process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS)
 .then((r) => r.data);
 
 const data = await request;

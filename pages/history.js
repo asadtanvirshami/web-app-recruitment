@@ -1,17 +1,18 @@
 import React from 'react'
 import axios from 'axios';
 import Cookies from "cookies";
-import Notification from '../components/layout/History'
+import History from '../components/layout/History'
 
-const notifications = ({sessionData}) => {
+const history = ({sessionData,data}) => {
+
   return (
-    <div><Notification sessionData={sessionData}/></div>
+    <div><History sessionData={sessionData} data={data}/></div>
   )
 }
 
-export default notifications
+export default history
 
-export const getServerSideProps = async ({req,res}) => {
+export const getServerSideProps = async ({req,res, }) => {
 
   const cookies = new Cookies(req, res);
   const value = await axios
@@ -23,7 +24,12 @@ export const getServerSideProps = async ({req,res}) => {
 .then((x) => x.data);
 const sessionData = await value;
 
+const request = await axios.get(process.env.NEXT_PUBLIC_FP_GET_SENT_LIST)
+.then((r) => r.data);
+
+const data = await request;
+
 return {
-  props: { sessionData: sessionData },
+  props: { sessionData: sessionData,data },
 };
 }
