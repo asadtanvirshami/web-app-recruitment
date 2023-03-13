@@ -27,25 +27,24 @@ import Comments from '../../shared/Comments';
 const Mail = dynamic(() => import("../../shared/Mail"),{ ssr: false });
 
 const SendMailCom = ({data,optsets,sessionData}) => {
-  const [edit, setEdit] = useState(false)
-  const [commentModal, setCommentModal] = useState(false)
-  const [isCheckAll, setIsCheckAll] = useState(false);
-  
   const [filterCategory, setFilterCategory] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
   const [filterName, setfilterName] = useState("");
   const [filterSecurityClearence, setFilterSecurityClearence] = useState("");
   
+  const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1);
   const [Totalcount, setTotalCount] = useState(0)
 
   const [List, setList] = useState([]);
-  const [listArr, setListArr] = useState([]);
   const [isCheck, setIsCheck] = useState([]);
   const [optionSets, setOptionSets] = useState([])
   const [commentValue,setCommentValue]= useState({})
   const [editValues, setEditValues] = useState({});
   
+  const [edit, setEdit] = useState(false)
+  const [commentModal, setCommentModal] = useState(false)
+  const [isCheckAll, setIsCheckAll] = useState(false);
   const [loading, setLoading ] = useState(false);
   const [visible, setVisible] = useState(false);
   const [commentVisible, setCommentVisible] = useState(false);
@@ -55,63 +54,67 @@ const SendMailCom = ({data,optsets,sessionData}) => {
   useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
   useEffect(() => {
-   setList(data.rows)
-   setListArr(data.rows)
+    setList(data[0].consultants);
 
-    let tempState = [...optsets]
-    let tempStateOpt = []
-    
-    tempState.forEach((item,index)=>{
+    let tempState = [...optsets];
+    let tempStateOpt = [];
+
+    tempState.forEach((item, index) => {
       tempStateOpt.push(
         item.categories.split(","),
-        item.security_clearences.split(","),
-          )
-        })
-        const totalPages = Math.ceil(data.count / 10);
-        setTotalCount(totalPages)
-        setOptionSets(tempStateOpt)
-  }, [data,optsets]);
-
-  async function fetchConsultantList (currentPage){
-    const res = await axios.get(
-      process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS_PAGINATE,{headers:{offset:`${currentPage}`,limit:10}}
-    ).then((r)=>{
-      let tempState = []
-      r.data[0].List.forEach((x,i)=>{
-        tempState.push(x)
-      })
-      const totalPages = Math.ceil(data.count / 10);
-      setTotalCount(totalPages)
-      setListArr(tempState)
+        item.security_clearences.split(",")
+      );
     });
-   }
+    const totalPages = Math.ceil(data[0].total / 10);
+    setTotalCount(totalPages);
+    setOptionSets(tempStateOpt);
+  }, [data, optsets]);
 
-   const PaginationCall =async ({i}) =>{ 
+  async function fetchMailList(currentPage) {
+      const res = await axios
+        .get(process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS, {
+          headers: { offset: `${currentPage}`, limit: 10, sc:filterSecurityClearence, category:filterCategory, name:filterName, email:filterEmail },
+        })
+        .then((r) => {
+          console.log(r);
+          let tempState = [];
+          r.data[0].consultants.forEach((x, i) => {
+            tempState.push(x);
+          });
+          const totalPages = Math.ceil(r.data[0].total / 10);
+          console.log(r.data[0].total)
+          if(r.data[0].total===0){setTotalCount(1); setList(tempState);}
+          else{setTotalCount(totalPages); setList(tempState);}
+          
+        });
+  }
+
+  const PaginationCall =async ({i}) =>{ 
     if(i=='next'){
       if(pageCount>=1){
-        let currentPage = pageCount+1
-        setPageCount(currentPage)
-        const ConsultantList = await fetchConsultantList(currentPage)
+        let pageNum = pageCount+1
+        let currentPage = page+9
+        setPage(currentPage)
+        setPageCount(pageNum)
+        fetchMailList(currentPage)
         }
     }
     if(i=='previous'){
       if(pageCount>1){
-      let currentPage = pageCount-1
-      setPageCount(currentPage)
-      const ConsultantList = await fetchConsultantList(currentPage)
+      let pageNum = pageCount-1
+      let currentPage = page-9
+      setPage(currentPage)
+      setPageCount(pageNum)
+      fetchMailList(currentPage)
       }
     }
-   }
-
-  async function FilterList (){
-    setLoading(true)
-    await axios
-    .post(process.env.NEXT_PUBLIC_FP_FILTER_CONSULTANTS,{
-      category:`${filterCategory}`,
-      email:`${filterEmail}`,
-      name:`${filterName}`,
-      sc:`${filterSecurityClearence}`
-    }).then((r)=>{setListArr(r.data),setLoading(false)})
+    if(i=='get'){
+      let pageNum = 1
+      let currentPage = 0
+      setPage(currentPage)
+      setPageCount(pageNum)
+      fetchMailList(currentPage)
+    }
   }
   
   const handleSelectAll = e => {
@@ -136,7 +139,6 @@ const SendMailCom = ({data,optsets,sessionData}) => {
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_CONSULTANT, { headers: {id: id,},})
      .then((response) => {
         const newPeople = List.filter((x) => x.id !== id);
-        setListArr(newPeople);
         setList(newPeople);    
   })}
 
@@ -145,7 +147,6 @@ const SendMailCom = ({data,optsets,sessionData}) => {
       let tempState = [...List];
       let i = tempState.findIndex((y=>x.id==y.id));
       tempState[i] = x;
-      setListArr(tempState);
       setList(tempState);
   } 
 
@@ -153,7 +154,6 @@ const SendMailCom = ({data,optsets,sessionData}) => {
     setFilterCategory("");   
     setFilterSecurityClearence("");   
 }
-
 
   return(
 <>
@@ -208,8 +208,8 @@ const SendMailCom = ({data,optsets,sessionData}) => {
             <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar'/>
           </Col> 
           <Col md={4}>
-            <button type='submit' className='group-btn-1' onClick={(e)=>{FilterList()}} style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
-            <button type="reset" className='group-btn-2' onClick={(e)=>{(setListArr(List),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
+            <button type='submit' className='group-btn-1' onClick={({i='get'})=>{PaginationCall({i})}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
+            <button type="reset" className='group-btn-2' onClick={(e)=>{(setList(data[0].consultants),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
           </Col> 
       </Row>
     <div className='px-2 mt-3'><hr className='my-2'/></div>
@@ -240,7 +240,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
               </tr>
               </thead>
               {loading==false && List.length > 0 ? <tbody style={{ height: 10,  overflow:'scroll'}}>
-              {listArr.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
+              {List.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
               return(
               <tr key={index} className='f text-center row-hover'>
                 <td>
@@ -296,7 +296,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
           }
           <strong style={{color:'black'}}>{pageCount} of {Totalcount}</strong>
           {
-           pageCount==Totalcount?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
+           pageCount==Totalcount ?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
            <span className='m-1'><ForwardOutlined onClick={({i='next'})=>{PaginationCall({i})}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
           }
           </span>
@@ -309,7 +309,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
           {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
         </Modal>
         <Modal centered open={mailModal} onOk={() => setMailModal(false)} onCancel={() => setMailModal(false)} footer={false}>
-          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={listArr}/>}
+          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={List}/>}
         </Modal>
       </Col>
     </Row>

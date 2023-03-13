@@ -3,14 +3,23 @@ import Router from 'next/router';
 import axios from 'axios'
 
 import { Col, Row } from 'react-bootstrap'
-import {BackwardOutlined,ForwardOutlined,DeleteOutlined} from '@ant-design/icons';
+import {
+  BackwardOutlined,
+  ForwardOutlined,
+  DeleteOutlined,
+  FilterOutlined,
+  ReloadOutlined} 
+  from '@ant-design/icons';
 
 export const History = ({sessionData,data}) => {
   const [List, setList] = useState([])
 
-  const [pageCount, setPageCount] = useState(1);
   const [page, setPage] = useState(1)
+  const [pageCount, setPageCount] = useState(1);
   const [Totalcount, setTotalCount] = useState(0)
+
+  const [sentDay, setSentDay] = useState("")
+  const [sentDate, setSentDate] = useState("")
 
   useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
@@ -22,10 +31,9 @@ export const History = ({sessionData,data}) => {
     setTotalCount(totalPages)
   }, [])
 
-  async function fetchMailList ({currentPage,func}){
-    if(func === 'pagination'){
+  async function fetchMailList (currentPage){
       const res = await axios.get(
-        process.env.NEXT_PUBLIC_FP_GET_SENT_LIST,{headers:{offset:`${currentPage}`,limit:10}}
+        process.env.NEXT_PUBLIC_FP_GET_SENT_LIST,{headers:{offset:`${currentPage}`, limit:10, sent_date:sentDate, sent_day:sentDay}}
       ).then((r)=>{
         console.log(r)
         let tempState = []
@@ -36,7 +44,6 @@ export const History = ({sessionData,data}) => {
         setTotalCount(totalPages)
         setList(tempState)
       });
-    }
   }
 
   const PaginationCall =async ({i}) =>{ 
@@ -47,7 +54,7 @@ export const History = ({sessionData,data}) => {
         let currentPage = page+9
         setPage(currentPage)
         setPageCount(pageNum)
-        fetchMailList({currentPage,func})
+        fetchMailList(currentPage)
         }
     }
     if(i=='previous'){
@@ -57,8 +64,16 @@ export const History = ({sessionData,data}) => {
       let currentPage = page-9
       setPage(currentPage)
       setPageCount(pageNum)
-      fetchMailList({currentPage,func})
+      fetchMailList(currentPage)
       }
+    }
+    if(i=='get'){
+      let func = 'pagination'
+      let pageNum = 1
+      let currentPage = 0
+      setPage(currentPage)
+      setPageCount(pageNum)
+      fetchMailList(currentPage)
     }
   }
 
@@ -75,9 +90,21 @@ export const History = ({sessionData,data}) => {
  })
   }
 
+  const handleReset = () => {
+    setSentDate("");   
+    setSentDay(""); 
+    const totalPages = Math.ceil(data[0].total / 10);
+    setTotalCount(totalPages)
+}
+
   return (
     <div className='global-container'>
       <h3>Mail History</h3>
+      <input onChange={(e) =>{setSentDate(e.target.value)}} placeholder="February 14th 2022" className='select-bar'/>
+      <input onChange={(e) =>{setSentDay(e.target.value)}} placeholder="Tuesday" className='select-bar mx-3'/>
+      <button type='submit' className='group-btn-1' onClick={({i='get'})=>{PaginationCall({i})}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
+      <button type="reset" className='group-btn-2'  onClick={(e)=>{(setList(data[0].mailHistory),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
+
     <div className='global-div'>
     <div className='notification-form'>
       <hr/>

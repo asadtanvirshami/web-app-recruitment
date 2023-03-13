@@ -6,7 +6,7 @@ import Router from 'next/router'
 import { CSVLink } from 'react-csv';
 import axios from 'axios';
 import {Table,Row,Col, Spinner, Form,} from 'react-bootstrap';
-import { Modal, Space,Checkbox } from 'antd';   
+import { Modal,Space,Checkbox } from 'antd';   
 
 import 
 { StarOutlined,
@@ -27,6 +27,21 @@ import Comments from '../../shared/Comments';
 const Mail = dynamic(() => import("../../shared/Mail"),{ ssr: false });
 
 const SendMailCom = ({data,optsets,sessionData}) => {
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterEmail, setFilterEmail] = useState("");
+  const [filterName, setfilterName] = useState("");
+  const [filterSecurityClearence, setFilterSecurityClearence] = useState("");
+  
+  const [page, setPage] = useState(1)
+  const [pageCount, setPageCount] = useState(1);
+  const [Totalcount, setTotalCount] = useState(0)
+
+  const [List, setList] = useState([]);
+  const [isCheck, setIsCheck] = useState([]);
+  const [optionSets, setOptionSets] = useState([])
+  const [commentValue,setCommentValue]= useState({})
+  const [editValues, setEditValues] = useState({});
+  
   const [edit, setEdit] = useState(false)
   const [commentModal, setCommentModal] = useState(false)
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -35,109 +50,87 @@ const SendMailCom = ({data,optsets,sessionData}) => {
   const [commentVisible, setCommentVisible] = useState(false);
   const [mailModal, setMailModal] = useState(false);
   const [mailVisible, setMailVisible] = useState(false);
-  
-  const [filterCategory, setFilterCategory] = useState("");
-  const [filterEmail, setFilterEmail] = useState("");
-  const [filterName, setfilterName] = useState("");
-  const [filterSecurityClearence, setFilterSecurityClearence] = useState("");
-  
-  const [pageCount, setPageCount] = useState(1);
-  const [Totalcount, setTotalCount] = useState(0)
 
-  const [List, setList] = useState([]);
-  const [listArr, setListArr] = useState([]);
-  const [isCheck, setIsCheck] = useState([]);
-  const [optionSets, setOptionSets] = useState([])
-  const [commentValue,setCommentValue]= useState({})
-  const [editValues, setEditValues] = useState({});
-  
   useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
 
   useEffect(() => {
-   setList(data.rows)
-   setListArr(data.rows)
+    setList(data[0].consultants);
 
-    let tempState = [...optsets]
-    let tempStateOpt = []
-    
-    tempState.forEach((item,index)=>{
+    let tempState = [...optsets];
+    let tempStateOpt = [];
+
+    tempState.forEach((item, index) => {
       tempStateOpt.push(
         item.categories.split(","),
-        item.security_clearences.split(","),
-          )
-        })
-        const totalPages = Math.ceil(data.count / 10);
-        setTotalCount(totalPages)
-        setOptionSets(tempStateOpt)
-  }, [data,optsets]);
-
-  async function fetchConsultantList ({currentPage,func}){
-  if(func === 'pagination'){
-    const res = await axios.get(
-      process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS_PAGINATE,{headers:{offset:`${currentPage}`,limit:10}}
-    ).then((r)=>{
-      console.log(r)
-      let tempState = []
-      r.data[0].ConsultantsInfo.forEach((x,i)=>{
-        tempState.push(x)
-      })
-      const totalPages = Math.ceil(data.count / 10);
-      setTotalCount(totalPages)
-      setListArr(tempState)
+        item.security_clearences.split(",")
+      );
     });
+    const totalPages = Math.ceil(data[0].total / 10);
+    setTotalCount(totalPages);
+    setOptionSets(tempStateOpt);
+  }, [data, optsets]);
+
+  async function fetchMailList(currentPage) {
+      const res = await axios
+        .get(process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS, {
+          headers: { offset: `${currentPage}`, limit: 10, sc:filterSecurityClearence, category:filterCategory, name:filterName, email:filterEmail },
+        })
+        .then((r) => {
+          console.log(r);
+          let tempState = [];
+          r.data[0].consultants.forEach((x, i) => {
+            tempState.push(x);
+          });
+          const totalPages = Math.ceil(r.data[0].total / 10);
+          console.log(r.data[0].total)
+          if(r.data[0].total===0){setTotalCount(1); setList(tempState);}
+          else{setTotalCount(totalPages); setList(tempState);}
+          
+        });
   }
-  if(func === 'filter'){
-    setLoading(true)
-    await axios
-    .get(process.env.NEXT_PUBLIC_FP_FILTER_CONSULTANTS,{headers:{
-      category:`${filterCategory}`,
-      email:`${filterEmail}`,
-      name:`${filterName}`,
-      sc:`${filterSecurityClearence}`,
-  }}).then((r)=>{setListArr(r.data),setLoading(false)})
-  }
-   }
-   
-   const PaginationCall =async ({i}) =>{ 
+
+  const PaginationCall =async ({i}) =>{ 
     if(i=='next'){
       if(pageCount>=1){
-        let func = 'pagination'
-        let currentPage = pageCount+9
-        setPageCount(currentPage)
-        fetchConsultantList({currentPage,func})
+        let pageNum = pageCount+1
+        let currentPage = page+9
+        setPage(currentPage)
+        setPageCount(pageNum)
+        fetchMailList(currentPage)
         }
     }
     if(i=='previous'){
       if(pageCount>1){
-      let func = 'pagination'
-      let currentPage = pageCount-9
-      setPageCount(currentPage)
-      fetchConsultantList({currentPage,func})
+      let pageNum = pageCount-1
+      let currentPage = page-9
+      setPage(currentPage)
+      setPageCount(pageNum)
+      fetchMailList(currentPage)
       }
     }
-   }
+    if(i=='get'){
+      let pageNum = 1
+      let currentPage = 0
+      setPage(currentPage)
+      setPageCount(pageNum)
+      fetchMailList(currentPage)
+    }
+  }
+  
+  const handleSelectAll = e => {
+    setIsCheckAll(!isCheckAll);
+    setIsCheck(List.map((li)=>(li.id)));
+    if (isCheckAll) {
+      setIsCheck([]);
+    }
+  };
 
-  const handleClick = ({data, func,e}) => { 
-    if(func === 'check'){
-      const {checked} = e.target;
-      setIsCheck([...isCheck,data.id]);
-      if (!checked) {
-        const unChecked =isCheck.filter((x) => x !== data.id)
-        setIsCheck(unChecked);
-      }
-    }
-    
-    if(func === 'checkAll'){
-      setIsCheckAll(!isCheckAll);
-      setIsCheck(List.map((li)=>(li.id)));
-      if (isCheckAll) {
-        setIsCheck([]);
-      }
-    }
-
-    if(func === 'reset'){
-      setFilterCategory("");   
-      setFilterSecurityClearence("");   
+  const handleClick = (e, data) => {
+    const {checked} = e.target;
+    setIsCheck([...isCheck,data.id]);
+    if (!checked) {
+      const unChecked =isCheck.filter((x) => x !== data.id)
+      setIsCheck(unChecked);
     }
   };
   
@@ -146,19 +139,23 @@ const SendMailCom = ({data,optsets,sessionData}) => {
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_CONSULTANT, { headers: {id: id,},})
      .then((response) => {
         const newPeople = List.filter((x) => x.id !== id);
-        setListArr(newPeople);
         setList(newPeople);    
-  })
-}
+  })}
 
   const updateConsultant = (x) => {
       console.log(x)
       let tempState = [...List];
       let i = tempState.findIndex((y=>x.id==y.id));
       tempState[i] = x;
-      setListArr(tempState);
       setList(tempState);
   } 
+
+  const handleReset = () => {
+    setFilterCategory("");   
+    setFilterSecurityClearence("");   
+    const totalPages = Math.ceil(data[0].total / 10);
+    setTotalCount(totalPages)
+}
 
   return(
 <>
@@ -176,10 +173,10 @@ const SendMailCom = ({data,optsets,sessionData}) => {
                     </button>
                 </div>
                 <div style={{float:'right'}} className='text-center mt-2 mx-1'>
-                  <Link href="/admin">
+                  <Link href="/entry">
                     <button className='custom-btn-sm'>
                       <UserAddOutlined style={{marginBottom:3, marginRight:5, fontSize:16}}/>
-                      <span style={{position:'relative',top:1}}>Administration</span>
+                      <span style={{position:'relative',top:1}}>Add Consultant</span>
                     </button>
                   </Link>
                 </div>
@@ -207,14 +204,14 @@ const SendMailCom = ({data,optsets,sessionData}) => {
             </Form.Select>
           </Col>
           <Col md={2}>
-            <input onChange={(e) =>{setFilterEmail(e.target.value)}} type="email" name='Email' placeholder="Email" className='select-bar'/>
+            <input onChange={(e) =>{setFilterEmail(e.target.value)}} placeholder="Email" className='select-bar'/>
           </Col>
           <Col md={2}>
-            <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name" type="email"  className='select-bar'/>
+            <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar'/>
           </Col> 
           <Col md={4}>
-              <button type='submit' className='group-btn-1' onClick={({func='filter'})=>{fetchConsultantList({func})}} style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
-              <button type="reset" className='group-btn-2' onClick={({func='reset'})=>{(setListArr(List),handleClick({func}))}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
+            <button type='submit' className='group-btn-1' onClick={({i='get'})=>{PaginationCall({i})}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
+            <button type="reset" className='group-btn-2' onClick={(e)=>{(setList(data[0].consultants),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
           </Col> 
       </Row>
     <div className='px-2 mt-3'><hr className='my-2'/></div>
@@ -224,7 +221,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
             <tr className='text-center'>
               <th>
               <Space>
-              <Space><Checkbox style={{marginTop:5}} onChange={({func='checkAll'})=>{handleClick({func})}} checked={isCheckAll}></Checkbox></Space>
+              <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
               </Space>
               </th>
               <th>Sr.</th>
@@ -245,11 +242,11 @@ const SendMailCom = ({data,optsets,sessionData}) => {
               </tr>
               </thead>
               {loading==false && List.length > 0 ? <tbody style={{ height: 10,  overflow:'scroll'}}>
-              {listArr.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
+              {List.sort((a, b) => a.experience > b.experience ? 1 : -1).reverse().map((data,index)=>{
               return(
               <tr key={index} className='f text-center row-hover'>
                 <td>
-                <Space><Checkbox onChange={(e,func='check')=>handleClick({data,func,e})} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
+                <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
                 </td>
                 <td>{index + 1}</td>
                 <td>{data.name}</td>
@@ -301,20 +298,20 @@ const SendMailCom = ({data,optsets,sessionData}) => {
           }
           <strong style={{color:'black'}}>{pageCount} of {Totalcount}</strong>
           {
-           pageCount==Totalcount?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
+           pageCount==Totalcount ?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
            <span className='m-1'><ForwardOutlined onClick={({i='next'})=>{PaginationCall({i})}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
           }
           </span>
         </div>
       </div>
-        <Modal centered open={visible} onCancel={() => setVisible(false)} footer={false}>
+        <Modal centered open={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} footer={false}>
           {edit&&<Edit consultantInfo={editValues} optsets={optsets} setVisible={setVisible} updateConsultant={updateConsultant} />}
         </Modal>
-        <Modal centered open={commentModal} onCancel={() => setCommentModal(false)} footer={false}>
+        <Modal centered open={commentModal} onOk={() => setCommentModal(false)} onCancel={() => setCommentModal(false)} footer={false}>
           {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
         </Modal>
-        <Modal centered open={mailModal} onCancel={() => setMailModal(false)} footer={false}>
-          {mailVisible&&<Mail  setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={listArr}/>}
+        <Modal centered open={mailModal} onOk={() => setMailModal(false)} onCancel={() => setMailModal(false)} footer={false}>
+          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={List}/>}
         </Modal>
       </Col>
     </Row>

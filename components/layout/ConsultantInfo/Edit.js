@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
 
-import{Row,Col,Button,Spinner} from 'react-bootstrap'
+import{Row,Col,Spinner} from 'react-bootstrap'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -133,8 +133,8 @@ const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {
         </Col>  
       </Row>
       <div className='mt-3'>
-      {loading ?<Button className='form-signin-btn' disabled type="submit"> <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>: 
-      <Button className='form-signin-btn' type="submit">Update</Button>
+      {loading ?<button className='custom-btn' disabled type="submit"> <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></button>: 
+      <button className='custom-btn' type="submit">Update</button>
        }
       </div>
       </form>

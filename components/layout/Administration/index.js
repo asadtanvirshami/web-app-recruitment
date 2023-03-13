@@ -201,7 +201,7 @@ const AdminPanel = ({sessionData}) => {
                   <Space wrap>
                     <Input placeholder='Add Item' onChange={(e)=>{setAddName(e.target.value)}}/>
                     {loading && type=='categories'?<Button disabled={true}>Add</Button>:<Button type="dashed" className='mx-1' onClick={({i=0})=>{addItem({i})}}>Add</Button>} 
-                    {loading && type=='categories'?<button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></button>:
+                    {loading && type=='categories'?<Button><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/></Button>:
                     <Button type="primary" className='mx-1' onClick={({i=0})=>{saveItem({i})}}>Save</Button>}
                   </Space>
                   </Space>
