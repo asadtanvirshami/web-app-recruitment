@@ -22,16 +22,20 @@ import
 } 
   from '@ant-design/icons';
   
+//Importing external components 
 import Edit from './Edit';
 import Comments from '../../shared/Comments';
 const Mail = dynamic(() => import("../../shared/Mail"),{ ssr: false });
+//Importing external functions 
+import PaginationCall from '../../functions/Pagination';
+import { handleClick, handleSelectAll } from '../../functions/CheckFunc';
 
 const SendMailCom = ({data,optsets,sessionData}) => {
   const [filterCategory, setFilterCategory] = useState("");
   const [filterEmail, setFilterEmail] = useState("");
   const [filterName, setfilterName] = useState("");
   const [filterSecurityClearence, setFilterSecurityClearence] = useState("");
-  
+
   const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1);
   const [Totalcount, setTotalCount] = useState(0)
@@ -41,36 +45,39 @@ const SendMailCom = ({data,optsets,sessionData}) => {
   const [optionSets, setOptionSets] = useState([])
   const [commentValue,setCommentValue]= useState({})
   const [editValues, setEditValues] = useState({});
-  
-  const [edit, setEdit] = useState(false)
-  const [commentModal, setCommentModal] = useState(false)
-  const [isCheckAll, setIsCheckAll] = useState(false);
+
   const [loading, setLoading ] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [isCheckAll, setIsCheckAll] = useState(false); 
+  //Comment modal & component visiblity condition
+  const [commentModal, setCommentModal] = useState(false)
   const [commentVisible, setCommentVisible] = useState(false);
+  //Edit modal & component visiblity condition
+  const [edit, setEdit] = useState(false)
+  const [visible, setVisible] = useState(false);
+  //Mail modal & component visiblity condition
   const [mailModal, setMailModal] = useState(false);
   const [mailVisible, setMailVisible] = useState(false);
 
-  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
+  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, []) //condition to check if user is loggedIn
 
-  useEffect(() => {
+  useEffect(() => {//setting the consultants list in the List state and also spliting the options and setting them in the states
     setList(data[0].consultants);
 
     let tempState = [...optsets];
     let tempStateOpt = [];
 
-    tempState.forEach((item, index) => {
+    tempState.forEach((item, index) => { //spliting the optionsets
       tempStateOpt.push(
         item.categories.split(","),
         item.security_clearences.split(",")
       );
     });
     const totalPages = Math.ceil(data[0].total / 10);
-    setTotalCount(totalPages);
-    setOptionSets(tempStateOpt);
+    setTotalCount(totalPages); //total number of pages
+    setOptionSets(tempStateOpt); //setting the optionsets from db
   }, [data, optsets]);
 
-  async function fetchMailList(currentPage) {
+  async function fetchMailList(currentPage) {//fetching the consultant list on the button click (pagination)
       const res = await axios
         .get(process.env.NEXT_PUBLIC_FP_GET_CONSULTANTS, {
           headers: { offset: `${currentPage}`, limit: 10, sc:filterSecurityClearence, category:filterCategory, name:filterName, email:filterEmail },
@@ -79,78 +86,31 @@ const SendMailCom = ({data,optsets,sessionData}) => {
           console.log(r);
           let tempState = [];
           r.data[0].consultants.forEach((x, i) => {
-            tempState.push(x);
+            tempState.push(x); //pushing the consultants data to an tempState array.
           });
           const totalPages = Math.ceil(r.data[0].total / 10);
-          console.log(r.data[0].total)
-          if(r.data[0].total===0){setTotalCount(1); setList(tempState);}
+          if(r.data[0].total===0){setTotalCount(1); setList(tempState);} //condition to check if total data if > or < 0
           else{setTotalCount(totalPages); setList(tempState);}
           
         });
   }
-
-  const PaginationCall =async ({i}) =>{ 
-    if(i=='next'){
-      if(pageCount>=1){
-        let pageNum = pageCount+1
-        let currentPage = page+9
-        setPage(currentPage)
-        setPageCount(pageNum)
-        fetchMailList(currentPage)
-        }
-    }
-    if(i=='previous'){
-      if(pageCount>1){
-      let pageNum = pageCount-1
-      let currentPage = page-9
-      setPage(currentPage)
-      setPageCount(pageNum)
-      fetchMailList(currentPage)
-      }
-    }
-    if(i=='get'){
-      let pageNum = 1
-      let currentPage = 0
-      setPage(currentPage)
-      setPageCount(pageNum)
-      fetchMailList(currentPage)
-    }
-  }
   
-  const handleSelectAll = e => {
-    setIsCheckAll(!isCheckAll);
-    setIsCheck(List.map((li)=>(li.id)));
-    if (isCheckAll) {
-      setIsCheck([]);
-    }
-  };
-
-  const handleClick = (e, data) => {
-    const {checked} = e.target;
-    setIsCheck([...isCheck,data.id]);
-    if (!checked) {
-      const unChecked =isCheck.filter((x) => x !== data.id)
-      setIsCheck(unChecked);
-    }
-  };
-  
-  const deleteConsultant= async(id) => {
+  const deleteConsultant= async(id) => { //deleting the consultant from the db and updating the array
      await axios
      .delete(process.env.NEXT_PUBLIC_FP_DELETE_CONSULTANT, { headers: {id: id,},})
      .then((response) => {
-        const newPeople = List.filter((x) => x.id !== id);
+        const newPeople = List.filter((x) => x.id !== id); //filtering the deleted user from array
         setList(newPeople);    
   })}
 
-  const updateConsultant = (x) => {
-      console.log(x)
+  const updateConsultant = (x) => { //updating the consultant in the db and updating the array
       let tempState = [...List];
-      let i = tempState.findIndex((y=>x.id==y.id));
+      let i = tempState.findIndex((y=>x.id==y.id)); //updating the user details where id is equal
       tempState[i] = x;
       setList(tempState);
   } 
 
-  const handleReset = () => {
+  const handleReset = () => { //reseting the states of the panel
     setFilterCategory("");   
     setFilterSecurityClearence("");   
     const totalPages = Math.ceil(data[0].total / 10);
@@ -162,6 +122,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
   <Row>
     <Col md={12}>
       <div className='global-container'>
+        {/* =============PANEL=============*/}
         <Row>
           <span>
             <Col> 
@@ -210,18 +171,19 @@ const SendMailCom = ({data,optsets,sessionData}) => {
             <input onChange={(e) =>{setfilterName(e.target.value)}} placeholder="Name"  className='select-bar'/>
           </Col> 
           <Col md={4}>
-            <button type='submit' className='group-btn-1' onClick={({i='get'})=>{PaginationCall({i})}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
+            <button type='submit' className='group-btn-1' onClick={({i='get'})=>{{PaginationCall(i,fetchMailList,setPage,setPageCount,page,pageCount)}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } style={{fontSize:17, color:'gray'}} ><FilterOutlined className='pb-1'/></button>
             <button type="reset" className='group-btn-2' onClick={(e)=>{(setList(data[0].consultants),handleReset())}} style={{fontSize:17, color:'gray'}}><ReloadOutlined  className='pb-1'/></button>
           </Col> 
       </Row>
-    <div className='px-2 mt-3'><hr className='my-2'/></div>
+      {/* =============TABLE=============*/}
+    <div className='px-2 mt-3'><hr className='my-2'/></div> 
       <div className='table-sm-1 mt-3'>
-      <Table className='tableFixHead'>
+      <Table className='tableFixHead'> 
           <thead>
             <tr className='text-center'>
               <th>
-              <Space>
-              <Space><Checkbox style={{marginTop:5}} onChange={handleSelectAll} checked={isCheckAll}></Checkbox></Space>
+              <Space> 
+              <Space><Checkbox style={{marginTop:5}} onChange={()=>{{handleSelectAll({List,setIsCheck,setIsCheckAll,isCheckAll})}}} checked={isCheckAll}></Checkbox></Space> 
               </Space>
               </th>
               <th>Sr.</th>
@@ -246,7 +208,7 @@ const SendMailCom = ({data,optsets,sessionData}) => {
               return(
               <tr key={index} className='f text-center row-hover'>
                 <td>
-                <Space><Checkbox onChange={(e)=>handleClick(e,data)} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
+                <Space><Checkbox onChange={(e)=>{{handleClick({e,data,setIsCheck,isCheck})}}} type='checkbox' checked={isCheck.includes(data.id)}></Checkbox></Space>
                 </td>
                 <td>{index + 1}</td>
                 <td>{data.name}</td>
@@ -272,8 +234,8 @@ const SendMailCom = ({data,optsets,sessionData}) => {
                 {data.experience} years</td>
                 <td>{data.resource}</td>
                 <td onClick={()=>{deleteConsultant(data.id,index)}} key={index}><DeleteOutlined className='modify-edit'/></td>
-                <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true)}}><EditOutlined className='modify-edit'/></td>
-                <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} className='modify-edit'><StarOutlined/></td>
+                <td onClick={() =>{setEditValues(data);setEdit(true);setVisible(true)}}><EditOutlined className='modify-edit'/></td> 
+                <td onClick={() =>{setCommentModal(true); setCommentValue(data); setCommentVisible(true)}} className='modify-edit'><StarOutlined/></td> 
             </tr>)})}
           </tbody>:<></>}
         </Table>
@@ -290,28 +252,30 @@ const SendMailCom = ({data,optsets,sessionData}) => {
       </>}
      </div>
       </Row>
+       {/* =============TABLE-BOTTOM=============*/}
       <div className='m-3' style={{textAlign:'right'}}>
         <span style={{position:'relative'}}>
           {
            pageCount==1 ?<span className='m-1'><BackwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
-           <span className='m-1'><BackwardOutlined onClick={({i='previous'})=>{PaginationCall({i})}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
+           <span className='m-1'><BackwardOutlined onClick={({i='previous'})=>{PaginationCall(i,fetchMailList,setPage,setPageCount,page,pageCount)}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
           }
           <strong style={{color:'black'}}>{pageCount} of {Totalcount}</strong>
           {
            pageCount==Totalcount ?<span className='m-1'><ForwardOutlined style={{color:'silver',cursor:'pointer',fontSize:30}}/></span>:
-           <span className='m-1'><ForwardOutlined onClick={({i='next'})=>{PaginationCall({i})}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
+           <span className='m-1'><ForwardOutlined onClick={({i='next'})=>{PaginationCall(i,fetchMailList,setPage,setPageCount,page,pageCount)}} style={{color:'#0696ac',cursor:'pointer',fontSize:30}}/></span> 
           }
           </span>
         </div>
       </div>
+      {/*=============EXTERNAL COMPONENTS & MODAL=============*/}
         <Modal centered open={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} footer={false}>
-          {edit&&<Edit consultantInfo={editValues} optsets={optsets} setVisible={setVisible} updateConsultant={updateConsultant} />}
+          {edit&&<Edit consultantInfo={editValues} optsets={optsets} setVisible={setVisible} updateConsultant={updateConsultant} />} {/*passing the values and states in the edit component*/}
         </Modal>
         <Modal centered open={commentModal} onOk={() => setCommentModal(false)} onCancel={() => setCommentModal(false)} footer={false}>
-          {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}
+          {commentVisible&&<Comments data={commentValue} setCommentModal={setCommentModal}/>}   {/*passing the values and states in the comment component*/}
         </Modal>
         <Modal centered open={mailModal} onOk={() => setMailModal(false)} onCancel={() => setMailModal(false)} footer={false}>
-          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={List}/>}
+          {mailVisible&&<Mail setMailModal={setMailModal} mailModal={mailModal} isCheck={isCheck} listArr={List}/>} {/*passing the values and states in the mail component*/}
         </Modal>
       </Col>
     </Row>

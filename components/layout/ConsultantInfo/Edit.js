@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const SignupSchema = yup.object().shape({
+const SignupSchema = yup.object().shape({ //setting the values in Yup schema 
   id:yup.string(),
   name: yup.string(),
   email: yup.string(),
@@ -20,14 +20,14 @@ const SignupSchema = yup.object().shape({
   source:yup.string(),
   comments:yup.string(),
 })
-
+//Importing the components from the shared folder
 import InputComp from '../../shared/Form/Input'
 import OptionSet from '../../shared/Form/OptionSet'
 import CommenAreaCom from '../../shared/Form/Comment'
 
-const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {
+const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {//passing the props from the parent component
 
-  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
+  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({//passing the props in the yup useForm
   resolver: yupResolver(SignupSchema),
   });
   
@@ -35,8 +35,7 @@ const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {
 
   const[loading, setLoading]=useState(false)
 
-  useEffect(() => {
-    console.log(consultantInfo)
+  useEffect(() => {//spliting the option states and setting the consultant info
         let tempState = {...consultantInfo};
         let tempStateOpt = [];
         optsets.forEach((item,index)=>{
@@ -54,15 +53,14 @@ const Edit = ({consultantInfo, setVisible, optsets,updateConsultant}) => {
         reset(tempState)
   }, [consultantInfo,optsets])
   
-  const updateEntry=async(data)=>{
-    console.log(data)
+  const updateEntry=async(data)=>{//sending post req to the api and updating the values in the db 
   setLoading(true)
   let res = await axios.post(process.env.NEXT_PUBLIC_FP_UPDATE_CONSULTANT,{data}).then((x)=>{
     setLoading(false);
     setVisible(false);
   if(x.data[0]==1 && x.data[0]==1){
       //removeValues();
-      updateConsultant({
+      updateConsultant({//setting the values to the state
         id:data.id,
         email:data.email,
         name:data.name,

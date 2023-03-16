@@ -3,7 +3,7 @@ import moment from 'moment';
 import axios from 'axios';
 import ReactQuill from "react-quill";
 
-import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.snow.css"; //importing the text editor styles
 
 import{Row,Col,Form,Spinner} from 'react-bootstrap'
 import {Divider, Space, notification } from 'antd';
@@ -13,7 +13,7 @@ const Context = React.createContext({
   name: 'Default',
 });
 
-const Mail = ({isCheck,listArr}) => {
+const Mail = ({isCheck,listArr}) => {//passing the props from the parent component
 
   const [subject, setSubject] = useState('')
   const [nameOfSender, setNameOfSender] = useState('')
@@ -22,10 +22,10 @@ const Mail = ({isCheck,listArr}) => {
   const [loading, setLoading] = useState(false)
 
   const [api, contextHolder] = notification.useNotification();
-  const userId = Cookies.get("id")
-  const userEmail = Cookies.get("email")
+  const userId = Cookies.get("id") //getting id from the cookies
+  const userEmail = Cookies.get("email") //getting email from the cookies
 
-  const SendEmail=(e)=>{
+  const SendEmail=(e)=>{ //sending the post req to the API and saving the details to the History table in db
     e.preventDefault();
     setLoading(true)
     const tempStateIsCheck = [...isCheck]
@@ -47,7 +47,7 @@ const Mail = ({isCheck,listArr}) => {
          })
       }})
     })
-    axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,tempData).then((r)=>{
+    axios.post(process.env.NEXT_PUBLIC_FP_SEND_MAIL ,tempData).then((r)=>{//if mail is sent so the notification will be shown 
       if(r.status===200){
         openNotification('topRight')
       }

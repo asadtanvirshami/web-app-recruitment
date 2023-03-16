@@ -8,11 +8,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import{Row,Col,Spinner} from 'react-bootstrap'
 
+//Importing external components from shared folder
 import InputComp from '../../shared/Form/Input'
 import OptionSet from '../../shared/Form/OptionSet'
 import CommenAreaCom from '../../shared/Form/Comment'
 
-const SignupSchema = yup.object().shape({
+const SignupSchema = yup.object().shape({ //Yup schema to set the values
 
   firstname: yup.string().required('Required'),
   lastname: yup.string().required('Required'),
@@ -31,10 +32,10 @@ const SignupSchema = yup.object().shape({
 
 const EntryCom = ({sessionData}) => {
 
-  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, [])
+  useEffect(() => {if(sessionData.auth != true){Router.push('/signin')}}, []) //condition to check if user is loggedIn
 
-  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({
-  resolver: yupResolver(SignupSchema),
+  const { register, control, handleSubmit,reset, formState: { errors } } = useForm({//passing the props in the useForm yupResolver
+  resolver: yupResolver(SignupSchema), 
   });
 
   const [optionSets, setOptionSets] = useState([])
@@ -44,7 +45,7 @@ const EntryCom = ({sessionData}) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => {//fetching the optionsets from the db and spliting the values
   axios.get(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
   .then((r)=>{
     if(r.status == 200){
@@ -65,7 +66,7 @@ const EntryCom = ({sessionData}) => {
   })
 }, [])
   
-  const onSubmit=async(data)=>{
+  const onSubmit=async(data)=>{//submiting the values to the API and saving in the db
     setLoading(true);
     let res = await axios.post(process.env.NEXT_PUBLIC_FP_POST_CONSULTANT,{data}).then((res) => {
       if (res.data.message !== "Success") {
@@ -79,7 +80,6 @@ const EntryCom = ({sessionData}) => {
     })
   }
 
-console.log('red---', )
   return (
     <div className='entry-form-container'>
       <div className='entry-form-div mt-4'>

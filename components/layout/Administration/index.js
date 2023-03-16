@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from 'react'
 import Router from 'next/router';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import{Row,Col,Spinner} from 'react-bootstrap'
 import { SettingOutlined,CloseCircleOutlined} from '@ant-design/icons';
 import { Collapse,Input,Button,Space,Modal} from 'antd';
-import Cookies from 'js-cookie';
 const { Panel } = Collapse;
 
 const AdminPanel = ({sessionData}) => {
@@ -24,7 +24,7 @@ const AdminPanel = ({sessionData}) => {
   const [modalEmailVisible, setModalEmailVisible] = useState(false);
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {//fetching the option sets and spliting them/
   axios.get(process.env.NEXT_PUBLIC_FP_GET_OPTIONSET)
   .then((r)=>{
     let tempStateOpt = []
@@ -44,7 +44,7 @@ const AdminPanel = ({sessionData}) => {
   })
   }, [])
   
-  const saveItem  =({i})=>{
+  const saveItem  =({i})=>{//saving the Added item in the list of optionsets in the types table in db
     if(i==0){
     let type = 'categories'
     setLoading(true)
@@ -138,7 +138,7 @@ const AdminPanel = ({sessionData}) => {
    } 
   }
 
-  const handleClick=({i})=>{
+  const handleClick=({i})=>{//changing the email or password and sending the post req to the API
     const id = Cookies.get('id')
     if(i=='email'){
     setLoading(true)
@@ -165,14 +165,14 @@ const AdminPanel = ({sessionData}) => {
     />
   );
 
-  const deleteItem = ({index,i}) => {
+  const deleteItem = ({index,i}) => {//deleting the item in the db and filtering the array
     console.log(index,i)
     let tempState = [...optionSets]
   tempState[i].splice(index,1)
    setOptionSets(tempState)
   };
 
-  const addItem = ({i}) => {
+  const addItem = ({i}) => {//pushing the item in the array 
     let tempState = [...optionSets]
     let tempData = [...tempState ];
     tempData[i].push(addName)
